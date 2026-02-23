@@ -32,8 +32,8 @@ public class TrafficController {
 		runways.addRunwaysStatusChange(currentTime);
 		runways.removeRunWaysStatusChange(currentTime);
 
-		ArrayList<RunWay> freeArrivals = runways.getFreeArrive(); // all available arrival runways (inc. mixed mode on arrival turn)
-		ArrayList<RunWay> freeDepart = runways.getFreeDepart(); // all available departure runways (inc. mixed mode runways on departure turn)
+		ArrayList<RunWay> freeArrivals = runways.getFreeRunways(OperatingMode.LANDING); // all available arrival runways (inc. mixed mode on arrival turn)
+		ArrayList<RunWay> freeDepart = runways.getFreeRunways(OperatingMode.TAKEOFF); // all available departure runways (inc. mixed mode runways on departure turn)
 
 		ArrayList<String> exitedPlanes = new ArrayList<>(); // list of all planes that exit their queues (take off or holding) in this iteration of the simulation
 
@@ -46,8 +46,8 @@ public class TrafficController {
 		 * Check if the planes currently occupying each unavailable runway has finished its time on the runway 
 		 * so the runway can be made free
 		 */
-		ArrayList<RunWay> busyArrivals = runways.getBusyArrive(); // list of all arrival runways that are occupied currently
-		ArrayList<RunWay> busyDepart = runways.getBusyDepart(); // list of all departure runways that are occupied currently
+		ArrayList<RunWay> busyArrivals = runways.getBusyRunways(OperatingMode.LANDING); // list of all arrival runways that are occupied currently
+		ArrayList<RunWay> busyDepart = runways.getBusyRunways(OperatingMode.TAKEOFF); // list of all departure runways that are occupied currently
 		checkBusyRunways(busyArrivals, currentTime, OperatingMode.LANDING);
 		checkBusyRunways(busyDepart, currentTime, OperatingMode.TAKEOFF);
 

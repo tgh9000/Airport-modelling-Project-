@@ -153,6 +153,36 @@ public class RunWayMap {
 	}
 
 	/**
+	 * Get all runways of a specific type that are available for landing/takeoff
+	 * @param mode type of runways to return
+	 * @return list of free runways
+	 */
+	public ArrayList<RunWay> getFreeRunways(OperatingMode mode){
+		ArrayList<RunWay> result = new ArrayList<>();
+		for (RunWay r : runways){
+			if (r.getMixedModeTurn() == mode && r.getStatus() == OperationStatus.AVAILABLE && !r.hasPlane()){
+				result.add(r);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Get all runways of a specific type that are not available for landing/takeoff
+	 * @param mode type of runways to return
+	 * @return list of busy runways
+	 */
+	public ArrayList<RunWay> getBusyRunways(OperatingMode mode){
+		ArrayList<RunWay> result = new ArrayList<>();
+		for (RunWay r : runways){
+			if (r.getMixedModeTurn() == mode && r.getStatus() == OperationStatus.AVAILABLE && r.hasPlane()){
+				result.add(r);
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * @param turn the turn of the mixed runways
 	 * @return the number of mixed runways that have operational status available
 	 */
