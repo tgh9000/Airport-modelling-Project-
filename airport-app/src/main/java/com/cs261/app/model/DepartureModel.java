@@ -21,7 +21,7 @@ public class DepartureModel {
 	// public void updateDepartures(AirCraft newPlane, int currentTime, int prevTime) {
 	// 	takeoffQueue.enqueue(newPlane);
 	// }
- 
+
 	// adds a plane to the takeoff queue
 	public void clearedForDeparture(AirCraft newPlane, int currentTime, int prevTime) {
 		takeoffQueue.enqueue(newPlane);

@@ -14,7 +14,8 @@ import com.cs261.app.model.RunWay;
 import com.cs261.app.model.DataGen;
 
 import javafx.concurrent.Task;
-
+import java.util.List;
+import java.util.ArrayList;
 
 public class SimLoop extends Task<IModelOutput>{
 	private AirCraftMap aircraftMap;
@@ -25,21 +26,19 @@ public class SimLoop extends Task<IModelOutput>{
 	private TrafficController trafficModel;
 	private int runtime;
 	private int currentTime;
-	private int prevTime;
 	private DataGen dataGen;
 	
 	// TODO: add data gen and departure model
 	
-	public SimLoop(RunWay[] userRunways, int userRuntime) {
+	public SimLoop(RunWay[] userRunways, int userRuntime){
 		this.runways = new RunWayMap(userRunways);
 		this.runtime = userRuntime;
 		this.currentTime = 0;
-		this.prevTime = 0;
 		this.aircraftMap = new AirCraftMap();
 		this.holdingPattern = new HoldingQueue(500);
-		// take off queue,datagen, departure model
+		// TODO: take off queue,datagen, departure model
 		this.arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
-		this.trafficModel = new TrafficController(this.aircraftMap, this.runways, this.holdingPattern, this.takeOffQueue);
+		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue);
 		this.dataGen = new DataGen(userRuntime, 15, 15); // init with runtime and default flow rate per hour.
 	}
 	
@@ -48,11 +47,17 @@ public class SimLoop extends Task<IModelOutput>{
 		// TODO Auto-generated method stub
 		while (currentTime != runtime) {
 			// get flights for this tick
+			List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
+			List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
+			
+			// arrivals update, add flights 
+			arrivalModel.updateArrivals(newArrivals, currentTime);
+			// departures update, add flights
+			
+			// traffic controller update, check runways and stuff
+			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
 
-			// traffic controller update
-			// arrivals update
-			arrivalModel.updateArrivals(null, currentTime, prevTime);
-			// departures update
+
 			currentTime += Utils.timeInc;
 		}
 		
