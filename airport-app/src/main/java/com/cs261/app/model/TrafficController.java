@@ -10,7 +10,6 @@ public class TrafficController {
 	private RunWayMap runways;
 	private HoldingQueue holdingPattern;
 	private TakeOffQueue takeoffQueue;
-	private IModelOutput modelOutput;
 	
 	public TrafficController(AirCraftMap aircraftMap, RunWayMap runways, HoldingQueue holdingPattern,TakeOffQueue takeoffQueue) {
 		this.aircraftMap = aircraftMap;
@@ -18,14 +17,14 @@ public class TrafficController {
 		this.holdingPattern = holdingPattern;
 		this.takeoffQueue = takeoffQueue;
 	}
-	/**
-	 * @return the modelOutput
-	 */
-	public IModelOutput getModelOutput() {
-		return modelOutput;
-	}
 
-	public void updateTraffic(int currentTime) {
+	/**
+	 * return flights that have been exitted from the simulation
+	 * we want to separate it from the aircraft map
+	 * @param currentTime
+	 * @return callsigns of flights that have landed or taken off (NOT including diversions and cancellations)
+	 */
+	public ArrayList<String> updateTraffic(int currentTime) {
 		/**
 		 * FIX: need to think carefully about the times noted when there is no holding queue and available runways and airplane enters sim
 		 */
@@ -41,6 +40,8 @@ public class TrafficController {
 		handleArrivals(freeArrivals, exitedPlanes, currentTime);
 		handleDiversions(currentTime);
 
+		// handle diversions stuff here
+
 		/**
 		 * Check if the planes currently occupying each unavailable runway has finished its time on the runway 
 		 * so the runway can be made free
@@ -49,6 +50,12 @@ public class TrafficController {
 		ArrayList<RunWay> busyDepart = runways.getBusyDepart(); // list of all departure runways that are occupied currently
 		checkBusyRunways(busyArrivals, currentTime, OperatingMode.LANDING);
 		checkBusyRunways(busyDepart, currentTime, OperatingMode.TAKEOFF);
+
+		// check if any runways need to be converted because other runways have closed within the intreval [currenttime, currenttime + timeinc]
+
+
+
+		return exitedPlanes;
 	}
 
 	// TODO: converting runways to mixed
@@ -116,7 +123,8 @@ public class TrafficController {
 		AirCraft curr = null;
 		for (RunWay r : runwayList) {
 			curr = aircraftMap.get(r.getCurrentPlane());
-			if ((t - Utils.convertDateToTicks(curr.getExitTime())) >= Utils.runwayTime){ // its finished
+			// either we could do t - exit time or check t - exit time >= runway time || t + timeinc >= runwaytime idk, for now we keep it like this
+			if (((t + Utils.timeInc) - Utils.convertDateToTicks(curr.getExitTime())) >= Utils.runwayTime){ // its finished
 				r.removePlane();
 				curr.setZoneStatus(ZoneStatus.EXIT);
 				runways.swapBusyRunway(r, mode);
