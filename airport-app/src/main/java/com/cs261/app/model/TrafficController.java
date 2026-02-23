@@ -71,16 +71,23 @@ public class TrafficController {
 	 * @param currentTime number of ticks elapsed so far
 	 */
 	private void handleArrivals(ArrayList<RunWay> freeArrivals, ArrayList<String> exitedPlanes, int currentTime){
-		if (freeArrivals.isEmpty()){ 
-			if (holdingPattern.top().getEmergencyStatus() != AirCraft.EmergencyStatus.NONE){ // first plane in the holding pattern has an emergency
-				RunWay mixed = runways.getMixedRunWay(); // check if a mixed runway is available regardless of turn
-				if (mixed != null){ 
-					AirCraft front = holdingPattern.dequeue(); // airplane exits holding pattern
-					mixed.addPlane(front);
-					runways.swapFreeRunway(mixed, mixed.getMixedModeTurn());
-					front.setExitTime(Utils.convertTicksToDate(currentTime));
-					exitedPlanes.add(front.getCallSign());
-				} 
+		if (freeArrivals.isEmpty()){ 				
+			if (holdingPattern.top().getEmergencyStatus() == AirCraft.EmergencyStatus.NONE) return;
+
+			// first plane in the holding pattern has an emergency		
+			RunWay mixed = runways.getMixedRunWay(); // check if a mixed runway is available regardless of turn
+			if (mixed != null){ 
+				AirCraft front = holdingPattern.dequeue(); // airplane exits holding pattern
+				mixed.addPlane(front);
+
+				if (mixed.getMixedModeTurn() == OperatingMode.LANDING){
+					runways.swap(runways.getFreeArrive(), runways.getBusyArrive(), mixed);
+				} else {
+					runways.swap(runways.getFreeDepart(), runways.getBusyDepart(), mixed);
+				}
+
+				front.setExitTime(Utils.convertTicksToDate(currentTime));
+				exitedPlanes.add(front.getCallSign());
 			}
 		} else {
 			/** for each available arrival runway, dequeue the holding queue.
@@ -89,8 +96,8 @@ public class TrafficController {
 			while (!freeArrivals.isEmpty()){
 				RunWay landing = freeArrivals.get(0); // always pick from front of the list
 				AirCraft front = holdingPattern.dequeue(); 
-				landing.addPlane(front); // assiggn the front plane to the available runway
-				runways.swapFreeRunway(landing, OperatingMode.LANDING); // runway is no longer available, so swap from list of free runways to list of busy runways
+				landing.addPlane(front); // assign the front plane to the available runway
+				runways.swap(runways.getFreeArrive(), runways.getBusyArrive(), landing); // runway is no longer available, so swap from list of free runways to list of busy runways
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
 				exitedPlanes.add(front.getCallSign());
 			}
@@ -127,7 +134,12 @@ public class TrafficController {
 			if (((t + Utils.timeInc) - Utils.convertDateToTicks(curr.getExitTime())) >= Utils.runwayTime){ // its finished
 				r.removePlane();
 				curr.setZoneStatus(ZoneStatus.EXIT);
-				runways.swapBusyRunway(r, mode);
+				
+				if (mode == OperatingMode.TAKEOFF){
+					runways.swap(runways.getBusyDepart(), runways.getFreeDepart(), r);
+				} else {
+					runways.swap(runways.getBusyArrive(), runways.getFreeArrive(), r);
+				}
 			}
 		}
 	}

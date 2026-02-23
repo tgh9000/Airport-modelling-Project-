@@ -110,31 +110,14 @@ public class RunWayMap {
 	}
 
 	/**
-	 * Make the specified runway switch from busy to free (ie removing airplane from it)
-	 * @param r to be switched
-	 * @param mode mode of the runway
+	 * Swap runway from one list to another
+	 * @param removeFrom list r is being removed from
+	 * @param addTo list r is being added to
+	 * @param r runway being swapped 
 	 */
-	public void swapBusyRunway(RunWay r, OperatingMode mode){
-		if (mode == OperatingMode.LANDING){
-			busyArrive.remove(r);
-			freeArrive.add(r);
-		} else { // takeoff
-			busyDepart.remove(r);
-			freeDepart.add(r);
-		}
-	}
-
-	/**
-	 * swap from available to unavailable
-	 */
-	public void swapFreeRunway(RunWay r, OperatingMode mode){
-		if (mode == OperatingMode.LANDING){
-			freeArrive.remove(r);
-			busyArrive.add(r);
-		} else {
-			freeDepart.remove(r);
-			busyDepart.add(r);
-		}
+	public void swap(ArrayList<RunWay> removeFrom, ArrayList<RunWay> addTo, RunWay r){
+		removeFrom.remove(r);
+		addTo.add(r);
 	}
 
 	/**
