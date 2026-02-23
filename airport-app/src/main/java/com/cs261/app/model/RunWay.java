@@ -1,6 +1,5 @@
 package com.cs261.app.model;
 
-import com.cs261.app.model.AirCraft.EmergencyStatus;
 
 public class RunWay {
 	/**
