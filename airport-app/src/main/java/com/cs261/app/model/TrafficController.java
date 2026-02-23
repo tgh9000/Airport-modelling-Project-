@@ -29,28 +29,33 @@ public class TrafficController {
 		 * FIX: need to think carefully about the times noted when there is no holding queue and available runways and airplane enters sim
 		 */
 
+		// first check if any runways need a status change
 		runways.addRunwaysStatusChange(currentTime);
 		runways.removeRunWaysStatusChange(currentTime);
+
+		// second check if any runways need to be converted (assume converting is instant)
+		int availableArrivalCount = runways.checkAvailable(OperatingMode.LANDING);
+		int availableDepartureCount = runways.checkAvailable(OperatingMode.TAKEOFF);
+
+		if (availableArrivalCount == 0 && availableDepartureCount != 0){
+			runways.getFreeRunways(OperatingMode.TAKEOFF).get(0).convertRunway(); // convert take off runway into a mixed runway
+		} else if (availableArrivalCount != 0 && availableDepartureCount == 0){ 
+			runways.getFreeRunways(OperatingMode.LANDING).get(0).convertRunway(); // convert landing runway into a mixed runway
+		}
 
 		ArrayList<String> exitedPlanes = new ArrayList<>(); // list of all planes that exit their queues (take off or holding) in this iteration of the simulation
 
 		handleArrivals(exitedPlanes, currentTime);
-		handleDiversions(currentTime);
-
-		// handle diversions stuff here
+		handleDiversions(currentTime); 		// handle diversions stuff here
 
 		/**
 		 * Check if the planes currently occupying each unavailable runway has finished its time on the runway 
 		 * so the runway can be made free
 		 */
-		ArrayList<RunWay> busyArrivals = runways.getBusyRunways(OperatingMode.LANDING); // list of all arrival runways that are occupied currently
-		ArrayList<RunWay> busyDepart = runways.getBusyRunways(OperatingMode.TAKEOFF); // list of all departure runways that are occupied currently
 		checkBusyRunways(currentTime, OperatingMode.LANDING);
 		checkBusyRunways(currentTime, OperatingMode.TAKEOFF);
 
 		// check if any runways need to be converted because other runways have closed within the intreval [currenttime, currenttime + timeinc]
-
-
 
 		return exitedPlanes;
 	}

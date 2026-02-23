@@ -24,7 +24,7 @@ public class RunWayMap {
 	/**
 	 * Retrieve RunWay object from array
 	 * @param number runway number of the requested runway
-	 * @return RunWay object requested or none if no such runway exists
+	 * @return RunWay object requested or null if no such runway exists
 	 */
 	public RunWay getRunway(String number) {
 		for (int i = 0; i < runways.length; i++) {
@@ -71,6 +71,21 @@ public class RunWayMap {
 		for (RunWay r : runways){
 			r.removeStatus(time);
 		}
+	}
+
+	/**
+	 * Returns the number of runways an arrival/departure flight can land on (Inc. mixed)
+	 * @param mode type of flight that can land (corresponding to type of runway)
+	 * @return number of runways available
+	 */
+	public int checkAvailable(OperatingMode mode){
+		int count = 0;
+		for (RunWay r : runways){
+			if ((r.getMode() == mode || r.getMode() == OperatingMode.MIXED) && r.getStatus() == OperationStatus.AVAILABLE){
+				count++;
+			} 
+		}
+		return count;
 	}
 
 	/**

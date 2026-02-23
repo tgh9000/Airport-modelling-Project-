@@ -143,8 +143,7 @@ public class RunWay {
 	 * @return
 	 */
 	public void convertRunway(){
-		this.mode = OperatingMode.MIXED;
-		this.mixedModeTurn = OperatingMode.LANDING;
+		this.mode = OperatingMode.MIXED; // mixed mode turn stays the same as the original mode for the next turn
 	}
 
 	/**
