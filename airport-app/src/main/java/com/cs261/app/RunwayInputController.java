@@ -20,6 +20,11 @@ public class RunwayInputController
         runwayLabel.setText(text);
     }
 
+    public Runway parse()
+    {
+        return null;
+    }
+
     @FXML
     private VBox interruptionBox;
 

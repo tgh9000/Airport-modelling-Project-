@@ -2,6 +2,8 @@ package com.cs261.app;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -19,7 +22,10 @@ public class NewSim
     int runways = 0;
     int maxRun = 10;
     int[] len  = new int[3];
-    Runway[] runwayList ;
+    Runway[] runwayArray ;
+    int dayNum;
+    int hourNum;
+    int minuteNum;
 
     @FXML
     private Label errorMessageLabel;
@@ -31,9 +37,77 @@ public class NewSim
     }
 
     @FXML
-    private void checkSim()
-    {
+    private TextField simDaysField;
+    @FXML
+    private TextField simHoursField;
+    @FXML
+    private TextField simMinutesField;
 
+    @FXML
+    private List<RunwayInputController> runwaysList = new ArrayList<>();
+
+    @FXML
+    private void  checkSim()
+    {
+        String days = simDaysField.getText();
+        String hours = simHoursField.getText();
+        String minutes = simMinutesField.getText();
+        
+
+        //parse the initial simulation length input and check for validity
+        try 
+        {
+            dayNum = Integer.parseInt(days);
+            //System.out.println("Parsed value: " + days);
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid number of days for simulation length");
+            return;
+        }
+        try 
+        {
+            hourNum = Integer.parseInt(hours);
+            //System.out.println("Parsed value: " + hours);
+            if (hourNum < 0 || hourNum >= 24) 
+            {
+                errorMessage("Hours must be between 0 and 23");
+                return;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid number of hours for simulation length");
+            return;
+        }
+        try 
+        {
+            minuteNum = Integer.parseInt(minutes);
+            //System.out.println("Parsed value: " + minutes);
+
+            if (minuteNum < 0 || minuteNum >= 60) 
+            {
+                errorMessage("Minutes must be between 0 and 59");
+                return;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid number of minutes for simulation length");
+            return;
+        }
+        
+
+        //parse each runway information
+        runwayArray = new Runway[runways];
+        for(int i = 0 ; i < runwaysList.size(); i ++)
+        {
+            RunwayInputController temp = runwaysList.get(i);
+            Runway r = temp.parse();
+        }
+
+
+    
     }
 
     @FXML
@@ -93,7 +167,8 @@ public class NewSim
 
                 // 🔥 Get the controller
                 RunwayInputController controller = loader.getController();
-
+                runwaysList.add(controller)
+;
                 // 🔥 Modify something inside the FXML
                 controller.setRunwayTitle("Runway " + runways);
 

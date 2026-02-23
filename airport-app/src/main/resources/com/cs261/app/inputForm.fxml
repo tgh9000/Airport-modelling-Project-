@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -32,7 +30,7 @@
                         </HBox>
                         <HBox prefHeight="50.0" prefWidth="200.0">
                            <children>
-                              <TextField promptText="Days">
+                              <TextField fx:id="simDaysField" promptText="Days">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -42,7 +40,7 @@
                                     <Font size="30.0" />
                                  </font>
                               </Label>
-                              <TextField promptText="Hours">
+                              <TextField  fx:id="simHoursField" promptText="Hours">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -52,7 +50,7 @@
                                     <Font size="30.0" />
                                  </font>
                               </Label>
-                              <TextField promptText="Minutes">
+                              <TextField  fx:id="simMinutesField" promptText="Minutes">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -68,15 +66,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox prefHeight="20.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Current number of runways">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
+                        
                         
 
 
@@ -112,8 +102,8 @@
             <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="65.0" text="Back" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Example error message" textFill="RED" HBox.hgrow="ALWAYS" fx:id="errorMessageLabel"/>
-                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="65.0" text="Start" />
+                  <Label fx:id="errorMessageLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Example error message" textFill="RED" HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" prefWidth="65.0" text="Start" />
                </children></HBox>
          </children>
       </AnchorPane>
