@@ -9,27 +9,43 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class NewSim 
 {
-    int runways = 1;
+    int runways = 0;
     int maxRun = 10;
+    int[] len  = new int[3];
+    Runway[] runwayList ;
 
+    @FXML
+    private Label errorMessageLabel;
 
+    @FXML
+    private void errorMessage(String message)
+    {
+        errorMessageLabel.setText(message);
+    }
+
+    @FXML
+    private void checkSim()
+    {
+
+    }
 
     @FXML
     private ComboBox<String> modeBox;
 
     @FXML
     private ComboBox<String> statusBox;
-    //<?xml version="1.0" encoding="UTF-8"?>
 
 
     @FXML
     public void initialize() {
-        statusBox.getItems().addAll(
+        /*statusBox.getItems().addAll(
             "Available",
             "Runway Inspection",
             "Snow Clearance",
@@ -39,7 +55,9 @@ public class NewSim
             "Landing",
             "Takeoff",
             "Mixed"
-        );
+        );*/
+        errorMessage("");
+        addSection();
 
     }
     
@@ -99,6 +117,8 @@ public class NewSim
         }
        
     }
+
+    
 
     @FXML
     private void removeSection() 

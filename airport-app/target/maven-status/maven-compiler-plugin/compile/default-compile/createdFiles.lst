@@ -10,14 +10,17 @@ com\cs261\app\model\AirCraft.class
 com\cs261\app\controller\SimLoop.class
 com\cs261\app\NewSim.class
 com\cs261\app\model\TrafficController.class
+com\cs261\app\Interruption.class
 com\cs261\app\RunwayInputController.class
 com\cs261\app\model\RunWay$OperatingMode.class
 com\cs261\app\model\ModelOutput.class
+com\cs261\app\Runway.class
 com\cs261\app\model\AirCraft$EmergencyStatus.class
 com\cs261\app\StartNewPage.class
 com\cs261\app\model\AirCraft$FlightType.class
 com\cs261\app\model\RunWayMap.class
 com\cs261\app\model\TakeOffQueue.class
+com\cs261\app\InterruptionInputController.class
 com\cs261\app\model\AirCraft$ZoneStatus.class
 com\cs261\app\model\AirCraftMap.class
 com\cs261\app\model\HoldingQueue.class
