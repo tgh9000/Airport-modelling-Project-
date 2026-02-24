@@ -5,6 +5,7 @@ import com.cs261.app.model.ArrivalModel;
 import com.cs261.app.model.Utils;
 import com.cs261.app.model.HoldingQueue;
 import com.cs261.app.model.IModelOutput;
+import com.cs261.app.model.ModelOutput;
 import com.cs261.app.model.RunWay;
 import com.cs261.app.model.RunWayMap;
 import com.cs261.app.model.TakeOffQueue;
@@ -18,15 +19,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class SimLoop extends Task<IModelOutput>{
-	private AirCraftMap aircraftMap;
-	private HoldingQueue holdingPattern;
-	private TakeOffQueue takeOffQueue;
-	private RunWayMap runways;
-	private ArrivalModel arrivalModel;
-	private TrafficController trafficModel;
-	private int runtime;
-	private int currentTime;
-	private DataGen dataGen;
+	protected AirCraftMap aircraftMap = new AirCraftMap();
+	protected HoldingQueue holdingPattern = new HoldingQueue(500);
+	protected TakeOffQueue takeOffQueue = new TakeOffQueue();
+	protected RunWayMap runways;
+	protected ArrivalModel arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
+	protected TrafficController trafficModel;
+	protected int runtime;
+	protected int currentTime;
+	protected DataGen dataGen;
 	
 	// TODO: add data gen and departure model
 	
@@ -34,17 +35,13 @@ public class SimLoop extends Task<IModelOutput>{
 		this.runways = new RunWayMap(userRunways);
 		this.runtime = userRuntime;
 		this.currentTime = 0;
-		this.aircraftMap = new AirCraftMap();
-		this.holdingPattern = new HoldingQueue(500);
-		// TODO: take off queue,datagen, departure model
-		this.arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
+
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue);
 		this.dataGen = new DataGen(userRuntime, 15, 15); // init with runtime and default flow rate per hour.
 	}
 	
 	@Override
-	protected IModelOutput call() throws Exception {
-		// TODO Auto-generated method stub
+	protected ModelOutput call() throws Exception {
 		while (currentTime != runtime) {
 			// get flights for this tick
 			List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
@@ -53,12 +50,13 @@ public class SimLoop extends Task<IModelOutput>{
 			// arrivals update, add flights 
 			arrivalModel.updateArrivals(newArrivals, currentTime);
 			// departures update, add flights
-			
+			// TODO: departureModel.update..
 			// traffic controller update, check runways and stuff
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
-
-
+			// sort by exit time. check this sorts the right thing
+			exits.sort((String a, String b) -> aircraftMap.get(a).getExitTime().compareTo(aircraftMap.get(b).getExitTime()));
 			currentTime += Utils.timeInc;
+			// TODO: output.update...
 		}
 		
 		return null;
