@@ -1,6 +1,5 @@
 package com.cs261.app.model;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,9 +7,6 @@ public interface IModelOutput {
     /**
     doneTODO: add getMaxArrivals etc stuff  
     */ 
-    //queue
-    List<String> getHoldingQueueOrder();
-    List<String> getTakeOffQueueOrder();
     //runway
     Map<String, String> getRunwayOccupancy();
     Map<String, String> getRunwayModes();
