@@ -8,6 +8,7 @@ public class Utils {
     public static final float fuelBurn = 2.70f;
 	public static final int runwayTime = 6;
 	public static final int emergencyTime = 4; //maximum emergency wait time
+	public static final LocalDateTime simulationStart = LocalDateTime.of(2026, 1, 1, 0, 0);
 
 	/**
 	 * Convert from ticks to LocalDateTime
