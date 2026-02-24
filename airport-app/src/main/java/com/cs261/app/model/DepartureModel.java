@@ -5,6 +5,8 @@ import java.util.Set;
 // TODO need to add where time enter queue stored
 // TODO test getTakeoffQueueAircraftIds
 
+// TODO the point of this is to find out which planes have been cancelled
+
 public class DepartureModel {
 	private AirCraftMap aircraftMap;
 	private TakeOffQueue takeoffQueue;
@@ -25,6 +27,7 @@ public class DepartureModel {
 		takeoffQueue.enqueue(newPlane);
 	}
 
+	// TODO remove this method and put the planes taken off variable in trafficController
 	// removes a plane from the takeoff queue
 	public void planeTakesOff(AirCraft newPlane, int currentTime, int prevTime) {
 		// TODO add to AirCraftMap?
