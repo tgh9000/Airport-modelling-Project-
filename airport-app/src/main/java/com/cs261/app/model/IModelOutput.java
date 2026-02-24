@@ -14,7 +14,6 @@ public interface IModelOutput {
     //aircraft
     Set<String> getHoldingAircraftIds();
     Set<String> getTakeOffAircraftIds();
-    Set<String> getRunwayAircraftIds();
     Set<String> getExitedAircraftIds();
 
     //metrics

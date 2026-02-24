@@ -90,14 +90,6 @@ public class ModelOutput implements IModelOutput {
     }
 
     @Override
-    public Set<String> getRunwayAircraftIds() {
-
-        // TODO what is this looking for
-
-        return Collections.emptySet();
-    }
-
-    @Override
     public Set<String> getExitedAircraftIds() {
         // TODO need to discuss this, where is its
         // add function in aircraftmap
