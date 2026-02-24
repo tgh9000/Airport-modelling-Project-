@@ -60,10 +60,6 @@ public class TrafficController {
 		return exitedPlanes;
 	}
 
-	// TODO: converting runways to mixed
-	// TODO: changing status of runways at specific times/
-	// TODO: passing to output 
-
 	/**
 	 * Handles arrivals and holding queue according to the runway availability
 	 * Dequeue holding queue per available arrival runway.

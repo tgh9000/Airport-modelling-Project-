@@ -40,6 +40,8 @@ public class ModelOutput implements IModelOutput {
 
 
     // Runway
+
+    // this is for all runways
     @Override
     public Map<String, String> getRunwayOccupancy() {
         Map<String, String> occupancies = new HashMap<>();
@@ -89,12 +91,16 @@ public class ModelOutput implements IModelOutput {
 
     @Override
     public Set<String> getRunwayAircraftIds() {
+
+        // TODO do this
+
         return Collections.emptySet();
     }
 
     @Override
     public Set<String> getExitedAircraftIds() {
         // TODO need to discuss this, where is its
+        // add function in aircraftmap
         return Collections.emptySet();
     }
 
