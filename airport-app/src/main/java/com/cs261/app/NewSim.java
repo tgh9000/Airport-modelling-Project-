@@ -49,6 +49,8 @@ public class NewSim
     @FXML
     private void  checkSim()
     {
+
+        errorMessage("loading...");
         String days = simDaysField.getText();
         String hours = simHoursField.getText();
         String minutes = simMinutesField.getText();
@@ -104,14 +106,23 @@ public class NewSim
         {
             RunwayInputController temp = runwaysList.get(i);
             Runway r = temp.parse();
+            if (r == null)
+            {
+                errorMessage("Invalid input for runway " + (i + 1));
+                return;
+            }
+            runwayArray[i] = r;
+
         }
+
+        errorMessage("All inputs valid! Ready to run simulation.");
+
 
 
     
     }
 
-    @FXML
-    private ComboBox<String> modeBox;
+    
 
     @FXML
     private ComboBox<String> statusBox;
