@@ -83,7 +83,7 @@ public class DataGen {
 
         /* Generate arrivals. */
         for (int scheduledMinutes = 0; scheduledMinutes < runtime; scheduledMinutes += arrivalInterval) {
-            LocalDateTime scheduledTime = Constants.simulationStart.plusMinutes(scheduledMinutes);
+            LocalDateTime scheduledTime = Utils.simulationStart.plusMinutes(scheduledMinutes);
             LocalDateTime actualEntryTime = applyBoxMuller(scheduledMinutes);
 
             AirCraft arrival = generateArrival(scheduledTime, actualEntryTime);
@@ -92,7 +92,7 @@ public class DataGen {
 
         /* Generate departures. */
         for (int scheduledMinutes = 0; scheduledMinutes < runtime; scheduledMinutes += departureInterval) {
-            LocalDateTime scheduledTime = Constants.simulationStart.plusMinutes(scheduledMinutes);
+            LocalDateTime scheduledTime = Utils.simulationStart.plusMinutes(scheduledMinutes);
             LocalDateTime actualEntryTime = applyBoxMuller(scheduledMinutes);
 
             AirCraft departure = generateDeparture(scheduledTime, actualEntryTime);
@@ -121,7 +121,7 @@ public class DataGen {
         }
 
         /* Convert to LocalDateTime and return. */
-        return Constants.simulationStart.plusMinutes(actualMinutes);
+        return Utils.simulationStart.plusMinutes(actualMinutes);
     }
 
     /** 
@@ -163,8 +163,8 @@ public class DataGen {
         //  *  scheduledArrival is the ideal time of generation + the constant runway time (including landing etc). 
         //  *  actualArrival is the Box-Muller transformation being applied to t.o.g + the constant runway time. 
         //  */
-        LocalDateTime scheduledArrival = scheduledTime.plusMinutes(Constants.runwayTime);
-        // LocalDateTime actualArrival = actualEntryTime.plusMinutes(Constants.runwayTime);
+        LocalDateTime scheduledArrival = scheduledTime.plusMinutes(Utils.runwayTime);
+        // LocalDateTime actualArrival = actualEntryTime.plusMinutes(Utils.runwayTime);
         
         /* Create aircraft and return. */
         return new AirCraft(
@@ -278,7 +278,7 @@ public class DataGen {
      */
     public List<AirCraft> getArrivalsForTick(int currentTime, int nextTime) {
         List<AirCraft> arrivals = new ArrayList<>();
-        LocalDateTime nextT = Constants.simulationStart.plusMinutes(nextTime);
+        LocalDateTime nextT = Utils.simulationStart.plusMinutes(nextTime);
 
         while (!scheduledArrivals.isEmpty() && !scheduledArrivals.peek().getEntryTime().isAfter(nextT)) {
             arrivals.add(scheduledArrivals.poll());
@@ -296,7 +296,7 @@ public class DataGen {
      */
     public List<AirCraft> getDeparturesForTick(int currentTime, int nextTime) {
         List<AirCraft> departures = new ArrayList<>();
-        LocalDateTime nextT = Constants.simulationStart.plusMinutes(nextTime);
+        LocalDateTime nextT = Utils.simulationStart.plusMinutes(nextTime);
 
         while (!scheduledDepartures.isEmpty() && !scheduledDepartures.peek().getEntryTime().isAfter(nextT)) {
             departures.add(scheduledDepartures.poll());

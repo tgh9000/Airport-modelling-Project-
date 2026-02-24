@@ -3,24 +3,26 @@ package com.cs261.app.model;
 import java.time.LocalDateTime;
 
 public class AirCraft {
-    /*
-    TODO: fields, getters and setters. 
-    */
-
+	
+	/**
+	 * Represents what 'zone' in the simulation the aircraft is in
+	 */
     public static enum ZoneStatus{
-        EXIT, // as in has exited the simulation
+        EXIT, // as in has exited the simulation (will not be considered again until output)
         QUEUE,
         CANCEL,
         DIVERT,
         RUNWAY,
         ;
     }
-
+	/**
+	 * Represents what type of flight it is.
+	 * The integer values are the same as the corresponding types in OperatingMode in RunWay class
+	 */
     public static enum FlightType{
         ARRIVAL(1),
         DEPARTURE(2),
         ;
-
 		private final int code;
 		private FlightType(int code){
 			this.code = code;
@@ -29,23 +31,15 @@ public class AirCraft {
 			return this.code;
 		}
     }
-
+	/**
+	 * Represents the emergency status of the aircraft.
+	 */
     public static enum EmergencyStatus {
-        NONE(0),
-        HEALTH(-1),
-        FUEL(-2),
-        MECH(-3),
+        NONE,
+        HEALTH,
+        FUEL,
+        MECH,
         ;
-
-
-        private final int statusCode;
-        private EmergencyStatus(int status){
-            this.statusCode = status;
-        }
-
-        public int getStatusCode(){
-            return statusCode;
-        }
     }
 
 
@@ -54,16 +48,16 @@ public class AirCraft {
     private String origin;
     private String destination;
     private LocalDateTime scheduled; // SCHEDULED arrival/departure time
-    private LocalDateTime entryTime; // ACTUAL arrival/departure time i.e. entry time into queue., just the time it enters the simulation, not necessarily the time it leaves the simulation. 
-    private LocalDateTime exitTime; // ACTUAL exit time from the simulation.
-    private double altitude;
-    private double fuel;
-    private double speed; // ground speed
+    private LocalDateTime entryTime; // ACTUAL arrival/departure time accounting for variance by normal distribution as per spec
+    private LocalDateTime exitTime; // Time it leaves the holding queue or take off queue 
+    private double altitude; // metres
+    private double fuel; // fuel remaining in litres
+    private double speed; // ground speed in knots
     private EmergencyStatus emergencyStatus;
-    private ZoneStatus zoneStatus; // arrived, took off, cancelled, diverted 
-    private FlightType flightType; // arrival or departure
+    private ZoneStatus zoneStatus; 
+    private FlightType flightType; 
     private String assignedRunway;
-
+	private int emergencyTimeAt; // the number of ticks (runtime) at which it went into emergency
 
 
     public AirCraft(FlightType type, String callsign, String operator, String origin, String dest, LocalDateTime scheduled, LocalDateTime entryTime, float speed, float fuel, float alt, EmergencyStatus status){
@@ -187,23 +181,26 @@ public class AirCraft {
 		return flightType;
 	}
 
-	// update: fuel, altitude (idk yet for that), emergency according to FUEL
-	// setting: exit time, zone status
-	// stays constant: callsign, operator, origin, dest, entry time, flighttype, speed
-	
+	/**
+	 * @return the emergency 'time stamp'
+	 */
+	public int getEmergencyTime(){
+		return emergencyTimeAt;
+	}
+
 	/**
      * Decrease fuel by constant amount according to time t
      * @param t fuel decrease in t minutes
      */
     public void updateFuel(int t){
-        this.fuel = this.fuel - (((this.speed * 1.852) * (t/60) * Constants.fuelBurn) / 0.8029);
+        this.fuel = this.fuel - (((this.speed * 1.852) * (t/60) * Utils.fuelBurn) / 0.8029);
     }
     
     /**
      * @return the number of hours of fuel remaining 
      */
     public double fuelRemainingHrs(){
-    	double hrs = ((this.fuel * 0.8029) / Constants.fuelBurn) * (1 / this.speed);
+    	double hrs = ((this.fuel * 0.8029) / Utils.fuelBurn) * (1 / this.speed);
 		return hrs;
     }
     
@@ -215,11 +212,13 @@ public class AirCraft {
     }
     /**
      * Updates emergency status if there is a fuel emergency.
+	 * @param t current time in simulation in ticks
      * @return true if there is a fuel emergency, false otherwise.
      */
-    public boolean updateFuelEmergency(){
+    public boolean updateFuelEmergency(int t){
 		if (fuelRemainingHrs() <= 0.25) {
 			this.emergencyStatus = EmergencyStatus.FUEL;
+			emergencyTimeAt = t;
     		return true; // there is a fuel emergency
 		} else {
 			return false; // no fuel emergency
@@ -228,12 +227,13 @@ public class AirCraft {
     /**
      * Every iteration of the simulation loop, the arrival plane is updated when it is in
      * the holding queue by updating its fuel, its emergency status and its altitude.
+	 * @param t current time in ticks
      * @return true if there is a fuel emergency, false otherwise.
      */
-    public boolean updateHoldingFlight() {
-		updateFuel(2);
+    public boolean updateHoldingFlight(int t) {
+		updateFuel(Utils.timeInc);
 		updateAltitude();
-		return updateFuelEmergency(); 
+		return updateFuelEmergency(t); 
     }
     
     // TODO: updateTakeOffFlight()

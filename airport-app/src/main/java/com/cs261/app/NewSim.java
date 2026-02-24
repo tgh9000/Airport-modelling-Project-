@@ -2,6 +2,8 @@ package com.cs261.app;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,27 +11,126 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class NewSim 
 {
-    int runways = 1;
+    int runways = 0;
     int maxRun = 10;
-
-
+    int[] len  = new int[3];
+    Runway[] runwayArray ;
+    int dayNum;
+    int hourNum;
+    int minuteNum;
 
     @FXML
-    private ComboBox<String> modeBox;
+    private Label errorMessageLabel;
+
+    @FXML
+    private void errorMessage(String message)
+    {
+        errorMessageLabel.setText(message);
+    }
+
+    @FXML
+    private TextField simDaysField;
+    @FXML
+    private TextField simHoursField;
+    @FXML
+    private TextField simMinutesField;
+
+    @FXML
+    private List<RunwayInputController> runwaysList = new ArrayList<>();
+
+    @FXML
+    private void  checkSim()
+    {
+
+        errorMessage("loading...");
+        String days = simDaysField.getText();
+        String hours = simHoursField.getText();
+        String minutes = simMinutesField.getText();
+        
+
+        //parse the initial simulation length input and check for validity
+        try 
+        {
+            dayNum = Integer.parseInt(days);
+            //System.out.println("Parsed value: " + days);
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid number of days for simulation length");
+            return;
+        }
+        try 
+        {
+            hourNum = Integer.parseInt(hours);
+            //System.out.println("Parsed value: " + hours);
+            if (hourNum < 0 || hourNum >= 24) 
+            {
+                errorMessage("Hours must be between 0 and 23");
+                return;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid number of hours for simulation length");
+            return;
+        }
+        try 
+        {
+            minuteNum = Integer.parseInt(minutes);
+            //System.out.println("Parsed value: " + minutes);
+
+            if (minuteNum < 0 || minuteNum >= 60) 
+            {
+                errorMessage("Minutes must be between 0 and 59");
+                return;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid number of minutes for simulation length");
+            return;
+        }
+        
+
+        //parse each runway information
+        runwayArray = new Runway[runways];
+        for(int i = 0 ; i < runwaysList.size(); i ++)
+        {
+            RunwayInputController temp = runwaysList.get(i);
+            Runway r = temp.parse();
+            if (r == null)
+            {
+                errorMessage("Invalid input for runway " + (i + 1));
+                return;
+            }
+            runwayArray[i] = r;
+
+        }
+
+        errorMessage("All inputs valid! Ready to run simulation.");
+
+
+
+    
+    }
+
+    
 
     @FXML
     private ComboBox<String> statusBox;
-    //<?xml version="1.0" encoding="UTF-8"?>
 
 
     @FXML
     public void initialize() {
-        statusBox.getItems().addAll(
+        /*statusBox.getItems().addAll(
             "Available",
             "Runway Inspection",
             "Snow Clearance",
@@ -39,7 +140,9 @@ public class NewSim
             "Landing",
             "Takeoff",
             "Mixed"
-        );
+        );*/
+        errorMessage("");
+        addSection();
 
     }
     
@@ -61,19 +164,61 @@ public class NewSim
     @FXML
     private void addSection() 
     {
-
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/cs261/app/RunwayInput.fxml")
-            );
-
-            VBox newSection = loader.load();
-            runwayBox.getChildren().add(newSection);
-
-        } 
-        catch (IOException e) 
+        if (runways < 10) 
         {
-            e.printStackTrace();
+            runways++;
+            try 
+            {
+                FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/cs261/app/RunwayInput.fxml")
+                );
+
+                VBox newSection = loader.load();
+
+
+                // 🔥 Get the controller
+                RunwayInputController controller = loader.getController();
+                runwaysList.add(controller)
+;
+                // 🔥 Modify something inside the FXML
+                controller.setRunwayTitle("Runway " + runways);
+
+                int size = runwayBox.getChildren().size();
+
+                if (size >= 1) 
+                {
+                    runwayBox.getChildren().add(size - 1, newSection);
+                } 
+                else 
+                {
+                    runwayBox.getChildren().add(newSection);
+                }
+
+            } 
+
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+             
+        }
+       
+    }
+
+    
+
+    @FXML
+    private void removeSection() 
+    {
+        if (runways > 1) 
+        {
+            runways--;
+            int size = runwayBox.getChildren().size();
+            runwayBox.getChildren().remove(size - 2);
         }
     }
+
+
+
+
+
 }

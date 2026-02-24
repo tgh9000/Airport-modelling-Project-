@@ -1,5 +1,7 @@
 package com.cs261.app.model;
 
+import java.util.ArrayList;
+
 import com.cs261.app.model.RunWay.OperatingMode;
 import com.cs261.app.model.RunWay.OperationStatus;
 
@@ -8,12 +10,13 @@ import com.cs261.app.model.RunWay.OperationStatus;
  * Fixed size, can't or remove runways after simulation has been started/configuration of airport has been chosen
  */
 public class RunWayMap {
-    /*
-    TODO: extends hashmap. for now, just a constructor that does super() and nothing else. 
-    Alternatively could be an array list cause its just max 10 values
-    */
-	RunWay[] runways;
+	private RunWay[] runways;
 	
+	// details 
+	private int numArrivalRunways;	
+	private int numDepartureRunways;
+	private int numMixedRunways;
+
 	public RunWayMap(RunWay[] runwayList) {
 		this.runways = runwayList;
 	}
@@ -21,28 +24,125 @@ public class RunWayMap {
 	/**
 	 * Retrieve RunWay object from array
 	 * @param number runway number of the requested runway
-	 * @return RunWay object requested or none if no such runway exists
+	 * @return RunWay object requested or null if no such runway exists
 	 */
 	public RunWay getRunway(String number) {
 		for (int i = 0; i < runways.length; i++) {
-			if (runways[i].getRunwayNumber() == number) return runways[i];
+			if (runways[i].getRunwayNumber().equals(number)) return runways[i];
 		}
 		return null;
 	}
-	
-	
+
 	/**
-	 * Get first available runway of a specific type 
-	 * @param mode type of runway needed
-	 * @return runway of that type or mixed runway that  is available, or null if no runway is available 
+	 * Retrieve an available mixed runway regardless of its turn
+	 * @return
 	 */
-	public RunWay getRunway(OperatingMode mode) {
-		for (int i = 0; i < runways.length; i++) {
-			if (runways[i].getMixedModeTurn() == mode && runways[i].getStatus() == OperationStatus.AVAILABLE) return runways[i]; 
+	public RunWay getMixedRunWay(){
+		for (int i = 0; i < runways.length; i++){
+			if (runways[i].getMode() == OperatingMode.MIXED && runways[i].getStatus() == OperationStatus.AVAILABLE && !runways[i].hasPlane()){
+				return runways[i];
+			}
 		}
 		return null;
 	}
-	
-	
-	// list of unavailable runways or an update method on them
+
+	/**
+	 * @return number of runways 
+	 */
+	public int size(){
+		return runways.length;
+	}
+
+	/**
+	 * Check if status change should be added for all runways
+	 * @param time
+	 */
+	public void addRunwaysStatusChange(int time){
+		for (RunWay r : runways){
+			r.addStatus(time);
+		}
+	}
+
+	/**
+	 * Check if the status change should be removed for all runways
+	 * @param time 
+	 */
+	public void removeRunWaysStatusChange(int time){
+		for (RunWay r : runways){
+			r.removeStatus(time);
+		}
+	}
+
+	/**
+	 * Returns the number of runways an arrival/departure flight can land on (Inc. mixed)
+	 * @param mode type of flight that can land (corresponding to type of runway)
+	 * @return number of runways available
+	 */
+	public int checkAvailable(OperatingMode mode){
+		int count = 0;
+		for (RunWay r : runways){
+			if ((r.getMode() == mode || r.getMode() == OperatingMode.MIXED) && r.getStatus() == OperationStatus.AVAILABLE){
+				count++;
+			} 
+		}
+		return count;
+	}
+
+	/**
+	 * Get all runways of a specific type that are available for landing/takeoff
+	 * @param mode type of runways to return
+	 * @return list of free runways
+	 */
+	public ArrayList<RunWay> getFreeRunways(OperatingMode mode){
+		ArrayList<RunWay> result = new ArrayList<>();
+		for (RunWay r : runways){
+			if (r.getMixedModeTurn() == mode && r.getStatus() == OperationStatus.AVAILABLE && !r.hasPlane()){
+				result.add(r);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Get all runways of a specific type that are not available for landing/takeoff
+	 * @param mode type of runways to return
+	 * @return list of busy runways
+	 */
+	public ArrayList<RunWay> getBusyRunways(OperatingMode mode){
+		ArrayList<RunWay> result = new ArrayList<>();
+		for (RunWay r : runways){
+			if (r.getMixedModeTurn() == mode && r.getStatus() == OperationStatus.AVAILABLE && r.hasPlane()){
+				result.add(r);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @return number of arrival runways
+	 */
+	public int getNumArrivals(){
+		return numArrivalRunways;
+	}
+
+	/**
+	 * @return number of mixed runways
+	 */
+	public int getNumMixed(){
+		return numMixedRunways;
+	}
+
+	/**
+	 * @return number of depature runways
+	 */
+	public int getNumDepart(){
+		return numDepartureRunways;
+	}
+
+	/**
+	 * @return list of all runways
+	 */
+	public RunWay[] getRunways() {
+		return runways; 
+	}
 }
