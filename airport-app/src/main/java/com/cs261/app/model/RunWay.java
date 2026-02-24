@@ -1,6 +1,5 @@
 package com.cs261.app.model;
 
-import com.cs261.app.model.AirCraft.EmergencyStatus;
 
 public class RunWay {
 	/**
@@ -61,11 +60,11 @@ public class RunWay {
 	}
 
 	/**
-	 * E.g. bearing = 124, runwayNumber =  "12"
+	 * Calculate runway number, e.g. bearing = 124, runwayNumber =  "12"
 	 * @param bearing
 	 * @return runway number (which is the runway id) based on its bearing
 	 */
-	private String calcID(int bearing){
+	private static String calcID(int bearing){
 		int number = Math.round(bearing / 10.0f); // divide by 10 and round to round to nearest 10 degrees, and as math.round returns integer truncates last digit
 		String id;
 		if (number < 10 && number >= 0) { // convert to string, but add 0 if the rounded and truncated bearing is a single digit
@@ -111,11 +110,7 @@ public class RunWay {
 	 * @return true if it is, false otherwise
 	 */
 	public boolean hasPlane(){
-		if (currentPlane == null){
-			return false;
-		} else {
-			return true;
-		}
+		return currentPlane != null;
 	}
 
 	/**
@@ -141,6 +136,14 @@ public class RunWay {
 				this.setStatus(OperationStatus.AVAILABLE);
 			}
 		}
+	}
+
+	/**
+	 * Convert a runway into a mixed runway
+	 * @return
+	 */
+	public void convertRunway(){
+		this.mode = OperatingMode.MIXED; // mixed mode turn stays the same as the original mode for the next turn
 	}
 
 	/**

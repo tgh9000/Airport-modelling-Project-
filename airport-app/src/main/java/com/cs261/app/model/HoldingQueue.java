@@ -143,7 +143,7 @@ public class HoldingQueue {
 		}
 		
 		// find child with the greatest emergency priority
-		int check = 0;
+		int check;
 		if (getRight(i).compareTo(getLeft(i)) > 0){ // if right child node is more important than the left child node, compare it against parent
 			check = (2 * i) + 2;
 		} else {
@@ -188,15 +188,14 @@ public class HoldingQueue {
 	/**
 	 * @return list of all the planes that are in emergency right now 
 	 */
-
 	public ArrayList<AirCraft> getEmergencyPlanes(){
 		ArrayList<AirCraft> temp = new ArrayList<>();
-		for (int i = 0; i < heap.length; i++){
+		for (HoldingEntry entry : heap){
 			// if the current node has a 0 emergency status, just stop
-			if (heap[i].getAircraft().getEmergencyStatus() == EmergencyStatus.NONE){
+			if (entry.getAircraft().getEmergencyStatus() == EmergencyStatus.NONE){
 				break;
 			} else {
-				temp.add(heap[i].getAircraft());
+				temp.add(entry.getAircraft());
 			}
 		}
 
