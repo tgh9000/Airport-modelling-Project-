@@ -3,7 +3,7 @@ package com.cs261.app.model;
 import java.util.Set;
 
 // TODO need to add where time enter queue stored
-// TODO test getTakeoffQueueAircraftIds
+// TODO test getTakeoffQueueAircraftIds and other things
 
 // TODO the point of this is to find out which planes have been cancelled
 
@@ -11,41 +11,30 @@ public class DepartureModel {
 	private AirCraftMap aircraftMap;
 	private TakeOffQueue takeoffQueue;
 	private IModelOutput output = null;
-	private int planesTakenOff = 0;
 	
 	public DepartureModel(AirCraftMap map, TakeOffQueue queue) {
 		this.aircraftMap = map;
 		this.takeoffQueue = queue;
 	}
-	
-	// public void updateDepartures(AirCraft newPlane, int currentTime, int prevTime) {
-	// 	takeoffQueue.enqueue(newPlane);
-	// }
 
-	// adds a plane to the takeoff queue
-	public void clearedForDeparture(AirCraft newPlane, int currentTime, int prevTime) {
+	/**
+	 * Adds a new aircraft to the takeoff queue.
+	 *
+	 * @param newPlane the aircraft to be added to the takeoff queue
+	 * @param currentTime the current simulation time
+	 */
+	public void updateDepartures(AirCraft newPlane, int currentTime) {
 		takeoffQueue.enqueue(newPlane);
+		aircraftMap.put(newPlane);
 	}
 
-	// TODO remove this method and put the planes taken off variable in trafficController
-	// removes a plane from the takeoff queue
-	public void planeTakesOff(AirCraft newPlane, int currentTime, int prevTime) {
-		// TODO add to AirCraftMap?
-		takeoffQueue.dequeue();
-		planesTakenOff++;
-	}
-
-	// returns the set of all the aircraft ids in the takeoff queue
+	/**
+	 * Returns the set of all aircraft ids currently in the takeoff queue.
+	 *
+	 * @return a set containing the ids of all aircraft in the takeoff queue
+	 */
 	public Set<String> getTakeOffQueueAircraftIds() {
 		return takeoffQueue.getAircraftIds();
 	}
 
-	// gets the max number of planes that have been in the takeoff queue
-	public int getMaxTakeOffQueueLength() {
-		return takeoffQueue.getMaxQueueLength();
-	}
-
-	public int getTotalAircraftTakenOff() {
-    return planesTakenOff;
-	}
 }

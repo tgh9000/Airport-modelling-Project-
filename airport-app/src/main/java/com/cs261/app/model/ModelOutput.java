@@ -127,7 +127,8 @@ public class ModelOutput implements IModelOutput {
 
     @Override
     public int getTotalAircraftTakenOff() {
-        return departureModel.getTotalAircraftTakenOff();
+        //return departureModel.getTotalAircraftTakenOff();
+        return 0;
     }
 
     @Override
@@ -138,7 +139,8 @@ public class ModelOutput implements IModelOutput {
 
     @Override
     public int getMaxTakeOffQueueLength() {
-        return departureModel.getMaxTakeOffQueueLength();
+        //return departureModel.getMaxTakeOffQueueLength();
+        return 0;
     }
 
     @Override
