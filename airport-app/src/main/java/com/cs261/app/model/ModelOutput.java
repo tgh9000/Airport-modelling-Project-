@@ -79,11 +79,22 @@ public class ModelOutput implements IModelOutput {
 
 
     // Aircraft
+
+    /**
+     * Returns the aircraft ids of each aircraft in the holding pattern
+     * 
+     * @return a set of the aircraft ids of each aircraft in the holding pattern
+     */
     @Override
     public Set<String> getHoldingAircraftIds() {
         return arrivalModel.getHoldingPatternAircraftIds();
     }
 
+    /**
+     * Returns the aircraft ids of each aircraft in the takeoff queue
+     * 
+     * @return a set of the aircraft ids of each aircraft in the takeoff queue
+     */
     @Override
     public Set<String> getTakeOffAircraftIds() {
         return departureModel.getTakeOffQueueAircraftIds();
@@ -129,6 +140,11 @@ public class ModelOutput implements IModelOutput {
         return 0;
     }
 
+    /**
+     * Returns the maximum length of the takeoff queue
+     * 
+     * @return the max number of planes that have been in the takeoff queue
+     */
     @Override
     public int getMaxTakeOffQueueLength() {
         return departureModel.getMaxTakeOffQueueLength();
