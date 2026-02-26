@@ -105,11 +105,97 @@ public class ModelOutput implements IModelOutput {
     }
 
 
+    // Metrics
+
+    /**
+     * @return the total number of airplanes that were scheduled for arrival
+     */
+    public int getTotalArrivalsGenerated() {
+        return arrivalModel.getTotalArrivals();
+    }
+
+    /**
+     * @return total number of planes that were scheduled for departure
+     */
+    public int getTotalDeparturesGenerated() {
+        return departureModel.getTotalDepartures();
+    }
+
+    /**
+     * @return total number of airplanes that actually landed
+     */
+    public int getTotalAircraftLanded() {
+        return arrivalModel.getLanded();
+    }
+
+    /**
+     * @return total number of airplanes that actually took off
+     */
+    public int getTotalAircraftTakenOff() {
+        return departureModel.getTakenOff();
+    }
+
+    /**
+     * @return the max number of planes that have been in the holding queue
+     */
+    public int getMaxHoldingQueueLength() {
+        return maxHoldingPlanes;
+    }
+
+    /**
+     * @return the max number of planes that have been in the takeoff queue
+     */
+    public int getMaxTakeOffQueueLength() {
+        return maxTQueuePlanes;
+    }
+
+
+    public int getMaxArriveDelay(){
+        return maxArriveDelay;
+    }
+
+    public int getMaxDepartDelay(){
+        return maxDepartDelay;
+    }
+
+    /**
+     * @return the average delay of planes that landed at the airport
+     */
+    public double getAvgArriveDelay(){
+        avgArriveDelay = sumArriveDelay / arrivalModel.getLanded();
+        return avgArriveDelay;
+    }
+
+    /**
+     * @return the average delay of planes that took off at the airport
+     */
+    public double getAvgDepartDelay(){
+        avgDepartDelay = sumDepartDelay / departureModel.getTakenOff();
+        return avgDepartDelay;
+    }
+
+    /**
+     * @return the average wait time of planes that landed at the airport 
+     */
+    public double getAverageHoldingWaitTime() {
+        avgArriveWait = sumArriveWait / arrivalModel.getLanded();
+        return avgArriveWait;
+    }
+
+    /**
+     * @return the average wait time of planes that took off at the airport
+     */
+    public double getAverageTakeOffWaitTime(){
+        avgDepartWait = sumDepartWait / departureModel.getTakenOff();
+        return avgDepartWait;
+    }
+
+
+
     // Runway
 
     /**
-     * Returns each runway and which aircraft it is occupied by (if any)
-     * 
+     * Returns each runway and which aircraft it is occupied by currently (if any)
      * @return a map of runway numbers to the call sign of the occupying aircraft,
      * or an empty string if the runway is free
      */
@@ -129,7 +215,6 @@ public class ModelOutput implements IModelOutput {
 
     /**
      * Returns each runway and which mode it is in
-     * 
      * @return a map of runway numbers to the mode of the runway
      */
     @Override
@@ -143,7 +228,6 @@ public class ModelOutput implements IModelOutput {
 
     /**
      * Returns each runway and what its closure status is
-     * 
      * @return a map of runway numbers to the closure status of the runway
      */
     @Override
@@ -189,75 +273,4 @@ public class ModelOutput implements IModelOutput {
         // add function in aircraftmap
         return Collections.emptySet();
     }
-
-    
-    // Metrics
-
-    // might not need this 
-    public int getTotalArrivalsGenerated() {
-        return arrivalModel.getTotalArrivals();
-    }
-
-    @Override
-    public int getTotalDeparturesGenerated() {
-        // discuss if want this to incremented in data gen, or when they enter holding/takeoff queues
-        return 0;
-    }
-
-    @Override
-    public int getTotalAircraftLanded() {
-        // ask afra about updateArrivals in ArrivalModel before changing (will be similar to mine in DepartureModel)
-        return 0;
-    }
-
-    @Override
-    public int getTotalAircraftTakenOff() {
-        //return departureModel.getTotalAircraftTakenOff();
-        return 0;
-    }
-
-    /**
-     * @return the max number of planes that have been in the holding queue
-     */
-    public int getMaxHoldingQueueLength() {
-        return maxHoldingPlanes;
-    }
-
-    /**
-     * @return the max number of planes that have been in the takeoff queue
-     */
-    public int getMaxTakeOffQueueLength() {
-        return maxTQueuePlanes;
-    }
-
-
-    public int getMaxArriveDelay(){
-        return maxArriveDelay;
-    }
-
-    public int getMaxDepartDelay(){
-        return maxDepartDelay;
-    }
-
-    public double getAvgArriveDelay(){
-        avgArriveDelay = sumArriveDelay / arrivalModel.getTotalArrivals();
-        return avgArriveDelay;
-    }
-    // TODO: same for depatures
-
-    public double getAverageHoldingWaitTime() {
-        avgArriveWait = sumArriveWait / arrivalModel.getTotalArrivals();
-        return avgArriveWait;
-    }
-
-    // TODO: same for departures
-
-
-    @Override
-    public double getAverageTakeOffWaitTime() {
-        // TODO need to figure out how/where times enter/exit the queue is stored
-        return 0.0;
-    }
 }
-
-    
