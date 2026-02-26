@@ -1,8 +1,8 @@
 package com.cs261.app.model;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +17,8 @@ public class ModelOutput implements IModelOutput {
     // list of planes that have exitted in order of exit time
     ArrayList<AirCraft> exitedArrivals = new ArrayList<>();
     ArrayList<AirCraft> exitedDepartures = new ArrayList<>();
+    // hash set of callsigns all planes that exitted the simulation
+    HashSet<String> allExits = new HashSet<>();
 
     // aircraft map
     private AirCraftMap aircrafts;
@@ -94,11 +96,13 @@ public class ModelOutput implements IModelOutput {
                     sumArriveDelay += delay;
                     sumArriveWait += waitTime;
                     exitedArrivals.add(plane);
+                    allExits.add(e);
                 } else {
                     maxDepartDelay = ((delay > maxDepartDelay) ? delay : maxDepartDelay);
                     sumDepartDelay += delay;
                     sumDepartWait += waitTime;
                     exitedDepartures.add(plane);
+                    allExits.add(e);
                 }
             }
         }
@@ -190,10 +194,7 @@ public class ModelOutput implements IModelOutput {
         return avgDepartWait;
     }
 
-
-
-    // Runway
-
+    // lists and maps 
     /**
      * Returns each runway and which aircraft it is occupied by currently (if any)
      * @return a map of runway numbers to the call sign of the occupying aircraft,
@@ -221,7 +222,7 @@ public class ModelOutput implements IModelOutput {
     public Map<String, String> getRunwayModes() {
         Map<String, String> modes = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
-            modes.put(r.getRunwayNumber(), r.getMode().name()); // enum name here as string
+            modes.put(r.getRunwayNumber(), r.getMode().toString()); // enum name here as string
         }
         return modes;
     }
@@ -239,13 +240,6 @@ public class ModelOutput implements IModelOutput {
         }
         return statuses;
     }
-
-    /**
-     * TODO: returning wait time avg and delay avg for departures
-     */
-
-
-    // Aircraft
 
     /**
      * Returns the aircraft ids of each aircraft in the holding pattern
@@ -269,8 +263,6 @@ public class ModelOutput implements IModelOutput {
 
     @Override
     public Set<String> getExitedAircraftIds() {
-        // TODO need to discuss this, where is its
-        // add function in aircraftmap
-        return Collections.emptySet();
+        return allExits;   
     }
 }
