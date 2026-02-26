@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.ArrayList;
 
 public class TakeOffQueue {
     /** 
@@ -38,6 +39,11 @@ public class TakeOffQueue {
         return queue.removeFirst();
     }
 
+    // removes specifies aircraft from the queue
+    public boolean remove(AirCraft aircraft) {
+        return queue.remove(aircraft); 
+    }
+
     // returns the aircraft at a specific position in the queue
     public AirCraft getAircraftAt(int index) {
         if (index < 0 || index >= queue.size()) {
@@ -69,6 +75,24 @@ public class TakeOffQueue {
     public int getMaxQueueLength() {
         return maxQueueLength;
     }
+
+    /**
+     * Returns a list of aircraft in the takeoff queue that are in danger of being cancelled
+     * due to their wait time.
+     * @param currentTime the current time in simulation ticks
+     * @return an arraylist of aircraft in danger of cancellation
+     */
+    public ArrayList<AirCraft> inCancellationDanger(int currentTime) {
+        ArrayList<AirCraft> dangerPlanes = new ArrayList<>();
+        for (AirCraft plane : queue) {
+            int entry = Utils.convertDateToTicks(plane.getEntryTime());
+            if ((currentTime - entry) >= Utils.dangerOfCancel) {
+                dangerPlanes.add(plane);
+            }
+        }
+        return dangerPlanes;
+    }
+
 //}
 
 public static void main(String[] args) {

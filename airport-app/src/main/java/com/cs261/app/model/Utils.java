@@ -8,6 +8,8 @@ public class Utils {
     public static final float fuelBurn = 2.70f;
 	public static final int runwayTime = 6;
 	public static final int emergencyTime = 4; //maximum emergency wait time
+	public static final int cancelTime = 30; // maximum takeoff queue wait time
+	public static final int dangerOfCancel = 20; // time at which planes are considered close to being cancelled
 	public static final LocalDateTime simulationStart = LocalDateTime.of(2026, 1, 1, 0, 0);
 
 	/**
