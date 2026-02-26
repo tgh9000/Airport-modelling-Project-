@@ -13,6 +13,7 @@ import com.cs261.app.model.TrafficController;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.RunWay;
 import com.cs261.app.model.DataGen;
+import com.cs261.app.model.DepartureModel;
 
 import javafx.concurrent.Task;
 import java.util.List;
@@ -24,11 +25,13 @@ public class SimLoop extends Task<IModelOutput>{
 	protected TakeOffQueue takeOffQueue = new TakeOffQueue();
 	protected RunWayMap runways;
 	protected ArrivalModel arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
+	protected DepartureModel departureModel = new DepartureModel(aircraftMap, takeOffQueue);
 	protected TrafficController trafficModel;
 	protected int runtime;
 	protected int currentTime;
 	protected DataGen dataGen;
-	
+	protected ModelOutput output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue);
+
 	// TODO: add data gen and departure model
 	
 	public SimLoop(RunWay[] userRunways, int userRuntime){
@@ -55,7 +58,7 @@ public class SimLoop extends Task<IModelOutput>{
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
 			// sort by exit time. check this sorts the right thing
 			currentTime += Utils.timeInc;
-			// TODO: output.update...
+			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
 		}
 		
 		return null;

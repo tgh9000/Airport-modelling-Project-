@@ -38,4 +38,8 @@ public class ArrivalModel {
 	public Set<String> getHoldingPatternAircraftIds() {
 		return holdingPattern.getAircraftIds();
 	}
+
+	public int getTotalArrivals(){
+		return totalArrivals;
+	}
 }

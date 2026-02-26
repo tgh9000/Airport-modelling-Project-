@@ -32,6 +32,14 @@ public class ModelOutput implements IModelOutput {
     private int sumArriveWait = 0;
     private int sumDepartWait = 0;
 
+
+
+    // STATISTICS TO OUTPUT 
+    private double avgArriveDelay;
+    private double avgDepartDelay;
+    private double avgArriveWait;
+    private double avgDepartWait;
+
     // TODO: total delays out of all flights or just the ones that are delayed? assuming the former for now
 
     public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways, HoldingQueue holdingPattern, TakeOffQueue takeOffQueue) {
@@ -154,6 +162,10 @@ public class ModelOutput implements IModelOutput {
         return statuses;
     }
 
+    /**
+     * TODO: returning wait time avg and delay avg for departures
+     */
+
 
     // Aircraft
 
@@ -186,11 +198,10 @@ public class ModelOutput implements IModelOutput {
 
     
     // Metrics
-    @Override
+
+    // might not need this 
     public int getTotalArrivalsGenerated() {
-        // discuss if want this to incremented in data gen, or when they enter holding/takeoff queues
-        // similar to getTotalAircraftTakenOff() if when enter queues
-        return 0;
+        return arrivalModel.getTotalArrivals();
     }
 
     @Override
@@ -211,27 +222,42 @@ public class ModelOutput implements IModelOutput {
         return 0;
     }
 
-    @Override
+    /**
+     * @return the max number of planes that have been in the holding queue
+     */
     public int getMaxHoldingQueueLength() {
-        // TODO ask afra how to get max from holding queue
-        return 0;
+        return maxHoldingPlanes;
     }
 
     /**
-     * Returns the maximum length of the takeoff queue
-     * 
      * @return the max number of planes that have been in the takeoff queue
      */
-    @Override
     public int getMaxTakeOffQueueLength() {
-        return departureModel.getMaxTakeOffQueueLength();
+        return maxTQueuePlanes;
     }
 
-    @Override
-    public double getAverageHoldingWaitTime() {
-        // TODO need to figure out how/where times enter/exit the queue is stored
-        return 0.0;
+
+    public int getMaxArriveDelay(){
+        return maxArriveDelay;
     }
+
+    public int getMaxDepartDelay(){
+        return maxDepartDelay;
+    }
+
+    public double getAvgArriveDelay(){
+        avgArriveDelay = sumArriveDelay / arrivalModel.getTotalArrivals();
+        return avgArriveDelay;
+    }
+    // TODO: same for depatures
+
+    public double getAverageHoldingWaitTime() {
+        avgArriveWait = sumArriveWait / arrivalModel.getTotalArrivals();
+        return avgArriveWait;
+    }
+
+    // TODO: same for departures
+
 
     @Override
     public double getAverageTakeOffWaitTime() {
