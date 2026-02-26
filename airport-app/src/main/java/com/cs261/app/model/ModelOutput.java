@@ -1,26 +1,103 @@
 package com.cs261.app.model;
-import java.util.*;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import com.cs261.app.model.AirCraft.FlightType;
 
 // collates data that must be outputted to view
 public class ModelOutput implements IModelOutput {
     private DepartureModel departureModel;
     private ArrivalModel arrivalModel;
     private RunWayMap runways;
+    private HoldingQueue holdingPattern;
+    private TakeOffQueue takeOffQueue;
+
+    // list of planes that have exitted in order of exit time
+    ArrayList<AirCraft> exitedArrivals = new ArrayList<>();
+    ArrayList<AirCraft> exitedDepartures = new ArrayList<>();
+
     // aircraft map
+    private AirCraftMap aircrafts;
+    // KEY STATISTICS 
+    private int maxHoldingPlanes = 0;
+    private int maxTQueuePlanes = 0;
+    private int maxArriveDelay = 0;
+    private int maxDepartDelay = 0;
+    private int sumArriveDelay = 0;
+    private int sumDepartDelay = 0;
+    private int sumArriveWait = 0;
+    private int sumDepartWait = 0;
 
-    /**
-     * Method called in simloop at the end of the iteration
-     * 
-     * @param currentTime number of ticks
-     */
-    public void updateOutput(){
-        
-    }
+    // TODO: total delays out of all flights or just the ones that are delayed? assuming the former for now
 
-    public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways) {
+    public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways, HoldingQueue holdingPattern, TakeOffQueue takeOffQueue) {
         this.departureModel = departureModel;
         this.arrivalModel = arrivalModel;
         this.runways = runways;
+        this.holdingPattern = holdingPattern;
+        this.takeOffQueue = takeOffQueue;
+    }
+
+    /**
+     * Method called in simloop at the end of the iteration to update output statistics 
+     */
+    public void updateOutput(ArrayList<String> exitedPlanes, int holdingSz, int takeOffSz){
+		if (exitedPlanes.isEmpty()){
+            return;
+        }
+        // sort the planes. this list will have max 10 planes on it in one iteration of the simulations as it has planes that are just off the runways. 
+        exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
+        updateMaxHolding(holdingSz);
+        updateMaxTQueue(takeOffSz);
+        updateSumsAndMaxs(exitedPlanes);
+    }
+
+    /**
+     * Method to update the stat for max number of planes in the holding pattern at a time during the simulation
+     */
+    private void updateMaxHolding(int sz){
+        if (sz > maxHoldingPlanes) maxHoldingPlanes = sz;
+    }
+
+    /**
+     * Method to update the stat for max number of planes in the take off queue at a time during the simulation
+     */
+    private void updateMaxTQueue(int sz){
+        if (sz > maxTQueuePlanes) maxTQueuePlanes = sz;
+    }
+
+    /**
+     * Method to update: maximum arrival delay, maximum departured delay, sum of arrival delays, sum of departure delays, sum of wait time for arrival and sum of wait time
+     * for departure.
+     * Avoid processing same array multiple times 
+     * @param exits planes that have exitted the simulation in the current iteration
+     */
+    private void updateSumsAndMaxs(ArrayList<String> exits){
+        for (String e : exits){
+            AirCraft plane = aircrafts.get(e);
+            // its only delayed if it leaves the sim AFTER its scheduled time
+            // now calculate wait times
+            // we're gonna assume that the model will set queue entry = queue exit if it does not wait in any queues,,, but need to test this 
+            if (plane.getExitTime().isAfter(plane.getScheduled())){
+                int delay = (int) Duration.between(plane.getScheduled(), plane.getEntryTime()).toMinutes();
+                int waitTime = (int) Duration.between(plane.getEntryTime(), plane.getExitTime()).toMinutes();
+                if (plane.getFlightType() == FlightType.ARRIVAL){
+                    maxArriveDelay = ((delay > maxArriveDelay) ? delay : maxArriveDelay);
+                    sumArriveDelay += delay;
+                    sumArriveWait += waitTime;
+                    exitedArrivals.add(plane);
+                } else {
+                    maxDepartDelay = ((delay > maxDepartDelay) ? delay : maxDepartDelay);
+                    sumDepartDelay += delay;
+                    sumDepartWait += waitTime;
+                    exitedDepartures.add(plane);
+                }
+            }
+        }
     }
 
 

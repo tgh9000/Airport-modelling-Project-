@@ -54,7 +54,6 @@ public class SimLoop extends Task<IModelOutput>{
 			// traffic controller update, check runways and stuff
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
 			// sort by exit time. check this sorts the right thing
-			exits.sort((String a, String b) -> aircraftMap.get(a).getExitTime().compareTo(aircraftMap.get(b).getExitTime()));
 			currentTime += Utils.timeInc;
 			// TODO: output.update...
 		}
