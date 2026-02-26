@@ -17,31 +17,21 @@ public class ModelOutput implements IModelOutput {
         
     }
 
-
-
     public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways) {
         this.departureModel = departureModel;
         this.arrivalModel = arrivalModel;
         this.runways = runways;
     }
 
-    // Queue
-    @Override
-    public List<String> getHoldingQueueOrder() {
-        /* what does this do? seems similar to getHoldingAircraftds, except has order; is there a point in having both? */
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<String> getTakeOffQueueOrder() {
-        /* what does this do? seems similar to getTakeoffAircraftds */
-        return Collections.emptyList();
-    }
-
 
     // Runway
 
-    // this is for all runways
+    /**
+     * Returns each runway and which aircraft it is occupied by (if any)
+     * 
+     * @return a map of runway numbers to the call sign of the occupying aircraft,
+     * or an empty string if the runway is free
+     */
     @Override
     public Map<String, String> getRunwayOccupancy() {
         Map<String, String> occupancies = new HashMap<>();
@@ -58,6 +48,11 @@ public class ModelOutput implements IModelOutput {
         return occupancies;
     }
 
+    /**
+     * Returns each runway and which mode it is in
+     * 
+     * @return a map of runway numbers to the mode of the runway
+     */
     @Override
     public Map<String, String> getRunwayModes() {
         Map<String, String> modes = new HashMap<>();
@@ -67,6 +62,11 @@ public class ModelOutput implements IModelOutput {
         return modes;
     }
 
+    /**
+     * Returns each runway and what its closure status is
+     * 
+     * @return a map of runway numbers to the closure status of the runway
+     */
     @Override
     public Map<String, Boolean> getRunwayClosureStatus() {
         Map<String, Boolean> statuses = new HashMap<>();
@@ -79,22 +79,25 @@ public class ModelOutput implements IModelOutput {
 
 
     // Aircraft
+
+    /**
+     * Returns the aircraft ids of each aircraft in the holding pattern
+     * 
+     * @return a set of the aircraft ids of each aircraft in the holding pattern
+     */
     @Override
     public Set<String> getHoldingAircraftIds() {
         return arrivalModel.getHoldingPatternAircraftIds();
     }
 
+    /**
+     * Returns the aircraft ids of each aircraft in the takeoff queue
+     * 
+     * @return a set of the aircraft ids of each aircraft in the takeoff queue
+     */
     @Override
     public Set<String> getTakeOffAircraftIds() {
         return departureModel.getTakeOffQueueAircraftIds();
-    }
-
-    @Override
-    public Set<String> getRunwayAircraftIds() {
-
-        // TODO do this
-
-        return Collections.emptySet();
     }
 
     @Override
@@ -127,7 +130,8 @@ public class ModelOutput implements IModelOutput {
 
     @Override
     public int getTotalAircraftTakenOff() {
-        return departureModel.getTotalAircraftTakenOff();
+        //return departureModel.getTotalAircraftTakenOff();
+        return 0;
     }
 
     @Override
@@ -136,6 +140,11 @@ public class ModelOutput implements IModelOutput {
         return 0;
     }
 
+    /**
+     * Returns the maximum length of the takeoff queue
+     * 
+     * @return the max number of planes that have been in the takeoff queue
+     */
     @Override
     public int getMaxTakeOffQueueLength() {
         return departureModel.getMaxTakeOffQueueLength();
