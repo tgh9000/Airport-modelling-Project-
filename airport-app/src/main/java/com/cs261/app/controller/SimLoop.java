@@ -11,7 +11,6 @@ import com.cs261.app.model.RunWayMap;
 import com.cs261.app.model.TakeOffQueue;
 import com.cs261.app.model.TrafficController;
 import com.cs261.app.model.AirCraft;
-import com.cs261.app.model.RunWay;
 import com.cs261.app.model.DataGen;
 import com.cs261.app.model.DepartureModel;
 
@@ -39,7 +38,7 @@ public class SimLoop extends Task<IModelOutput>{
 		this.runtime = userRuntime;
 		this.currentTime = 0;
 
-		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue);
+		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
 		this.dataGen = new DataGen(userRuntime, 15, 15); // init with runtime and default flow rate per hour.
 	}
 	
@@ -49,19 +48,17 @@ public class SimLoop extends Task<IModelOutput>{
 			// get flights for this tick
 			List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
 			List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
-			
 			// arrivals update, add flights 
 			arrivalModel.updateArrivals(newArrivals, currentTime);
 			// departures update, add flights
-			// TODO: departureModel.update..
+			departureModel.updateDepartures(newDepartures, currentTime);
 			// traffic controller update, check runways and stuff
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
-			// sort by exit time. check this sorts the right thing
 			currentTime += Utils.timeInc;
 			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
 		}
 		
-		return null;
+		return output;
 	}
 
 }

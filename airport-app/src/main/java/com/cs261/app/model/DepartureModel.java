@@ -1,5 +1,7 @@
 package com.cs261.app.model;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 // TODO need to add where time enter queue stored
@@ -10,7 +12,8 @@ import java.util.Set;
 public class DepartureModel {
 	private AirCraftMap aircraftMap;
 	private TakeOffQueue takeoffQueue;
-	private IModelOutput output = null;
+	private int totalDepartutes = 0;
+	private int takenOffPlanes = 0;
 	
 	public DepartureModel(AirCraftMap map, TakeOffQueue queue) {
 		this.aircraftMap = map;
@@ -20,12 +23,43 @@ public class DepartureModel {
 	/**
 	 * Adds a new aircraft to the takeoff queue.
 	 *
-	 * @param newPlane the aircraft to be added to the takeoff queue
+	 * @param newPlanes the aircrafts to be added to the takeoff queue
 	 * @param currentTime the current simulation time
 	 */
-	public void updateDepartures(AirCraft newPlane, int currentTime) {
-		takeoffQueue.enqueue(newPlane);
-		aircraftMap.put(newPlane);
+	public void updateDepartures(List<AirCraft> newPlanes, int currentTime) {
+		Iterator<AirCraft> i = newPlanes.iterator();
+		while (i.hasNext()){
+			AirCraft a = i.next();
+			takeoffQueue.enqueue(a);
+			aircraftMap.put(a);
+			totalDepartutes++;
+		}
+		
+		i = null;
+	}
+
+	/**
+	 * @author Afra
+	 * @return total departures processed in the system overall (inc cancellations and stuff)
+	 */
+	public int getTotalDepartures(){
+		return totalDepartutes;
+	}
+
+	/**
+	 * Updates the number of planes THAT HAVE ACTUALLY TAKEN OFF. therefore does not include cancellations.
+	 * @author Afra 
+	 */
+	public void updateTakenOff(){
+		takenOffPlanes++;
+	}
+
+	/**
+	 * @author Afra
+	 * @return planes that actually took off
+	 */
+	public int getTakenOff(){
+		return takenOffPlanes;
 	}
 
 	/**

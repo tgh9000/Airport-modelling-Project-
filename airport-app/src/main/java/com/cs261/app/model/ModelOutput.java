@@ -13,8 +13,6 @@ public class ModelOutput implements IModelOutput {
     private DepartureModel departureModel;
     private ArrivalModel arrivalModel;
     private RunWayMap runways;
-    private HoldingQueue holdingPattern;
-    private TakeOffQueue takeOffQueue;
 
     // list of planes that have exitted in order of exit time
     ArrayList<AirCraft> exitedArrivals = new ArrayList<>();
@@ -46,8 +44,6 @@ public class ModelOutput implements IModelOutput {
         this.departureModel = departureModel;
         this.arrivalModel = arrivalModel;
         this.runways = runways;
-        this.holdingPattern = holdingPattern;
-        this.takeOffQueue = takeOffQueue;
     }
 
     /**
@@ -121,13 +117,11 @@ public class ModelOutput implements IModelOutput {
     public Map<String, String> getRunwayOccupancy() {
         Map<String, String> occupancies = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
-            String currentPlane;
+            String currentPlane = "";
             // gets current plane, or an empty string if there is none
-            if (r.getCurrentPlane() != null) {
+            if (r.hasPlane()) {
                 currentPlane = r.getCurrentPlane();
-            } else {
-                currentPlane = "";
-            }
+            } 
             occupancies.put(r.getRunwayNumber(), currentPlane);
         }
         return occupancies;

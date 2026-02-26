@@ -10,12 +10,17 @@ public class TrafficController {
 	private RunWayMap runways;
 	private HoldingQueue holdingPattern;
 	private TakeOffQueue takeoffQueue;
-	
-	public TrafficController(AirCraftMap aircraftMap, RunWayMap runways, HoldingQueue holdingPattern,TakeOffQueue takeoffQueue) {
+	private ArrivalModel arrivalModel;
+	private DepartureModel departureModel;
+
+
+	public TrafficController(AirCraftMap aircraftMap, RunWayMap runways, HoldingQueue holdingPattern,TakeOffQueue takeoffQueue, ArrivalModel arrivalModel, DepartureModel departureModel) {
 		this.aircraftMap = aircraftMap;
 		this.runways = runways;
 		this.holdingPattern = holdingPattern;
 		this.takeoffQueue = takeoffQueue;
+		this.arrivalModel = arrivalModel;
+		this.departureModel = departureModel;
 	}
 
 	/**
@@ -81,6 +86,7 @@ public class TrafficController {
 				AirCraft front = holdingPattern.dequeue(); // airplane exits holding pattern
 				mixed.addPlane(front);
 				front.setExitTime(Utils.convertTicksToDate(currentTime));
+				arrivalModel.updateLanded();
 				exitedPlanes.add(front.getCallSign());
 			}
 		} else {
@@ -92,6 +98,7 @@ public class TrafficController {
 				AirCraft front = holdingPattern.dequeue(); 
 				landing.addPlane(front); // assign the front plane to the available runway
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
+				arrivalModel.updateLanded();
 				exitedPlanes.add(front.getCallSign());
 			}
 		}
@@ -116,6 +123,7 @@ public class TrafficController {
                 takeoffQueue.remove(front); 
                 mixed.addPlane(front);     
                 front.setExitTime(Utils.convertTicksToDate(currentTime));
+				departureModel.updateTakenOff();
                 exitedPlanes.add(front.getCallSign());
             }
         }
@@ -128,6 +136,7 @@ public class TrafficController {
 				AirCraft front = takeoffQueue.dequeue(); 
 				takeoff.addPlane(front); // assign the front plane to the available runway
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
+				departureModel.updateTakenOff();
 				exitedPlanes.add(front.getCallSign());
 			}
 		}

@@ -24,10 +24,10 @@ public class TakeOffQueue {
     public void enqueue(AirCraft aircraft) {
         queue.addLast(aircraft);
 
-    // update maximum length if current size exceeds it
-    if (queue.size() > maxQueueLength) {
-        maxQueueLength = queue.size();
-    }
+        // update maximum length if current size exceeds it
+        if (queue.size() > maxQueueLength) {
+            maxQueueLength = queue.size();
+        }
 
     }
 
