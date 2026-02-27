@@ -47,6 +47,7 @@ public class NewSim
     @FXML
     private TextField simMinutesField;
 
+
     @FXML
     private TextField failureProbField;
     @FXML
@@ -108,6 +109,8 @@ public class NewSim
             return;
         }
 
+
+
         // failure probability
         try 
         {
@@ -154,7 +157,7 @@ public class NewSim
         for(int i = 0 ; i < runwaysList.size(); i ++)
         {
             RunwayInputController temp = runwaysList.get(i);
-            RunWay r = temp.parse(new int[]{dayNum, hourNum, minuteNum});
+            RunWay r = temp.parse(new int[]{dayNum, hourNum, minuteNum} );
             if (r == null)
             {
                 errorMessage("Invalid input for runway " + (i + 1));

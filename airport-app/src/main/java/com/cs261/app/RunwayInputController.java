@@ -2,7 +2,6 @@ package com.cs261.app;
 
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,17 +53,12 @@ public class RunwayInputController
         );
     }
 
-    public int getTick(int[]start, int[] end)
-    {
-        int dayDiff = end[0] - start[0];
-        int hourDiff = end[1] - start[1];
-        int minuteDiff = end[2] - start[2];
+    
 
-        return (dayDiff * 24 * 60 + hourDiff * 60 + minuteDiff)/2;
-    }
-
-    public RunWay parse(int[] start,int duration)
+    public RunWay parse(int[] end)
     {
+        int duration = getTick(end);
+
         //length
         String lengthText = lengthField.getText();
         int length;
@@ -112,7 +106,7 @@ public class RunwayInputController
         }
 
 
-
+        
         
         //Interruption[] interruptions = new Interruption[interruptionList.size()];
         RunWay.OperationStatus[] changeStatusTo = new RunWay.OperationStatus[interruptionList.size()];
@@ -139,8 +133,13 @@ public class RunwayInputController
                     changeStatusTo[i] = RunWay.OperationStatus.EQUIPFAIL;
                     break;
             }
-            changeStatusTimes[i][0] = getTick(start, temp.getTime());
+            changeStatusTimes[i][0] = getTick( temp.getTime());
             changeStatusTimes[i][1] = changeStatusTimes[i][0] + temp.getDuration()/2;
+            if (changeStatusTimes[i][1] > duration)
+            {
+                System.out.println("Interruption " + (i+1) + " ends after the simulation ends. Please adjust the duration or the interruption time/duration.");
+                return null;
+            }
 
             //returning.addInterruption(interruptions[i]);
             //interruptions[i].print();
@@ -150,6 +149,11 @@ public class RunwayInputController
 
 
         // new Runway(interruptions);
+    }
+    public int getTick( int[] end)
+    {
+
+        return (end[0] * 24 * 60 + end[1] * 60 + end[2])/2;
     }
 
     @FXML
