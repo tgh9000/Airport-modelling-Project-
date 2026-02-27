@@ -24,5 +24,9 @@ public class Interruption
     {
         return this.status;
     }
+    public void print()
+    {
+        System.out.println("Interruption at day " + time[0] + ", hour " + time[1] + ", minute " + time[2] + " for duration " + duration + " with status: " + status);
+    }
     
 }

@@ -24,13 +24,13 @@ public class InterruptionInputController
     public void initialize() 
     {
         statusBox.getItems().addAll(
-            "Available",
             "Runway Inspection",
             "Snow Clearance",
             "Equipment Failure"
         );
     }
-
+    
+    
     public Interruption parse()
     {
         try 
@@ -53,8 +53,11 @@ public class InterruptionInputController
             {
                 return null;
             }
+            
+
             return new Interruption(new int[]{day, hour, minute}, duration, status);
         }
+        
         catch (NumberFormatException e)
         {
             return null;

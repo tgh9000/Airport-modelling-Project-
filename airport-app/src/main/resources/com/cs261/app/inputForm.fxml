@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -19,11 +20,16 @@
                <content>
                   <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0">
                      <children>
+                        <Label text="General:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
                         <HBox prefHeight="20.0" prefWidth="200.0">
                            <children>
                               <Label text="What is the Desired length of the Simulation?">
                                  <font>
-                                    <Font size="20.0" />
+                                    <Font size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -40,7 +46,7 @@
                                     <Font size="30.0" />
                                  </font>
                               </Label>
-                              <TextField  fx:id="simHoursField" promptText="Hours">
+                              <TextField fx:id="simHoursField" promptText="Hours">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -50,10 +56,38 @@
                                     <Font size="30.0" />
                                  </font>
                               </Label>
-                              <TextField  fx:id="simMinutesField" promptText="Minutes">
+                              <TextField fx:id="simMinutesField" promptText="Minutes">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Probability of Failure">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="failureProbField" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Time that can pass before plane cancellation">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="cancellationTimeField" prefHeight="33.0" prefWidth="149.0" promptText="Minutes" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
                               </TextField>
                            </children>
                         </HBox>

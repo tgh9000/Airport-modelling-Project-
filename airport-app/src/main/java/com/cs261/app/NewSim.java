@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cs261.app.model.RunWay;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +24,12 @@ public class NewSim
     int runways = 0;
     int maxRun = 10;
     int[] len  = new int[3];
-    Runway[] runwayArray ;
+    RunWay[] runwayArray ;
     int dayNum;
     int hourNum;
     int minuteNum;
+    float failureProb;
+    int cancellationTime;
 
     @FXML
     private Label errorMessageLabel;
@@ -42,6 +46,11 @@ public class NewSim
     private TextField simHoursField;
     @FXML
     private TextField simMinutesField;
+
+    @FXML
+    private TextField failureProbField;
+    @FXML
+    private TextField cancellationTimeField;
 
     @FXML
     private List<RunwayInputController> runwaysList = new ArrayList<>();
@@ -98,14 +107,54 @@ public class NewSim
             errorMessage("Invalid number of minutes for simulation length");
             return;
         }
+
+        // failure probability
+        try 
+        {
+            failureProb = Float.parseFloat(failureProbField.getText());
+            if (failureProb < 0.0 || failureProb > 1.0) 
+            {
+                errorMessage("Failure probability must be between 0.0 and 1.0");
+                return;
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid failure probability");
+            return;
+        }
         
+        // cancellation time
+        try 
+        {
+            if (cancellationTimeField.getText() == null || cancellationTimeField.getText().trim().isEmpty()) 
+            {
+                cancellationTime = 30;  // default value
+            }
+            else
+            {
+                cancellationTime = Integer.parseInt(cancellationTimeField.getText());
+            
+                if (cancellationTime < 20) 
+                {
+                    errorMessage("Cancellation time must be at least 20 minutes");
+                    return;
+                }
+            }
+            
+        } 
+        catch (NumberFormatException e) 
+        {
+            errorMessage("Invalid cancellation time");
+            return;
+        }
 
         //parse each runway information
-        runwayArray = new Runway[runways];
+        runwayArray = new RunWay[runways];
         for(int i = 0 ; i < runwaysList.size(); i ++)
         {
             RunwayInputController temp = runwaysList.get(i);
-            Runway r = temp.parse();
+            RunWay r = temp.parse(new int[]{dayNum, hourNum, minuteNum});
             if (r == null)
             {
                 errorMessage("Invalid input for runway " + (i + 1));
@@ -116,7 +165,7 @@ public class NewSim
         }
 
         errorMessage("All inputs valid! Ready to run simulation.");
-
+        //runwayArray[0].getInterruptions().get(0).print();
 
 
     
