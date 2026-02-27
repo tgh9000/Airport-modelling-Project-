@@ -10,12 +10,17 @@ public class TrafficController {
 	private RunWayMap runways;
 	private HoldingQueue holdingPattern;
 	private TakeOffQueue takeoffQueue;
-	
-	public TrafficController(AirCraftMap aircraftMap, RunWayMap runways, HoldingQueue holdingPattern,TakeOffQueue takeoffQueue) {
+	private ArrivalModel arrivalModel;
+	private DepartureModel departureModel;
+
+
+	public TrafficController(AirCraftMap aircraftMap, RunWayMap runways, HoldingQueue holdingPattern,TakeOffQueue takeoffQueue, ArrivalModel arrivalModel, DepartureModel departureModel) {
 		this.aircraftMap = aircraftMap;
 		this.runways = runways;
 		this.holdingPattern = holdingPattern;
 		this.takeoffQueue = takeoffQueue;
+		this.arrivalModel = arrivalModel;
+		this.departureModel = departureModel;
 	}
 
 	/**
@@ -48,6 +53,9 @@ public class TrafficController {
 		handleArrivals(exitedPlanes, currentTime);
 		handleDiversions(currentTime); 		// handle diversions stuff here
 
+		handleDepartures(exitedPlanes, currentTime);
+		handleCancellations(currentTime); 		// handle cancellations stuff here
+
 		/**
 		 * Check if the planes currently occupying each unavailable runway has finished its time on the runway 
 		 * so the runway can be made free
@@ -59,10 +67,6 @@ public class TrafficController {
 
 		return exitedPlanes;
 	}
-
-	// TODO: converting runways to mixed
-	// TODO: changing status of runways at specific times/
-	// TODO: passing to output 
 
 	/**
 	 * Handles arrivals and holding queue according to the runway availability
@@ -82,6 +86,7 @@ public class TrafficController {
 				AirCraft front = holdingPattern.dequeue(); // airplane exits holding pattern
 				mixed.addPlane(front);
 				front.setExitTime(Utils.convertTicksToDate(currentTime));
+				arrivalModel.updateLanded();
 				exitedPlanes.add(front.getCallSign());
 			}
 		} else {
@@ -93,6 +98,45 @@ public class TrafficController {
 				AirCraft front = holdingPattern.dequeue(); 
 				landing.addPlane(front); // assign the front plane to the available runway
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
+				arrivalModel.updateLanded();
+				exitedPlanes.add(front.getCallSign());
+			}
+		}
+	}
+
+	/**
+	 * Handles departures and takeoff queue according to the runway availability
+	 * Dequeue takeoff queue per available arrival runway.
+	 * If no departure runways are available and the front of the queue is an emergency aircraft, find a mixed runway which is available.
+	 * @param exitedPlanes list of planes that have exited the simulation (because they have been assigned to a runway)
+	 * @param currentTime number of ticks elapsed so far
+	 */
+	private void handleDepartures(ArrayList<String> exitedPlanes, int currentTime){
+		ArrayList<RunWay> freeDepartures = runways.getFreeRunways(OperatingMode.TAKEOFF); // all available arrival runways (inc. mixed mode on arrival turn)
+		if (freeDepartures.isEmpty()){ 				
+        ArrayList<AirCraft> dangerPlanes = takeoffQueue.inCancellationDanger(currentTime);
+
+		// if there are free mixed runways, put any planes in danger of cancellation on those
+        for (AirCraft front : dangerPlanes) {
+            RunWay mixed = runways.getMixedRunWay();
+            if (mixed != null) {
+                takeoffQueue.remove(front); 
+                mixed.addPlane(front);     
+                front.setExitTime(Utils.convertTicksToDate(currentTime));
+				departureModel.updateTakenOff();
+                exitedPlanes.add(front.getCallSign());
+            }
+        }
+		} else {
+			/** for each available arrival runway, dequeue the takeoff queue.
+			 * Planes do not have to wait more if there are runways immediately available. 
+			 */
+			while (!freeDepartures.isEmpty()){
+				RunWay takeoff = freeDepartures.get(0); // always pick from front of the list
+				AirCraft front = takeoffQueue.dequeue(); 
+				takeoff.addPlane(front); // assign the front plane to the available runway
+				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
+				departureModel.updateTakenOff();
 				exitedPlanes.add(front.getCallSign());
 			}
 		}
@@ -109,6 +153,20 @@ public class TrafficController {
 			if ((currentTime - a.getEmergencyTime()) >= Utils.emergencyTime){
 				a.setExitTime(Utils.convertTicksToDate(currentTime));
 				a.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
+			}
+		}
+	}
+
+	/** Check if the planes in the takeoff queue have been there longer than the maximum
+	 *  cancellation time. If any have been, then cancel them.
+	 * @param currentTime number of ticks elapsed so far
+	 */
+	private void handleCancellations(int currentTime){
+		for (int i=0; i < takeoffQueue.size(); i++) {
+			AirCraft a = takeoffQueue.getAircraftAt(i);
+			if ((currentTime - Utils.convertDateToTicks(a.getEntryTime())) >= Utils.cancelTime){
+				a.setExitTime(Utils.convertTicksToDate(currentTime));
+				a.setZoneStatus(AirCraft.ZoneStatus.CANCEL);
 			}
 		}
 	}

@@ -3,24 +3,73 @@ package com.cs261.app.model;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
+
 class HoldingQueueTest {
 
-    @Test
-    void emergencyPriorityOrdering() {
-        // TODO:
-        // Create aircraft with different emergencies (mechanical > fuel > health > none)
-        // Add to HoldingQueue
-        // Assert it returns mechanical first
-
-        assertTrue(true);
+    private AirCraft createArrival(String id, AirCraft.EmergencyStatus status) {
+        return new AirCraft(
+                AirCraft.FlightType.ARRIVAL,
+                id,
+                "Airline",
+                "AAA",
+                "BBB",
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                400,
+                8000,
+                30000,
+                status
+        );
     }
 
     @Test
-    void tieBreakerByArrivalTime() {
-        // TODO:
-        // Two aircraft same emergency level, different arrival times
-        // Earlier arrival should be served first
+    void emergencyAircraftShouldBePrioritised() {
+        HoldingQueue queue = new HoldingQueue(5);
 
-        assertTrue(true);
+        queue.enqueue(1, createArrival("N1", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.FUEL));
+
+        assertEquals("E1", queue.top().getCallSign());
+    }
+
+    @Test
+    void earlierSerialShouldWinIfSameEmergency() {
+        HoldingQueue queue = new HoldingQueue(5);
+
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(2, createArrival("A2", AirCraft.EmergencyStatus.NONE));
+
+        assertEquals("A1", queue.top().getCallSign());
+    }
+
+    @Test
+    void isEmptyShouldWorkCorrectly() {
+        HoldingQueue queue = new HoldingQueue(5);
+        assertTrue(queue.isEmpty());
+
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
+        assertFalse(queue.isEmpty());
+    }
+
+    @Test
+    void resizeShouldNotLoseElements() {
+        HoldingQueue queue = new HoldingQueue(1);
+
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(2, createArrival("A2", AirCraft.EmergencyStatus.NONE));
+
+        assertEquals(2, queue.size());
+    }
+
+    @Test
+    void topShouldNotRemoveElement() {
+        HoldingQueue queue = new HoldingQueue(5);
+
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
+
+        assertEquals("A1", queue.top().getCallSign());
+        assertEquals(1, queue.size());
     }
 }
+
