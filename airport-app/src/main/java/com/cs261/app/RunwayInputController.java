@@ -162,6 +162,7 @@ public class RunwayInputController
             interruption--;
             int size = interruptionBox.getChildren().size();
             interruptionBox.getChildren().remove(size - 1);
+            interruptionList.remove(interruption);
         }
     }
 

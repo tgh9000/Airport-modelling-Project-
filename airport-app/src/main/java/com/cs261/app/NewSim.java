@@ -176,11 +176,10 @@ public class NewSim
                 VBox newSection = loader.load();
 
 
-                // 🔥 Get the controller
+                // Get the controller
                 RunwayInputController controller = loader.getController();
-                runwaysList.add(controller)
-;
-                // 🔥 Modify something inside the FXML
+                runwaysList.add(controller);
+                //  Modify something inside the FXML
                 controller.setRunwayTitle("Runway " + runways);
 
                 int size = runwayBox.getChildren().size();
@@ -214,6 +213,7 @@ public class NewSim
             runways--;
             int size = runwayBox.getChildren().size();
             runwayBox.getChildren().remove(size - 2);
+            runwaysList.remove((runwaysList.size() - 1));
         }
     }
 
