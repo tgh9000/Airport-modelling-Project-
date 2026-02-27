@@ -1,11 +1,11 @@
 package com.cs261.app.model;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import com.cs261.app.model.AirCraft.FlightType;
 
 // collates data that must be outputted to view
@@ -19,6 +19,8 @@ public class ModelOutput implements IModelOutput {
     ArrayList<AirCraft> exitedDepartures = new ArrayList<>();
     // hash set of callsigns all planes that exitted the simulation
     HashSet<String> allExits = new HashSet<>();
+    ArrayList<AirCraft> planesInTQueue = new ArrayList<>();
+    ArrayList<AirCraft> planesInHQueue = new ArrayList<>();
 
     // aircraft map
     private AirCraftMap aircrafts;
@@ -88,22 +90,41 @@ public class ModelOutput implements IModelOutput {
             // its only delayed if it leaves the sim AFTER its scheduled time
             // now calculate wait times
             // we're gonna assume that the model will set queue entry = queue exit if it does not wait in any queues,,, but need to test this 
-            if (plane.getExitTime().isAfter(plane.getScheduled())){
-                int delay = (int) Duration.between(plane.getScheduled(), plane.getEntryTime()).toMinutes();
-                int waitTime = (int) Duration.between(plane.getEntryTime(), plane.getExitTime()).toMinutes();
-                if (plane.getFlightType() == FlightType.ARRIVAL){
-                    maxArriveDelay = ((delay > maxArriveDelay) ? delay : maxArriveDelay);
-                    sumArriveDelay += delay;
-                    sumArriveWait += waitTime;
-                    exitedArrivals.add(plane);
-                    allExits.add(e);
-                } else {
-                    maxDepartDelay = ((delay > maxDepartDelay) ? delay : maxDepartDelay);
-                    sumDepartDelay += delay;
-                    sumDepartWait += waitTime;
-                    exitedDepartures.add(plane);
-                    allExits.add(e);
+
+
+            /**
+             * DELAY is the difference between the time it was scheduled to leave/land and the time it does. You want to check delays only for planes that leave after they were scheduled to.
+             * WAIT TIME is the time it waits in the queue, so exit time and entry time difference. 
+             * this may include being delayed or being early, as long as it was in the queue
+             * you want to check the wait time for all planes.
+             */
+            int delay = 0;
+            if (plane.getExitTime().isAfter(plane.getScheduled())){ // only check this if it was delayed
+                delay = (int) Duration.between(plane.getScheduled(), plane.getExitTime()).toMinutes();
+            } 
+            int waitTime = (int) Duration.between(plane.getEntryTime(), plane.getExitTime()).toMinutes();
+            if (plane.getFlightType() == FlightType.ARRIVAL){
+                maxArriveDelay = ((delay > maxArriveDelay) ? delay : maxArriveDelay);
+                sumArriveDelay += delay;
+                sumArriveWait += waitTime;
+
+                if (waitTime > 0){// this means it did go into a queue
+                    planesInHQueue.add(plane);
                 }
+
+                exitedArrivals.add(plane);
+                allExits.add(e);
+            } else {
+                maxDepartDelay = ((delay > maxDepartDelay) ? delay : maxDepartDelay);
+                sumDepartDelay += delay;
+                sumDepartWait += waitTime;
+
+                if (waitTime > 0){// this means it did go into a queue
+                    planesInTQueue.add(plane);
+                }
+
+                exitedDepartures.add(plane);
+                allExits.add(e);
             }
         }
     }
@@ -265,4 +286,123 @@ public class ModelOutput implements IModelOutput {
     public Set<String> getExitedAircraftIds() {
         return allExits;   
     }
+
+    // METHODS TO GET DATA FOR EACH TABLE...
+
+    /**
+     * Returns table of runway configurations. 
+     * @return table of strings
+     * column1 = runway number, column2 = runway opertional mode (landing/takeoff), column3 = runway operational status, column4 = true if
+     * runway becomes unavailable during runtime, false otherwise, column5 = status it changes to, column6 = start time of status change, column6 = end time of status change
+     * note that the last three columns will be "N/A" if the status of the runway does not change during runtime
+     */
+    public String[][] runwayTable(){
+        String[][] table = new String[runways.size()][7];
+        RunWay[] runwayList = runways.getRunways();
+        for (int i = 0; i < runwayList.length; i++){
+            table[i][0] = runwayList[i].getRunwayNumber();
+            table[i][1] = runwayList[i].getMode().toString();
+            table[i][2] = runwayList[i].getStatus().toString();
+            table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
+            if (runwayList[i].hasStatusChange()){
+                table[i][4] = runwayList[i].getChangedStatus().toString();
+                table[i][5] = runwayList[i].getStatusChangeStartTime().toString();
+                table[i][6] = runwayList[i].getStatusChangeEndTime().toString();
+            } else {
+                table[i][4] = "N/A";
+                table[i][5] = "N/A";
+                table[i][6] = "N/A";
+            }            
+        }
+        return table;
+    }
+
+    /**
+     * @return all airplanes that have been in the holding queue
+     */
+    public String[][] holdingQueueTable(){
+        return getQueueTable(planesInHQueue);
+    }
+
+    /**
+     * @return all airplanes that have been in the take off queue
+     */
+    public String[][] takeOffQueueTable(){
+        return getQueueTable(planesInTQueue);
+    }
+
+    /**
+     * Returns the columns and rows necessary for a queue table in the simulation output page.
+     * The list should be in the natural order of exit time of the aircrafts (from the simulation)
+     * @param list list to get aircraft details from
+     * @return table of strings
+     * column1 = call sign, column2 = scheduled departure/arrival time, column3 = actual departure/arrival time, column4 = delay, column5 = wait time
+     */
+    public String[][] getQueueTable(ArrayList<AirCraft> list){
+        String[][] table = new String[list.size()][5];
+        for (int i = 0; i < list.size(); i++){
+            AirCraft a = list.get(i);
+            int delay = 0;
+            if (a.getExitTime().isAfter(a.getScheduled())){ // only check this if it was delayed
+                delay = (int) Duration.between(a.getScheduled(), a.getExitTime()).toMinutes();
+            } 
+
+            table[i][0] = a.getCallSign();
+            table[i][1] = a.getScheduled().toString();
+            table[i][2] = a.getEntryTime().toString(); 
+            table[i][3] = Integer.toString(delay);
+            table[i][4] = Integer.toString((int) Duration.between(a.getEntryTime(), a.getExitTime()).toMinutes());
+        }
+        return table;
+    }
+
+    /**
+     * @return all aircrafts that landed in the simulation in order of exit time
+     */
+    public String[][] arrivalsTable(){
+        return getSimExitTable(exitedArrivals);
+    }
+
+    /**
+     * @return all aircrafts that took off in the simulation in order of exit time
+     */
+    public String[][] departuresTable(){
+        return getSimExitTable(exitedDepartures);
+    }
+
+    public String[][] getSimExitTable(ArrayList<AirCraft> list){
+        String[][] table = new String[list.size()][3];
+        for (int i = 0; i < list.size(); i++){
+            AirCraft a = list.get(i);
+            table[i][0] = a.getRunway();
+            table[i][1] = a.getCallSign();
+            table[i][2] = a.getExitTime().toString();
+        }
+        return table;
+    }
+
+    /**
+     * @return difference in scheduled time and actual time of arrivals
+     */
+    public LocalDateTime[][] arrivalDifferenceGraph(){
+        LocalDateTime[][] graph = new LocalDateTime[exitedArrivals.size()][2];
+        for (int i = 0; i < exitedArrivals.size(); i++){
+            graph[i][0] = exitedArrivals.get(i).getScheduled();
+            graph[i][1] = exitedArrivals.get(i).getExitTime();
+        }
+        return graph;
+    }
+
+    /**
+     * @return difference in scheduled time and actual time of departures
+     */
+    public LocalDateTime[][] departDifferenceGraph(){
+        LocalDateTime[][] graph = new LocalDateTime[exitedDepartures.size()][2];
+        for (int i = 0; i < exitedDepartures.size(); i++){
+            graph[i][0] = exitedDepartures.get(i).getScheduled();
+            graph[i][1] = exitedDepartures.get(i).getExitTime();
+        }
+        return graph;
+    }
+
 }

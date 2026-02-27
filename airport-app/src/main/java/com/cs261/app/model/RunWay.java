@@ -1,5 +1,6 @@
 package com.cs261.app.model;
 
+import java.time.LocalDateTime;
 
 public class RunWay {
 	/**
@@ -114,6 +115,14 @@ public class RunWay {
 	}
 
 	/**
+	 * Checks if a runway will have a status change or not during the simulation
+	 * @return true if it will have a status change, false otherwise
+	 */
+	public boolean hasStatusChange(){
+		return changeStatusTo != null;
+	}
+
+	/**
 	 * Change status to whatever the user input is at the right time
 	 * @param time number of ticks passed in simulation currently
 	 */
@@ -140,7 +149,6 @@ public class RunWay {
 
 	/**
 	 * Convert a runway into a mixed runway
-	 * @return
 	 */
 	public void convertRunway(){
 		this.mode = OperatingMode.MIXED; // mixed mode turn stays the same as the original mode for the next turn
@@ -165,6 +173,27 @@ public class RunWay {
 	 */
 	public OperationStatus getStatus() {
 		return status;
+	}
+
+	/**
+	 * @return status the runway would change to
+	 */
+	public OperationStatus getChangedStatus(){
+		return changeStatusTo;
+	}
+
+	/**
+	 * @return start time at which status would change
+	 */
+	public LocalDateTime getStatusChangeStartTime(){
+		return Utils.convertTicksToDate(changeStatusTimes[0]);
+	}
+
+	/**
+	 * @return end time at which status would change
+	 */
+	public LocalDateTime getStatusChangeEndTime(){
+		return Utils.convertTicksToDate(changeStatusTimes[1]);
 	}
 
 	/**
