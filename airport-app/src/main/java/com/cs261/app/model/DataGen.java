@@ -176,6 +176,11 @@ public class DataGen {
             origin,
             destination,
             scheduledArrival,
+            actualEntryTime,      // WHEN IT ENTERS HOLDING QUEUE!!!
+            speed,
+            fuel,
+            altitude,
+            emergency
             actualEntryTime,
             speed,
             fuel,
@@ -225,6 +230,7 @@ public class DataGen {
         //  */
         int departureOffset = 10 + random.nextInt(21); // uniform(10,30)
         LocalDateTime scheduledDeparture = scheduledTime.plusMinutes(departureOffset);
+        // LocalDateTime actualDeparture = actualEntryTime.plusMinutes(departureOffset); // CANT PREDICT STATE OF QUEUES ETC.
 
         /* Create aircraft and return. */
         return new AirCraft(

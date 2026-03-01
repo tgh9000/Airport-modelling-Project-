@@ -1,5 +1,6 @@
 package com.cs261.app.model;
 
+import java.time.LocalDateTime;
 
 public class RunWay {
 	/**
@@ -39,14 +40,15 @@ public class RunWay {
 	private OperatingMode mode;
 
 	private OperatingMode mixedModeTurn;
-	private final OperationStatus changeStatusTo;
-	private final int[] changeStatusTimes; // changeStatusTimes[0] = start time, changeStatusTimes[1] = end time, in simulation ticks
+	private final OperationStatus[] changeStatusTo;
+	private final int[][] changeStatusTimes; // changeStatusTimes[0] = start time, changeStatusTimes[1] = end time, in simulation ticks
 	
-	public RunWay(int length, int bearing, OperatingMode mode, OperationStatus change, int[] timeAt) {
+	public RunWay(int length, int  bearing, OperatingMode mode, OperationStatus[] change, int[][] timeAt) {
 		this.length = length;
 		this.bearing = bearing;
 		this.mode = mode;
 		this.status = OperationStatus.AVAILABLE; // always starts as available
+		
 		this.currentPlane = null;
 		this.runwayNumber = calcID(bearing);
 		this.changeStatusTo = change;
@@ -114,14 +116,25 @@ public class RunWay {
 	}
 
 	/**
+	 * Checks if a runway will have a status change or not during the simulation
+	 * @return true if it will have a status change, false otherwise
+	 */
+	public boolean hasStatusChange(){
+		return changeStatusTo != null;
+	}
+
+	/**
 	 * Change status to whatever the user input is at the right time
 	 * @param time number of ticks passed in simulation currently
 	 */
 	public void addStatus(int time){
 		if (changeStatusTo != null){
 			// if it should be changed within the intreval 
-			if (time <= changeStatusTimes[0] && changeStatusTimes[0] <= time + Utils.timeInc){
-				this.setStatus(changeStatusTo);
+			for (int i = 0; i < changeStatusTimes.length; i++) {
+				if (time <= changeStatusTimes[i][0] && changeStatusTimes[i][0] <= time + Utils.timeInc){
+					this.setStatus(changeStatusTo[i]);
+					break;
+				}
 			}
 		} 
 	}
@@ -132,15 +145,17 @@ public class RunWay {
 	 */
 	public void removeStatus(int time){
 		if (changeStatusTo != null){
-			if (time <= changeStatusTimes[1] && changeStatusTimes[1] <= time + Utils.timeInc){
-				this.setStatus(OperationStatus.AVAILABLE);
+			for (int i = 0; i < changeStatusTimes.length; i++) {
+				if (time <= changeStatusTimes[i][1] && changeStatusTimes[i][1] <= time + Utils.timeInc){
+					this.setStatus(OperationStatus.AVAILABLE);
+					break;
+				}
 			}
 		}
 	}
 
 	/**
 	 * Convert a runway into a mixed runway
-	 * @return
 	 */
 	public void convertRunway(){
 		this.mode = OperatingMode.MIXED; // mixed mode turn stays the same as the original mode for the next turn
@@ -165,6 +180,27 @@ public class RunWay {
 	 */
 	public OperationStatus getStatus() {
 		return status;
+	}
+
+	/**
+	 * @return status the runway would change to
+	 */
+	public OperationStatus[] getChangedStatus(){
+		return changeStatusTo;
+	}
+
+	/**
+	 * @return start time at which status would change
+	 */
+	public LocalDateTime getStatusChangeStartTime(){
+		return Utils.convertTicksToDate(changeStatusTimes[0]);
+	}
+
+	/**
+	 * @return end time at which status would change
+	 */
+	public LocalDateTime getStatusChangeEndTime(){
+		return Utils.convertTicksToDate(changeStatusTimes[1]);
 	}
 
 	/**
