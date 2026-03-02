@@ -161,11 +161,7 @@ public class DataGen {
             emergencyTime = Utils.convertDateToTicks(actualEntryTime);
         }
 
-        // /**
-        //  * Proper handling of Arriving AirCraft:
-        //  *  scheduledArrival is the ideal time of generation + the constant runway time (including landing etc). 
-        //  *  actualArrival is the Box-Muller transformation being applied to t.o.g + the constant runway time. 
-        //  */
+        /** scheduledArrival is the ideal time of generation + the constant runway time (including landing etc) */
         LocalDateTime scheduledArrival = scheduledTime.plusMinutes(Utils.runwayTime);
         
         /* Create aircraft and return. */
@@ -176,11 +172,6 @@ public class DataGen {
             origin,
             destination,
             scheduledArrival,
-            actualEntryTime,      // WHEN IT ENTERS HOLDING QUEUE!!!
-            speed,
-            fuel,
-            altitude,
-            emergency
             actualEntryTime,
             speed,
             fuel,
@@ -223,14 +214,9 @@ public class DataGen {
         EmergencyStatus emergency = EmergencyStatus.NONE; // Departures: on ground -> not generated with emergency.
         int emergencyTime = -1;
 
-        // /**
-        //  * Proper handling of Departing AirCraft:
-        //  *  scheduledDeparture is the ideal time of generation + uniform random offset (10-30 minutes). 
-        //  *  actualDeparture is the Box-Muller transformation being applied to t.o.g + uniform random offset (10-30 minutes). 
-        //  */
+        /** scheduledDeparture is the ideal time of generation + uniform random offset (10-30 minutes). */
         int departureOffset = 10 + random.nextInt(21); // uniform(10,30)
         LocalDateTime scheduledDeparture = scheduledTime.plusMinutes(departureOffset);
-        // LocalDateTime actualDeparture = actualEntryTime.plusMinutes(departureOffset); // CANT PREDICT STATE OF QUEUES ETC.
 
         /* Create aircraft and return. */
         return new AirCraft(
