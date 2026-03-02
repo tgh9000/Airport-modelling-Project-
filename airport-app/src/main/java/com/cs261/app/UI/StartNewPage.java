@@ -1,4 +1,4 @@
-package com.cs261.app;
+package com.cs261.app.UI;
 
 import java.io.IOException;
 
