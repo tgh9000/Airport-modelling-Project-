@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import com.cs261.app.model.AirCraft.FlightType;
+import com.cs261.app.model.RunWay.OperationStatus;
 
 // collates data that must be outputted to view
 public class ModelOutput implements IModelOutput {
@@ -295,22 +296,25 @@ public class ModelOutput implements IModelOutput {
      * note that the last three columns will be "N/A" if the status of the runway does not change during runtime
      */
     public String[][] runwayTable(){
-        String[][] table = new String[runways.size()][7];
+        String[][] table = new String[runways.size()][13];
         RunWay[] runwayList = runways.getRunways();
         for (int i = 0; i < runwayList.length; i++){
             table[i][0] = runwayList[i].getRunwayNumber();
             table[i][1] = runwayList[i].getMode().toString();
             table[i][2] = runwayList[i].getStatus().toString();
             table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
-            if (runwayList[i].hasStatusChange()){
-                table[i][4] = runwayList[i].getChangedStatus().toString();
-                table[i][5] = runwayList[i].getStatusChangeStartTime(i).toString();
-                table[i][6] = runwayList[i].getStatusChangeEndTime(i).toString();
-            } else {
-                table[i][4] = "N/A";
-                table[i][5] = "N/A";
-                table[i][6] = "N/A";
-            }            
+
+            for (int j = 4; j < 13; j++){
+                table[i][j] = "N/A";
+            }
+
+            OperationStatus[] changes = runwayList[i].getChangedStatus();
+
+            for (int j = 0; j < changes.length; j++){
+                table[i][4 + (3 * j)] = changes[i].toString();
+                table[i][5 + (3 * j)] = runwayList[i].getStatusChangeStartTime(j).toString();
+                table[i][6 + (3 * j)] = runwayList[i].getStatusChangeEndTime(j).toString();
+            }          
         }
         return table;
     }

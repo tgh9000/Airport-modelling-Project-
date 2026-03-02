@@ -40,8 +40,9 @@ public class RunWay {
 	private OperatingMode mode;
 
 	private OperatingMode mixedModeTurn;
+	// can have up to 3 status changes
 	private final OperationStatus[] changeStatusTo;
-	private final int[][] changeStatusTimes; // changeStatusTimes[0] = start time, changeStatusTimes[1] = end time, in simulation ticks
+	private final int[][] changeStatusTimes; // changeStatusTimes[0][0] = start time of interruption 1, changeStatusTimes[0][1] = end time of interruption 1,etc, in simulation ticks
 	
 	public RunWay(int length, int  bearing, OperatingMode mode, OperationStatus[] change, int[][] timeAt) {
 		this.length = length;
@@ -120,7 +121,7 @@ public class RunWay {
 	 * @return true if it will have a status change, false otherwise
 	 */
 	public boolean hasStatusChange(){
-		return changeStatusTo != null;
+		return changeStatusTo.length != 0;
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class RunWay {
 	 * @param time number of ticks passed in simulation currently
 	 */
 	public void addStatus(int time){
-		if (changeStatusTo != null){
+		if (hasStatusChange()){
 			// if it should be changed within the intreval 
 			for (int i = 0; i < changeStatusTimes.length; i++) {
 				if (time <= changeStatusTimes[i][0] && changeStatusTimes[i][0] <= time + Utils.timeInc){
@@ -144,7 +145,7 @@ public class RunWay {
 	 * @param time current time in simulation
 	 */
 	public void removeStatus(int time){
-		if (changeStatusTo != null){
+		if (hasStatusChange()){
 			for (int i = 0; i < changeStatusTimes.length; i++) {
 				if (time <= changeStatusTimes[i][1] && changeStatusTimes[i][1] <= time + Utils.timeInc){
 					this.setStatus(OperationStatus.AVAILABLE);
