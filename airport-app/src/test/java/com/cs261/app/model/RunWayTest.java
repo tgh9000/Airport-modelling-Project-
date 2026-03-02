@@ -16,10 +16,11 @@ class RunWayTest {
                 "BBB",
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                400,
-                8000,
-                30000,
-                AirCraft.EmergencyStatus.NONE
+                400f,
+                8000f,
+                30000f,
+                AirCraft.EmergencyStatus.NONE,
+                -1
         );
     }
 
