@@ -145,26 +145,24 @@ public class DataGen {
         String origin = originAirport.iata;
         String destination = ourAirport;
 
-
-        float altitude = 304.8f; // Base altitude assuming holding queue is empty.
+        float altitude = Utils.baseArrivalAltitudeMetres; // Base altitude assuming holding queue is empty.
         
-        float speed = 140.0f; // Ground Speed in knots.
+        float speed = Utils.groundSpeedKnots; // Ground Speed in knots.
 
         /* Generate fuel level uniformly distributed between 20-60 minutes remaining. */
-        float fuelMin = 156.93f;
-        float fuelMax = 470.79f;
+        float fuelMin = (Utils.groundSpeedKnots * (1.0f/3) * Utils.fuelBurn) / Utils.fuelDensity; // 20 Minutes / 1/3 Hours Remaining.
+        float fuelMax = (Utils.groundSpeedKnots * 1 * Utils.fuelBurn) / Utils.fuelDensity; // 60 Minutes / 1 Hour Remaining.
         float fuel = fuelMin + random.nextFloat() * (fuelMax - fuelMin);
 
         /* Generate emergency status for an arriving aircraft. */
-        EmergencyStatus emergency = generateEmergencyStatus(true); // where is emergencyTimeAt?
+        EmergencyStatus emergency = generateEmergencyStatus(true);
+        int emergencyTime = -1;
+        if (emergency != EmergencyStatus.NONE) {
+            emergencyTime = Utils.convertDateToTicks(actualEntryTime);
+        }
 
-        // /**
-        //  * Proper handling of Arriving AirCraft:
-        //  *  scheduledArrival is the ideal time of generation + the constant runway time (including landing etc). 
-        //  *  actualArrival is the Box-Muller transformation being applied to t.o.g + the constant runway time. 
-        //  */
+        /** scheduledArrival is the ideal time of generation + the constant runway time (including landing etc) */
         LocalDateTime scheduledArrival = scheduledTime.plusMinutes(Utils.runwayTime);
-        // LocalDateTime actualArrival = actualEntryTime.plusMinutes(Utils.runwayTime);
         
         /* Create aircraft and return. */
         return new AirCraft(
@@ -174,11 +172,12 @@ public class DataGen {
             origin,
             destination,
             scheduledArrival,
-            actualEntryTime,      // WHEN IT ENTERS HOLDING QUEUE!!!
+            actualEntryTime,
             speed,
             fuel,
             altitude,
-            emergency
+            emergency,
+            emergencyTime
         );
     }
 
@@ -208,20 +207,16 @@ public class DataGen {
         float speed = 0.0f; // Stationary until takeoff.
 
         /* Generate fuel level uniformly distributed between 20-60 minutes remaining. */
-        float fuelMin = 156.93f;
-        float fuelMax = 470.79f;
+        float fuelMin = (Utils.groundSpeedKnots * (1.0f/3) * Utils.fuelBurn) / Utils.fuelDensity; // 20 Minutes / 1/3 Hours Remaining.
+        float fuelMax = (Utils.groundSpeedKnots * 1 * Utils.fuelBurn) / Utils.fuelDensity; // 60 Minutes / 1 Hour Remaining.
         float fuel = fuelMin + random.nextFloat() * (fuelMax - fuelMin);
 
         EmergencyStatus emergency = EmergencyStatus.NONE; // Departures: on ground -> not generated with emergency.
+        int emergencyTime = -1;
 
-        // /**
-        //  * Proper handling of Departing AirCraft:
-        //  *  scheduledDeparture is the ideal time of generation + uniform random offset (10-30 minutes). 
-        //  *  actualDeparture is the Box-Muller transformation being applied to t.o.g + uniform random offset (10-30 minutes). 
-        //  */
+        /** scheduledDeparture is the ideal time of generation + uniform random offset (10-30 minutes). */
         int departureOffset = 10 + random.nextInt(21); // uniform(10,30)
         LocalDateTime scheduledDeparture = scheduledTime.plusMinutes(departureOffset);
-        // LocalDateTime actualDeparture = actualEntryTime.plusMinutes(departureOffset); // CANT PREDICT STATE OF QUEUES ETC.
 
         /* Create aircraft and return. */
         return new AirCraft(
@@ -231,11 +226,12 @@ public class DataGen {
             origin,
             destination,
             scheduledDeparture,
-            actualEntryTime,        // WHEN IT ENTERS TAKEOFF QUEUE...
+            actualEntryTime,
             speed,
             fuel,
             altitude,
-            emergency
+            emergency,
+            emergencyTime
         );
     }
 

@@ -39,6 +39,6 @@ class UtilsTest {
         assertEquals(2, Utils.timeInc);
         assertEquals(6, Utils.runwayTime);
         assertEquals(4, Utils.emergencyTime);
-        assertEquals(2.70f, Utils.fuelBurn);
+        assertEquals(2.71f, Utils.fuelBurn);
     }
 }

@@ -40,14 +40,15 @@ public class RunWay {
 	private OperatingMode mode;
 
 	private OperatingMode mixedModeTurn;
-	private final OperationStatus changeStatusTo;
-	private final int[] changeStatusTimes; // changeStatusTimes[0] = start time, changeStatusTimes[1] = end time, in simulation ticks
+	private final OperationStatus[] changeStatusTo;
+	private final int[][] changeStatusTimes; // changeStatusTimes[0] = start time, changeStatusTimes[1] = end time, in simulation ticks
 	
-	public RunWay(float length, float bearing, OperatingMode mode, OperationStatus change, int[] timeAt) {
-		this.length = (int) length;
-		this.bearing = (int) bearing;
+	public RunWay(int length, int  bearing, OperatingMode mode, OperationStatus[] change, int[][] timeAt) {
+		this.length = length;
+		this.bearing = bearing;
 		this.mode = mode;
 		this.status = OperationStatus.AVAILABLE; // always starts as available
+		
 		this.currentPlane = null;
 		this.runwayNumber = calcID(this.bearing);
 		this.changeStatusTo = change;
@@ -129,8 +130,11 @@ public class RunWay {
 	public void addStatus(int time){
 		if (changeStatusTo != null){
 			// if it should be changed within the intreval 
-			if (time <= changeStatusTimes[0] && changeStatusTimes[0] <= time + Utils.timeInc){
-				this.setStatus(changeStatusTo);
+			for (int i = 0; i < changeStatusTimes.length; i++) {
+				if (time <= changeStatusTimes[i][0] && changeStatusTimes[i][0] <= time + Utils.timeInc){
+					this.setStatus(changeStatusTo[i]);
+					break;
+				}
 			}
 		} 
 	}
@@ -141,8 +145,11 @@ public class RunWay {
 	 */
 	public void removeStatus(int time){
 		if (changeStatusTo != null){
-			if (time <= changeStatusTimes[1] && changeStatusTimes[1] <= time + Utils.timeInc){
-				this.setStatus(OperationStatus.AVAILABLE);
+			for (int i = 0; i < changeStatusTimes.length; i++) {
+				if (time <= changeStatusTimes[i][1] && changeStatusTimes[i][1] <= time + Utils.timeInc){
+					this.setStatus(OperationStatus.AVAILABLE);
+					break;
+				}
 			}
 		}
 	}
@@ -178,22 +185,22 @@ public class RunWay {
 	/**
 	 * @return status the runway would change to
 	 */
-	public OperationStatus getChangedStatus(){
+	public OperationStatus[] getChangedStatus(){
 		return changeStatusTo;
 	}
 
 	/**
 	 * @return start time at which status would change
 	 */
-	public LocalDateTime getStatusChangeStartTime(){
-		return Utils.convertTicksToDate(changeStatusTimes[0]);
+	public LocalDateTime getStatusChangeStartTime(int i){
+		return Utils.convertTicksToDate(changeStatusTimes[i][0]); // is this correct? was showing error.
 	}
 
 	/**
 	 * @return end time at which status would change
 	 */
-	public LocalDateTime getStatusChangeEndTime(){
-		return Utils.convertTicksToDate(changeStatusTimes[1]);
+	public LocalDateTime getStatusChangeEndTime(int i){
+		return Utils.convertTicksToDate(changeStatusTimes[i][1]);
 	}
 
 	/**

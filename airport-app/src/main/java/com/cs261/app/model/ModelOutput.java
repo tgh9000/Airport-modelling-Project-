@@ -304,8 +304,8 @@ public class ModelOutput implements IModelOutput {
             table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
             if (runwayList[i].hasStatusChange()){
                 table[i][4] = runwayList[i].getChangedStatus().toString();
-                table[i][5] = runwayList[i].getStatusChangeStartTime().toString();
-                table[i][6] = runwayList[i].getStatusChangeEndTime().toString();
+                table[i][5] = runwayList[i].getStatusChangeStartTime(i).toString();
+                table[i][6] = runwayList[i].getStatusChangeEndTime(i).toString();
             } else {
                 table[i][4] = "N/A";
                 table[i][5] = "N/A";

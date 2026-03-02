@@ -60,7 +60,7 @@ public class AirCraft {
 	private int emergencyTimeAt; // the number of ticks (runtime) at which it went into emergency
 
 
-    public AirCraft(FlightType type, String callsign, String operator, String origin, String dest, LocalDateTime scheduled, LocalDateTime entryTime, float speed, float fuel, float alt, EmergencyStatus status){
+    public AirCraft(FlightType type, String callsign, String operator, String origin, String dest, LocalDateTime scheduled, LocalDateTime entryTime, float speed, float fuel, float alt, EmergencyStatus status, int emergencyTime){
         flightType = type;
         callSign = callsign;
         this.operator = operator;
@@ -72,6 +72,8 @@ public class AirCraft {
         this.fuel = fuel;
         this.altitude = alt;
         this.emergencyStatus = status;
+		this.emergencyTimeAt = emergencyTime;
+
 		this.assignedRunway = "";
 
         this.exitTime = null;
@@ -95,6 +97,13 @@ public class AirCraft {
 	 */
 	public void setExitTime(LocalDateTime exitTime) {
 		this.exitTime = exitTime;
+	}
+
+	/**
+	 * @param emergencyTime emergency 'time stamp' as tick
+	 */
+	public void setEmergencyTime(int emergencyTime){
+		this.emergencyTimeAt = emergencyTime;
 	}
 
 	/**
@@ -182,7 +191,7 @@ public class AirCraft {
 	}
 
 	/**
-	 * @return the emergency 'time stamp'
+	 * @return the emergency 'time stamp' as tick
 	 */
 	public int getEmergencyTime(){
 		return emergencyTimeAt;
@@ -193,14 +202,14 @@ public class AirCraft {
      * @param t fuel decrease in t minutes
      */
     public void updateFuel(int t){
-        this.fuel = this.fuel - (((this.speed * 1.852) * (t/60) * Utils.fuelBurn) / 0.8029);
+        this.fuel = this.fuel - (((this.speed * 1.852) * (t/60) * Utils.fuelBurn) / Utils.fuelDensity);
     }
     
     /**
      * @return the number of hours of fuel remaining 
      */
     public double fuelRemainingHrs(){
-    	double hrs = ((this.fuel * 0.8029) / Utils.fuelBurn) * (1 / this.speed);
+    	double hrs = ((this.fuel * Utils.fuelDensity) / Utils.fuelBurn) * (1 / this.speed);
 		return hrs;
     }
     

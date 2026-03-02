@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cs261.app.model.RunWay;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -44,14 +46,18 @@ public class RunwayInputController
         );
     }
 
-    public Runway parse()
+    
+
+    public RunWay parse(int[] end)
     {
+        int duration = getTick(end);
+
         //length
         String lengthText = lengthField.getText();
-        float length;
+        int length;
         try 
         {
-            length = Float.parseFloat(lengthText);
+            length = Integer.parseInt(lengthText);
         }
         catch (NumberFormatException e)
         {
@@ -61,11 +67,11 @@ public class RunwayInputController
 
         //bearing
         String bearingText = bearingField.getText();
-        float bearing;
+        int bearing;
 
         try 
         {
-            bearing = Float.parseFloat(bearingText);
+            bearing = Integer.parseInt(bearingText);
         }
         catch (NumberFormatException e)
         {
@@ -78,25 +84,69 @@ public class RunwayInputController
         {
             return null;
         }
+        RunWay.OperatingMode modeEnum= null; 
+        if (mode.equals("Landing"))
+        {
+            modeEnum = RunWay.OperatingMode.LANDING;
+        }
+        else if (mode.equals("Takeoff"))
+        {
+            modeEnum = RunWay.OperatingMode.TAKEOFF;
+        }
+        else if (mode.equals("Mixed"))
+        {
+            modeEnum = RunWay.OperatingMode.MIXED;
+        }
+
 
         
-
-        Runway returning = new Runway(length, bearing, mode);
-        Interruption[] interruptions = new Interruption[interruptionList.size()];
+        
+        //Interruption[] interruptions = new Interruption[interruptionList.size()];
+        RunWay.OperationStatus[] changeStatusTo = new RunWay.OperationStatus[interruptionList.size()];
+        int[][] changeStatusTimes = new int[interruptionList.size()][2];
         for(int i = 0 ; i < interruptionList.size(); i++)
         {
-            interruptions[i] = interruptionList.get(i).parse();
-            if (interruptions[i] == null)
+            Interruption temp = interruptionList.get(i).parse();
+
+            if (temp == null)
             {
                 
                 return null;
             }
-            returning.addInterruption(interruptions[i]);
+            switch (temp.getStatus()) 
+            {
+                case "INSPECTION":
+                    changeStatusTo[i] = RunWay.OperationStatus.INSPECTION;
+                    break;
+                case "SNOW": 
+                    changeStatusTo[i] = RunWay.OperationStatus.SNOW;
+                    break;
+                
+                default:
+                    changeStatusTo[i] = RunWay.OperationStatus.EQUIPFAIL;
+                    break;
+            }
+            changeStatusTimes[i][0] = getTick( temp.getTime());
+            changeStatusTimes[i][1] = changeStatusTimes[i][0] + temp.getDuration()/2;
+            if (changeStatusTimes[i][1] > duration)
+            {
+                System.out.println("Interruption " + (i+1) + " ends after the simulation ends. Please adjust the duration or the interruption time/duration.");
+                return null;
+            }
+
+            //returning.addInterruption(interruptions[i]);
+            //interruptions[i].print();
         }
+        RunWay returning = new RunWay(length, bearing, modeEnum, changeStatusTo, changeStatusTimes);
         return returning;
 
 
         // new Runway(interruptions);
+    }
+    public int getTick( int[] end)
+    {
+
+        return (end[0] * 24 * 60 + end[1] * 60 + end[2])/2;
     }
 
     @FXML
@@ -153,6 +203,7 @@ public class RunwayInputController
             interruption--;
             int size = interruptionBox.getChildren().size();
             interruptionBox.getChildren().remove(size - 1);
+            interruptionList.remove(interruption);
         }
     }
 
