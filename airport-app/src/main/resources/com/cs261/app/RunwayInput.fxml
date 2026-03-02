@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="100.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.RunwayInputController">
+<VBox prefHeight="100.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.RunwayInputController" styleClass = "runwayVbox">
    <children>
       <Label fx:id="runwayLabel" text="Runway 1">
          <font>
@@ -68,9 +68,9 @@
       </VBox>
       <HBox prefHeight="30.0" prefWidth="560.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#addInterruption" prefHeight="25.0" prefWidth="114.0" text="Add Interuption" />
+            <Button mnemonicParsing="false" onAction="#addInterruption" prefHeight="25.0" prefWidth="114.0" text="Add Interuption" styleClass="normalBtn" />
             <Region prefHeight="25.0" prefWidth="120.0" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#removeSection" text="Remove This Interruption" />
+            <Button mnemonicParsing="false" onAction="#removeSection" text="Remove This Interruption" styleClass="normalBtn" />
          </children>
          <padding>
             <Insets bottom="10.0" />

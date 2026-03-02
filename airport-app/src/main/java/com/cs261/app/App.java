@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -15,7 +16,6 @@ public class App extends Application {
                 App.class.getResource("/com/cs261/app/start.fxml"));
         //https://www.youtube.com/watch?v=9XJicRt_FaI
         //Scene scene = new Scene(loader.load());
-
         Image icon = new Image(
         getClass().getResource("/com/cs261/app/companyLogo.png").toExternalForm()
         );

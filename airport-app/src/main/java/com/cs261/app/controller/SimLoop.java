@@ -4,7 +4,6 @@ import com.cs261.app.model.AirCraftMap;
 import com.cs261.app.model.ArrivalModel;
 import com.cs261.app.model.Utils;
 import com.cs261.app.model.HoldingQueue;
-import com.cs261.app.model.IModelOutput;
 import com.cs261.app.model.ModelOutput;
 import com.cs261.app.model.RunWay;
 import com.cs261.app.model.RunWayMap;
@@ -18,7 +17,7 @@ import javafx.concurrent.Task;
 import java.util.List;
 import java.util.ArrayList;
 
-public class SimLoop extends Task<IModelOutput>{
+public class SimLoop extends Task<ModelOutput>{
 	protected AirCraftMap aircraftMap = new AirCraftMap();
 	protected HoldingQueue holdingPattern = new HoldingQueue(500);
 	protected TakeOffQueue takeOffQueue = new TakeOffQueue();
@@ -30,16 +29,18 @@ public class SimLoop extends Task<IModelOutput>{
 	protected int currentTime;
 	protected DataGen dataGen;
 	protected ModelOutput output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue);
-
-	// TODO: add data gen and departure model
 	
+
+	/**
+	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
+	 */
 	public SimLoop(RunWay[] userRunways, int userRuntime){
 		this.runways = new RunWayMap(userRunways);
 		this.runtime = userRuntime;
 		this.currentTime = 0;
 
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
-		this.dataGen = new DataGen(userRuntime, 15, 15); // init with runtime and default flow rate per hour.
+		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
 	}
 	
 	@Override
@@ -56,9 +57,7 @@ public class SimLoop extends Task<IModelOutput>{
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
 			currentTime += Utils.timeInc;
 			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
-		}
-		
+		}	
 		return output;
 	}
-
 }

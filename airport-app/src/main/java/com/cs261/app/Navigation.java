@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Navigation 
@@ -15,7 +16,6 @@ public class Navigation
 
         Parent root = FXMLLoader.load(
         getClass().getResource("start.fxml"));
-
         Stage stage = (Stage) ((Node) event.getSource())
                 .getScene().getWindow();
 
@@ -25,7 +25,7 @@ public class Navigation
     public void goToSecondPage(ActionEvent event) throws IOException 
     {
 
-        
+        Font.loadFont(getClass().getResourceAsStream("/com/cs261/fonts/Inter/Inter-VariableFont_opsz,wght.ttf"), 12);        
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("inputForm.fxml"));
 

@@ -43,13 +43,13 @@ public class RunWay {
 	private final OperationStatus changeStatusTo;
 	private final int[] changeStatusTimes; // changeStatusTimes[0] = start time, changeStatusTimes[1] = end time, in simulation ticks
 	
-	public RunWay(int length, int bearing, OperatingMode mode, OperationStatus change, int[] timeAt) {
-		this.length = length;
-		this.bearing = bearing;
+	public RunWay(float length, float bearing, OperatingMode mode, OperationStatus change, int[] timeAt) {
+		this.length = (int) length;
+		this.bearing = (int) bearing;
 		this.mode = mode;
 		this.status = OperationStatus.AVAILABLE; // always starts as available
 		this.currentPlane = null;
-		this.runwayNumber = calcID(bearing);
+		this.runwayNumber = calcID(this.bearing);
 		this.changeStatusTo = change;
 		this.changeStatusTimes = timeAt;
 

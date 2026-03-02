@@ -15,13 +15,6 @@ import javafx.scene.layout.VBox;
 
 public class RunwayInputController 
 {
-
-    
-
-
-
-
-
     int interruption = 0;
     @FXML
     private Label runwayLabel;
@@ -125,11 +118,9 @@ public class RunwayInputController
                 VBox newSection = loader.load();
 
 
-                // 🔥 Get the controller
                 InterruptionInputController controller = loader.getController();
                 interruptionList.add(controller);
 
-                // 🔥 Modify something inside the FXML
                 //controller.setRunwayTitle("Runway " + interruption);
 
                 int size = interruptionBox.getChildren().size();

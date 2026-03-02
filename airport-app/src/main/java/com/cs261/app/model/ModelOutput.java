@@ -34,8 +34,6 @@ public class ModelOutput implements IModelOutput {
     private int sumArriveWait = 0;
     private int sumDepartWait = 0;
 
-
-
     // STATISTICS TO OUTPUT 
     private double avgArriveDelay;
     private double avgDepartDelay;
