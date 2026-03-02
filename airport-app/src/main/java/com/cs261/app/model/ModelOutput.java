@@ -25,6 +25,7 @@ public class ModelOutput implements IModelOutput {
 
     // aircraft map
     private AirCraftMap aircrafts;
+
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
     private int maxTQueuePlanes = 0;
@@ -41,12 +42,183 @@ public class ModelOutput implements IModelOutput {
     private double avgArriveWait;
     private double avgDepartWait;
 
-    // TODO: total delays out of all flights or just the ones that are delayed? assuming the former for now
+    // TABLES TO OUTPUT 
+    private LocalDateTime[][] graphDepartDifferences;
+    private LocalDateTime[][] graphArrivalDifferences;
+    private String[][] tableAllDepartures;
+    private String[][] tableAllArrivals;
+    private String[][] tableHoldingQueue;
+    private String[][] tableTakeOffQueue;
+    private String[][] tableRunways;
 
     public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways, HoldingQueue holdingPattern, TakeOffQueue takeOffQueue) {
         this.departureModel = departureModel;
         this.arrivalModel = arrivalModel;
         this.runways = runways;
+    }
+
+    // TODO: total delays out of all flights or just the ones that are delayed? assuming the former for now
+
+
+    // GETTERS AND SETTERS FOR KEY STATS, TABLES AND GRAPHS
+        
+    // maximums
+
+    /**
+     * @return the max number of planes that have been in the holding queue
+     */
+    public int getMaxHoldingQueueLength() {
+        return maxHoldingPlanes;
+    }
+
+    /**
+     * @return the max number of planes that have been in the takeoff queue
+     */
+    public int getMaxTakeOffQueueLength() {
+        return maxTQueuePlanes;
+    }
+
+    /**
+     * @return the maximum delay in arrivals in minutes
+     */
+    public int getMaxArriveDelay(){
+        return maxArriveDelay;
+    }
+
+    /**
+     * @return the maximum delay in departures in minutes
+     */
+    public int getMaxDepartDelay(){
+        return maxDepartDelay;
+    }
+    
+    /**
+     * @return average delay in planes arriving in minutes
+     */
+    public double getAvgArriveDelay() {
+        return avgArriveDelay;
+    }
+
+    /**
+     * @return average delay in planes departing in minutes
+     */
+    public double getAvgDepartDelay() {
+        return avgDepartDelay;
+    }
+
+
+    /**
+     * @return the average waiting time for aircraft in the holding queue in minutes
+     */
+    public double getAvgArriveWait() {
+        return avgArriveWait;
+    }
+
+    /**
+     * @return the average wait time for aircraft in the takeoff queue in minutes
+     */
+    public double getAvgDepartWait() {
+        return avgDepartWait;
+    }
+
+    /**
+     * @return table that plots scheduled time against actual exit time of takeoffs
+     */
+    public LocalDateTime[][] getGraphDepartDifferences() {
+        return graphDepartDifferences;
+    }
+
+    /**
+     * @return table that plots scheduled timme against actual exit time of landings
+     */
+    public LocalDateTime[][] getGraphArrivalDifferences() {
+        return graphArrivalDifferences;
+    }
+
+    /**
+     * @return table of every plane that actually departed from the airport
+     */
+    public String[][] getTableAllDepartures() {
+        return tableAllDepartures;
+    }
+
+    /**
+     * @return table of every plane that actually arrived at the airport
+     */
+    public String[][] getTableAllArrivals() {
+        return tableAllArrivals;
+    }
+
+    /**
+     * @return table of every plane that was in the holding queue
+     */
+    public String[][] getTableHoldingQueue() {
+        return tableHoldingQueue;
+    }
+
+    /**
+     * @return table of every plane that was in the take off queue
+     */
+    public String[][] getTableTakeOffQueue() {
+        return tableTakeOffQueue;
+    }
+
+    /**
+     * @return table of runways at the airport
+     */
+    public String[][] getTableRunways() {
+        return tableRunways;
+    }
+
+    /**
+     * @return the total number of airplanes that were scheduled for arrival
+     */
+    public int getTotalArrivalsGenerated() {
+        return arrivalModel.getTotalArrivals();
+    }
+
+    /**
+     * @return total number of planes that were scheduled for departure
+     */
+    public int getTotalDeparturesGenerated() {
+        return departureModel.getTotalDepartures();
+    }
+
+    /**
+     * @return total number of airplanes that actually landed
+     */
+    public int getTotalAircraftLanded() {
+        return arrivalModel.getLanded();
+    }
+
+    /**
+     * @return total number of airplanes that actually took off
+     */
+    public int getTotalAircraftTakenOff() {
+        return departureModel.getTakenOff();
+    }
+
+    // update and finishing methods
+
+    /**
+     * Method that calculates all statistics, tables and graphs and assigns to fields (that have not finished being calculated)
+     */
+
+    public void finishCalculations(){
+        // averages
+        avgArriveDelay = calcAvgArriveDelay();
+        avgDepartDelay = calcAvgDepartDelay();
+        avgArriveWait = getAverageHoldingWaitTime();
+        avgDepartWait = getAverageTakeOffWaitTime();
+
+        // tables and graphs
+        graphArrivalDifferences = arrivalDifferenceGraph();
+        graphDepartDifferences = departDifferenceGraph();
+        tableAllDepartures = departuresTable();
+        tableAllArrivals = arrivalsTable();
+        tableHoldingQueue = holdingQueueTable();
+        tableTakeOffQueue = takeOffQueueTable();
+        tableRunways = runwayTable();
     }
 
     /**
@@ -127,166 +299,37 @@ public class ModelOutput implements IModelOutput {
             }
         }
     }
+    //
 
-
-    // Metrics
-
-    /**
-     * @return the total number of airplanes that were scheduled for arrival
-     */
-    public int getTotalArrivalsGenerated() {
-        return arrivalModel.getTotalArrivals();
-    }
-
-    /**
-     * @return total number of planes that were scheduled for departure
-     */
-    public int getTotalDeparturesGenerated() {
-        return departureModel.getTotalDepartures();
-    }
-
-    /**
-     * @return total number of airplanes that actually landed
-     */
-    public int getTotalAircraftLanded() {
-        return arrivalModel.getLanded();
-    }
-
-    /**
-     * @return total number of airplanes that actually took off
-     */
-    public int getTotalAircraftTakenOff() {
-        return departureModel.getTakenOff();
-    }
-
-    /**
-     * @return the max number of planes that have been in the holding queue
-     */
-    public int getMaxHoldingQueueLength() {
-        return maxHoldingPlanes;
-    }
-
-    /**
-     * @return the max number of planes that have been in the takeoff queue
-     */
-    public int getMaxTakeOffQueueLength() {
-        return maxTQueuePlanes;
-    }
-
-
-    public int getMaxArriveDelay(){
-        return maxArriveDelay;
-    }
-
-    public int getMaxDepartDelay(){
-        return maxDepartDelay;
-    }
+    // Calculating statisitics and tables 
 
     /**
      * @return the average delay of planes that landed at the airport
      */
-    public double getAvgArriveDelay(){
-        avgArriveDelay = sumArriveDelay / arrivalModel.getLanded();
-        return avgArriveDelay;
+    public double calcAvgArriveDelay(){
+        return (sumArriveDelay / arrivalModel.getLanded());
     }
 
     /**
      * @return the average delay of planes that took off at the airport
      */
-    public double getAvgDepartDelay(){
-        avgDepartDelay = sumDepartDelay / departureModel.getTakenOff();
-        return avgDepartDelay;
+    public double calcAvgDepartDelay(){
+        return (sumDepartDelay / departureModel.getTakenOff());
     }
 
     /**
      * @return the average wait time of planes that landed at the airport 
      */
     public double getAverageHoldingWaitTime() {
-        avgArriveWait = sumArriveWait / arrivalModel.getLanded();
-        return avgArriveWait;
+        return (sumArriveWait / arrivalModel.getLanded());
     }
 
     /**
      * @return the average wait time of planes that took off at the airport
      */
     public double getAverageTakeOffWaitTime(){
-        avgDepartWait = sumDepartWait / departureModel.getTakenOff();
-        return avgDepartWait;
+        return (sumDepartWait / departureModel.getTakenOff());
     }
-
-    // lists and maps 
-    /**
-     * Returns each runway and which aircraft it is occupied by currently (if any)
-     * @return a map of runway numbers to the call sign of the occupying aircraft,
-     * or an empty string if the runway is free
-     */
-    @Override
-    public Map<String, String> getRunwayOccupancy() {
-        Map<String, String> occupancies = new HashMap<>();
-        for (RunWay r : runways.getRunways()) {
-            String currentPlane = "";
-            // gets current plane, or an empty string if there is none
-            if (r.hasPlane()) {
-                currentPlane = r.getCurrentPlane();
-            } 
-            occupancies.put(r.getRunwayNumber(), currentPlane);
-        }
-        return occupancies;
-    }
-
-    /**
-     * Returns each runway and which mode it is in
-     * @return a map of runway numbers to the mode of the runway
-     */
-    @Override
-    public Map<String, String> getRunwayModes() {
-        Map<String, String> modes = new HashMap<>();
-        for (RunWay r : runways.getRunways()) {
-            modes.put(r.getRunwayNumber(), r.getMode().toString()); // enum name here as string
-        }
-        return modes;
-    }
-
-    /**
-     * Returns each runway and what its closure status is
-     * @return a map of runway numbers to the closure status of the runway
-     */
-    @Override
-    public Map<String, Boolean> getRunwayClosureStatus() {
-        Map<String, Boolean> statuses = new HashMap<>();
-        for (RunWay r : runways.getRunways()) {
-            // returns true if runway is available, false if closed
-            statuses.put(r.getRunwayNumber(), r.getStatus() == RunWay.OperationStatus.AVAILABLE);
-        }
-        return statuses;
-    }
-
-    /**
-     * Returns the aircraft ids of each aircraft in the holding pattern
-     * 
-     * @return a set of the aircraft ids of each aircraft in the holding pattern
-     */
-    @Override
-    public Set<String> getHoldingAircraftIds() {
-        return arrivalModel.getHoldingPatternAircraftIds();
-    }
-
-    /**
-     * Returns the aircraft ids of each aircraft in the takeoff queue
-     * 
-     * @return a set of the aircraft ids of each aircraft in the takeoff queue
-     */
-    @Override
-    public Set<String> getTakeOffAircraftIds() {
-        return departureModel.getTakeOffQueueAircraftIds();
-    }
-
-    @Override
-    public Set<String> getExitedAircraftIds() {
-        return allExits;   
-    }
-
-    // METHODS TO GET DATA FOR EACH TABLE...
 
     /**
      * Returns table of runway configurations. 
@@ -407,4 +450,76 @@ public class ModelOutput implements IModelOutput {
         return graph;
     }
 
+    // lists and maps 
+
+    /**
+     * Returns each runway and which aircraft it is occupied by currently (if any)
+     * @return a map of runway numbers to the call sign of the occupying aircraft,
+     * or an empty string if the runway is free
+     */
+    @Override
+    public Map<String, String> getRunwayOccupancy() {
+        Map<String, String> occupancies = new HashMap<>();
+        for (RunWay r : runways.getRunways()) {
+            String currentPlane = "";
+            // gets current plane, or an empty string if there is none
+            if (r.hasPlane()) {
+                currentPlane = r.getCurrentPlane();
+            } 
+            occupancies.put(r.getRunwayNumber(), currentPlane);
+        }
+        return occupancies;
+    }
+
+    /**
+     * Returns each runway and which mode it is in
+     * @return a map of runway numbers to the mode of the runway
+     */
+    @Override
+    public Map<String, String> getRunwayModes() {
+        Map<String, String> modes = new HashMap<>();
+        for (RunWay r : runways.getRunways()) {
+            modes.put(r.getRunwayNumber(), r.getMode().toString()); // enum name here as string
+        }
+        return modes;
+    }
+
+    /**
+     * Returns each runway and what its closure status is
+     * @return a map of runway numbers to the closure status of the runway
+     */
+    @Override
+    public Map<String, Boolean> getRunwayClosureStatus() {
+        Map<String, Boolean> statuses = new HashMap<>();
+        for (RunWay r : runways.getRunways()) {
+            // returns true if runway is available, false if closed
+            statuses.put(r.getRunwayNumber(), r.getStatus() == RunWay.OperationStatus.AVAILABLE);
+        }
+        return statuses;
+    }
+
+    /**
+     * Returns the aircraft ids of each aircraft in the holding pattern
+     * 
+     * @return a set of the aircraft ids of each aircraft in the holding pattern
+     */
+    @Override
+    public Set<String> getHoldingAircraftIds() {
+        return arrivalModel.getHoldingPatternAircraftIds();
+    }
+
+    /**
+     * Returns the aircraft ids of each aircraft in the takeoff queue
+     * 
+     * @return a set of the aircraft ids of each aircraft in the takeoff queue
+     */
+    @Override
+    public Set<String> getTakeOffAircraftIds() {
+        return departureModel.getTakeOffQueueAircraftIds();
+    }
+
+    @Override
+    public Set<String> getExitedAircraftIds() {
+        return allExits;   
+    }
 }
