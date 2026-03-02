@@ -1,0 +1,156 @@
+/* Design doc colour scheme: Dark Blue #014795, Medium Blue #2D78B8, Light Blue #A6BEDA, White #FFFFFF, Dark Grey #484846 */
+
+.root {
+    -fx-dark-blue:    #014795;
+    -fx-medium-blue:  #2D78B8;
+    -fx-light-blue:   #A6BEDA;
+    -fx-white:        #FFFFFF;
+    -fx-dark-grey:    #484846;
+    -fx-font-family:  "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+/* Start page & general */
+.title-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-dark-grey;
+}
+
+.primary-button {
+    -fx-background-color: -fx-medium-blue;
+    -fx-text-fill: -fx-white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 24 10 24;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.primary-button:hover {
+    -fx-background-color: -fx-dark-blue;
+}
+.primary-button:pressed {
+    -fx-background-color: -fx-dark-blue;
+}
+
+.secondary-button {
+    -fx-background-color: -fx-light-blue;
+    -fx-text-fill: -fx-dark-grey;
+    -fx-font-size: 14px;
+    -fx-padding: 10 24 10 24;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.secondary-button:hover {
+    -fx-background-color: derive(-fx-light-blue, -10%);
+}
+
+/* Results layout */
+.sidebar {
+    -fx-background-color: -fx-dark-grey;
+    -fx-padding: 16;
+}
+.sidebar-button {
+    -fx-background-color: -fx-medium-blue;
+    -fx-text-fill: -fx-white;
+    -fx-font-size: 13px;
+    -fx-padding: 10 12 10 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+.sidebar-button:hover {
+    -fx-background-color: -fx-dark-blue;
+}
+
+.toolbar {
+    -fx-background-color: -fx-light-blue;
+    -fx-padding: 12 16 12 16;
+}
+.toolbar .text-field {
+    -fx-background-radius: 6;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 13px;
+}
+.toolbar .button {
+    -fx-background-color: -fx-dark-grey;
+    -fx-text-fill: -fx-white;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 8 12 8 12;
+}
+.toolbar .button:hover {
+    -fx-background-color: derive(-fx-dark-grey, 15%);
+}
+
+/* Key values page */
+.key-value-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-dark-grey;
+}
+.key-value-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-dark-blue;
+}
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-dark-grey;
+    -fx-padding: 8 0 4 0;
+}
+
+/* Popup menu */
+.popup-panel {
+    -fx-background-color: -fx-white;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-dark-grey;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 2, 2);
+}
+.popup-panel .tab-pane {
+    -fx-background-color: -fx-white;
+}
+.popup-panel .tab-header-area {
+    -fx-background-color: -fx-light-blue;
+    -fx-padding: 4 8 0 8;
+}
+.popup-panel .tab {
+    -fx-background-radius: 6 6 0 0;
+    -fx-padding: 8 16 8 16;
+}
+.popup-panel .tab:selected {
+    -fx-background-color: -fx-white;
+}
+.popup-panel .close-button {
+    -fx-background-color: -fx-dark-grey;
+    -fx-text-fill: -fx-white;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 8 20 8 20;
+}
+.popup-panel .close-button:hover {
+    -fx-background-color: -fx-medium-blue;
+}
+
+/* Form / input */
+.form-card {
+    -fx-background-color: -fx-white;
+    -fx-background-radius: 12;
+    -fx-border-color: -fx-dark-grey;
+    -fx-border-radius: 12;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);
+}
+.form-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-dark-grey;
+}
+.form-button {
+    -fx-background-color: -fx-medium-blue;
+    -fx-text-fill: -fx-white;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 8 16 8 16;
+}
+.form-button:hover {
+    -fx-background-color: -fx-dark-blue;
+}
