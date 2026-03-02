@@ -110,14 +110,14 @@ public class ModelOutput implements IModelOutput {
     /**
      * @return the average waiting time for aircraft in the holding queue in minutes
      */
-    public double getAvgArriveWait() {
+    public double getAverageHoldingWaitTime() {
         return avgArriveWait;
     }
 
     /**
      * @return the average wait time for aircraft in the takeoff queue in minutes
      */
-    public double getAvgDepartWait() {
+    public double getAverageTakeOffWaitTime() {
         return avgDepartWait;
     }
 
@@ -208,8 +208,8 @@ public class ModelOutput implements IModelOutput {
         // averages
         avgArriveDelay = calcAvgArriveDelay();
         avgDepartDelay = calcAvgDepartDelay();
-        avgArriveWait = getAverageHoldingWaitTime();
-        avgDepartWait = getAverageTakeOffWaitTime();
+        avgArriveWait = calcAverageHoldingWaitTime();
+        avgDepartWait = calcAverageTakeOffWaitTime();
 
         // tables and graphs
         graphArrivalDifferences = arrivalDifferenceGraph();
@@ -320,14 +320,14 @@ public class ModelOutput implements IModelOutput {
     /**
      * @return the average wait time of planes that landed at the airport 
      */
-    public double getAverageHoldingWaitTime() {
+    public double calcAverageHoldingWaitTime() {
         return (sumArriveWait / arrivalModel.getLanded());
     }
 
     /**
      * @return the average wait time of planes that took off at the airport
      */
-    public double getAverageTakeOffWaitTime(){
+    public double calcAverageTakeOffWaitTime(){
         return (sumDepartWait / departureModel.getTakenOff());
     }
 
