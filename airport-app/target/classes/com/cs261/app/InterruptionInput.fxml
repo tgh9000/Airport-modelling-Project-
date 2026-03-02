@@ -30,19 +30,19 @@
                 <padding>
                 <Insets right="10.0" />
                 </padding></Label>
-            <TextField prefHeight="21.0" prefWidth="59.0" promptText="Days" fx:id="daysField">
+            <TextField prefHeight="21.0" prefWidth="59.0" promptText="Days">
                 <font>
                 <Font size="10.0" />
                 </font>
             </TextField>
             <Label text=":" />
-            <TextField prefHeight="21.0" prefWidth="59.0" promptText="Hours" fx:id="hoursField">
+            <TextField prefHeight="21.0" prefWidth="59.0" promptText="Hours">
                 <font>
                 <Font size="10.0" />
                 </font>
             </TextField>
             <Label text=":" />
-            <TextField prefHeight="21.0" prefWidth="59.0" promptText="Minutes" fx:id="minutesField">
+            <TextField prefHeight="21.0" prefWidth="59.0" promptText="Minutes">
                 <font>
                 <Font size="10.0" />
                 </font>
@@ -51,7 +51,7 @@
                 <padding>
                 <Insets left="10.0" />
                 </padding></Label>
-            <TextField HBox.hgrow="ALWAYS" fx:id="durationField" promptText="Duration">
+            <TextField HBox.hgrow="ALWAYS">
                 <font>
                 <Font size="10.0" />
                 </font>
