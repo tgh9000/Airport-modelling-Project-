@@ -4,34 +4,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 
-<StackPane prefHeight="1000.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.Navigation">
+<StackPane prefHeight="1000.0" prefWidth="1000.0" style="-fx-background-color: #A6BEDA;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.Navigation">
    <children>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="100.0" StackPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="48.0" StackPane.alignment="CENTER" style="-fx-padding: 40;">
          <children>
-            <HBox alignment="CENTER" prefHeight="400.0" prefWidth="200.0" spacing="30.0">
+            <Label styleClass="title-label" text="Team 36 Airport Modelling" />
+            <ImageView fitHeight="120.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@companyLogo.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="CENTER" spacing="14.0">
                <children>
-                  <Label text="Team 36 modelling project">
-                     <font>
-                        <Font size="35.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@companyLogo.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="1000.0" spacing="30.0">
-               <children>
-                   <Button alignment="BOTTOM_CENTER" onAction="#goToSecondPage" prefHeight="21.0" prefWidth="200.0" text="Load new simulation" />
-                  <Button mnemonicParsing="false" onAction="#closeApp" prefWidth="200.0" text="Close application" />
+                  <Button styleClass="primary-button" minWidth="220.0" mnemonicParsing="false" onAction="#goToSecondPage" text="Load new simulation" />
+                  <Button styleClass="secondary-button" minWidth="220.0" mnemonicParsing="false" onAction="#goToResults" text="Go to results page (temp)" />
+                  <Button styleClass="secondary-button" minWidth="220.0" mnemonicParsing="false" onAction="#closeApp" text="Close application" />
                </children>
             </VBox>
          </children>
