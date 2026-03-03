@@ -110,10 +110,18 @@ public class HoldingQueue {
 	 * @return root of heap
 	 */
 	public AirCraft dequeue() {
+		System.out.println("try dequeue");
+
+		if (isEmpty()){
+			return null;
+		} 
+		
 		AirCraft result = heap[0].getAircraft();
 		heap[0] = heap[size - 1]; // move the lowest rightmost node on tree to here
 		heap[size - 1] = null; // no duplicate planes
+		size--;
 		downheap(0);
+		System.out.println("dequeue");
 		return result;
 	}
 	/**
@@ -138,16 +146,26 @@ public class HoldingQueue {
 	 * @param i node to down heap from
 	 */
 	private void downheap(int i) {
-		if (i >= size) {
+		if (i >= size() || size() < 2) {
 			return;
 		}
-		
+
 		// find child with the greatest emergency priority
 		int check;
-		if (getRight(i).compareTo(getLeft(i)) > 0){ // if right child node is more important than the left child node, compare it against parent
+		HoldingEntry left = getLeft(i);
+		HoldingEntry right = getRight(i);
+
+		//  there has to be at least two nodes for this to run so only check if left or right is null
+		if (left == null){
 			check = (2 * i) + 2;
-		} else {
-			check = (2 * i) + 1; // if theyre the same or left is more important just check left
+		} else if (right == null){
+			check = (2 * i) + 1;
+		} else { // none of them are null
+			if (right.compareTo(left) > 0){ // if right child node is more important than the left child node, compare it against parent
+				check = (2 * i) + 2;
+			} else {
+				check = (2 * i) + 1; // if theyre the same or left is more important just check left
+			}		
 		}
 		// if the node i is strictly less important than its most important child, swap
 		if (heap[i].compareTo(heap[check]) < 0){
@@ -190,12 +208,16 @@ public class HoldingQueue {
 	 */
 	public ArrayList<AirCraft> getEmergencyPlanes(){
 		ArrayList<AirCraft> temp = new ArrayList<>();
-		for (HoldingEntry entry : heap){
-			// if the current node has a 0 emergency status, just stop
-			if (entry.getAircraft().getEmergencyStatus() == EmergencyStatus.NONE){
-				break;
-			} else {
-				temp.add(entry.getAircraft());
+		for (int i = 0; i < heap.length; i++){
+			System.out.println("k");
+			// // if the current node has a 0 emergency status, just stop
+			// if (heap[i].getAircraft().getEmergencyStatus() == EmergencyStatus.NONE){
+			// 	break;
+			// } else {
+			// 	temp.add(heap[i].getAircraft());
+			// }
+			if (heap[i].getAircraft().getEmergencyStatus() != EmergencyStatus.NONE){
+				temp.add(heap[i].getAircraft());
 			}
 		}
 
