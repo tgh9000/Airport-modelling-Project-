@@ -129,11 +129,16 @@ public class HoldingQueue {
 	 * @param i node you are moving up the tree
 	 */
 	private void upHeap(int i) {
-		if (i == 0) {
+		if (i == 0 || size() < 2) {
+			return;
+		}
+
+		HoldingEntry parent = getParent(i);
+		if (parent == null){
 			return;
 		}
 		// if the i'th entry is more important, swap
-		if (heap[i].compareTo(getParent(i)) > 0){
+		if (heap[i].compareTo(parent) > 0){
 			int j = (int) (i - 1) / 2;
 			swap(i, j);
 			upHeap(j);
@@ -156,17 +161,21 @@ public class HoldingQueue {
 		HoldingEntry right = getRight(i);
 
 		//  there has to be at least two nodes for this to run so only check if left or right is null
-		if (left == null){
+
+		if (left == null && right == null){
+			return; 
+		} else if (left == null && right != null){
 			check = (2 * i) + 2;
-		} else if (right == null){
+		} else if (left != null && right == null){
 			check = (2 * i) + 1;
-		} else { // none of them are null
+		} else {
 			if (right.compareTo(left) > 0){ // if right child node is more important than the left child node, compare it against parent
 				check = (2 * i) + 2;
 			} else {
 				check = (2 * i) + 1; // if theyre the same or left is more important just check left
-			}		
+			}	
 		}
+
 		// if the node i is strictly less important than its most important child, swap
 		if (heap[i].compareTo(heap[check]) < 0){
 			swap(i, check); // swap 
