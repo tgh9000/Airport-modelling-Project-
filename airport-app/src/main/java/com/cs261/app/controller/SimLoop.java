@@ -57,8 +57,10 @@ public class SimLoop extends Task<ModelOutput>{
 			departureModel.updateDepartures(newDepartures, currentTime);
 			// traffic controller update, check runways and stuff
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
+			System.out.println("returned traffic");
 			currentTime += Utils.timeInc;
 			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
+			System.out.println("returned output");
 			progress.set(currentTime / runtime);
 		}	
 		return output;

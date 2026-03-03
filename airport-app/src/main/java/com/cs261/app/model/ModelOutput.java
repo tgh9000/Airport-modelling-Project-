@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+
 import com.cs261.app.model.AirCraft.FlightType;
 import com.cs261.app.model.RunWay.OperationStatus;
 
@@ -226,13 +229,18 @@ public class ModelOutput implements IModelOutput {
      */
     public void updateOutput(ArrayList<String> exitedPlanes, int holdingSz, int takeOffSz){
 		if (exitedPlanes.isEmpty()){
+            System.out.println("exits");
             return;
         }
         // sort the planes. this list will have max 10 planes on it in one iteration of the simulations as it has planes that are just off the runways. 
         exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
+        System.out.println("sorting");
         updateMaxHolding(holdingSz);
+        System.out.println("holding");
         updateMaxTQueue(takeOffSz);
+        System.out.println("rkaeofft");
         updateSumsAndMaxs(exitedPlanes);
+        System.out.println("finished model output");
     }
 
     /**
@@ -256,7 +264,9 @@ public class ModelOutput implements IModelOutput {
      * @param exits planes that have exitted the simulation in the current iteration
      */
     private void updateSumsAndMaxs(ArrayList<String> exits){
-        for (String e : exits){
+        Iterator<String> iterator = exits.iterator();
+        String e = iterator.next();
+        while (iterator.hasNext()){
             AirCraft plane = aircrafts.get(e);
             // its only delayed if it leaves the sim AFTER its scheduled time
             // now calculate wait times
@@ -297,6 +307,7 @@ public class ModelOutput implements IModelOutput {
                 exitedDepartures.add(plane);
                 allExits.add(e);
             }
+            e = iterator.next();
         }
     }
     //
