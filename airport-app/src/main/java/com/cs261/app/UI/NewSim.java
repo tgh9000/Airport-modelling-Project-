@@ -171,7 +171,7 @@ public class NewSim
 
 
         // load waiting screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("simulationWait.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/simulationWait.fxml"));
         Parent root = loader.load();
 
         SimulationWait controller = loader.getController();
