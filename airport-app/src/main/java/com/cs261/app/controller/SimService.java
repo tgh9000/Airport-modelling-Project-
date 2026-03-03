@@ -25,7 +25,9 @@ public class SimService extends Service<ModelOutput>{
      */
     @Override
     protected Task<ModelOutput> createTask() {
-        return new SimLoop(runwayInput, runtimeInput, taskProgress);  
+        SimLoop myTask = new SimLoop(runwayInput, runtimeInput);
+        taskProgress.bind(myTask.progressProperty());
+        return myTask;
     }
 
     /**

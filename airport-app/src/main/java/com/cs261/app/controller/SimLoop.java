@@ -31,16 +31,14 @@ public class SimLoop extends Task<ModelOutput>{
 	protected int currentTime;
 	protected DataGen dataGen;
 	protected ModelOutput output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue);
-	private DoubleProperty progress;
 
 	/**
 	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
 	 */
-	public SimLoop(RunWay[] userRunways, int userRuntime, DoubleProperty progress){
+	public SimLoop(RunWay[] userRunways, int userRuntime){
 		this.runways = new RunWayMap(userRunways);
 		this.runtime = userRuntime;
 		this.currentTime = 0;
-		this.progress = progress;
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
 		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
 	}
@@ -62,8 +60,9 @@ public class SimLoop extends Task<ModelOutput>{
 			currentTime += Utils.timeInc;
 			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
 			System.out.println("returned output");
-			Platform.runLater(() -> progress.set(currentTime / runtime));
+			updateProgress((double) currentTime, (double) runtime);
 		}	
+		System.out.println("finished everything");
 		return output;
 	}
 }
