@@ -30,7 +30,7 @@ public class SimLoop extends Task<ModelOutput>{
 	protected int runtime;
 	protected int currentTime;
 	protected DataGen dataGen;
-	protected ModelOutput output = new ModelOutput(aircraftMap, departureModel, arrivalModel, runways);
+	protected ModelOutput output;
 
 	/**
 	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
@@ -41,6 +41,7 @@ public class SimLoop extends Task<ModelOutput>{
 		this.currentTime = 0;
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
 		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
+		this.output = new ModelOutput(aircraftMap, departureModel, arrivalModel, runways);
 	}
 	
 	@Override
@@ -62,6 +63,7 @@ public class SimLoop extends Task<ModelOutput>{
 			System.out.println("returned output");
 			updateProgress((double) currentTime, (double) runtime);
 		}	
+		output.finishCalculations();
 		System.out.println("finished everything");
 		return output;
 	}

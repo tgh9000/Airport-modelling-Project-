@@ -211,18 +211,29 @@ public class ModelOutput implements IModelOutput {
     public void finishCalculations(){
         // averages
         avgArriveDelay = calcAvgArriveDelay();
+        System.out.println("calcAvgArriveDelay");
         avgDepartDelay = calcAvgDepartDelay();
+        System.out.println("calcAvgDepartDelay");
         avgArriveWait = calcAverageHoldingWaitTime();
+        System.out.println("calcAverageHoldingWaitTime");
         avgDepartWait = calcAverageTakeOffWaitTime();
+        System.out.println("calcAverageTakeOffWaitTime");
 
         // tables and graphs
         graphArrivalDifferences = arrivalDifferenceGraph();
+        System.out.println("arrivalDifferenceGraph");
         graphDepartDifferences = departDifferenceGraph();
+        System.out.println("departDifferenceGraph");
         tableAllDepartures = departuresTable();
+        System.out.println("departuresTable");
         tableAllArrivals = arrivalsTable();
+        System.out.println("arrivalsTable");
         tableHoldingQueue = holdingQueueTable();
+        System.out.println("holdingQueueTable");
         tableTakeOffQueue = takeOffQueueTable();
+        System.out.println("takeOffQueueTable");
         tableRunways = runwayTable();
+        System.out.println("runwayTable");
     }
 
     /**
@@ -357,27 +368,34 @@ public class ModelOutput implements IModelOutput {
      * note that the last three columns will be "N/A" if the status of the runway does not change during runtime
      */
     public String[][] runwayTable(){
-        String[][] table = new String[runways.size()][13];
-        RunWay[] runwayList = runways.getRunways();
-        for (int i = 0; i < runwayList.length; i++){
-            table[i][0] = runwayList[i].getRunwayNumber();
-            table[i][1] = runwayList[i].getMode().toString();
-            table[i][2] = runwayList[i].getStatus().toString();
-            table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
+        try {
+            String[][] table = new String[runways.size()][13];
+            RunWay[] runwayList = runways.getRunways();
+            for (int i = 0; i < runwayList.length; i++){
+                table[i][0] = runwayList[i].getRunwayNumber();
+                table[i][1] = runwayList[i].getMode().toString();
+                table[i][2] = runwayList[i].getStatus().toString();
+                table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
+                System.out.println("basic");
+                for (int j = 4; j < 13; j++){
+                    table[i][j] = "N/A";
+                }
+                System.out.println("extras");
+                OperationStatus[] changes = runwayList[i].getChangedStatus();
 
-            for (int j = 4; j < 13; j++){
-                table[i][j] = "N/A";
+                for (int j = 0; j < changes.length; j++){
+                    System.out.println("sm");
+                    table[i][4 + (3 * j)] = changes[i].toString();
+                    table[i][5 + (3 * j)] = runwayList[i].getStatusChangeStartTime(j).toString();
+                    table[i][6 + (3 * j)] = runwayList[i].getStatusChangeEndTime(j).toString();
+                }          
+                System.out.printf("finsihed runway %d \n", i);
             }
-
-            OperationStatus[] changes = runwayList[i].getChangedStatus();
-
-            for (int j = 0; j < changes.length; j++){
-                table[i][4 + (3 * j)] = changes[i].toString();
-                table[i][5 + (3 * j)] = runwayList[i].getStatusChangeStartTime(j).toString();
-                table[i][6 + (3 * j)] = runwayList[i].getStatusChangeEndTime(j).toString();
-            }          
+            return table;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        return table;
     }
 
     /**
