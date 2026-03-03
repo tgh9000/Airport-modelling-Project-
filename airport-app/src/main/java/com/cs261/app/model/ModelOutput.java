@@ -54,10 +54,11 @@ public class ModelOutput implements IModelOutput {
     private String[][] tableTakeOffQueue;
     private String[][] tableRunways;
 
-    public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways, HoldingQueue holdingPattern, TakeOffQueue takeOffQueue) {
+    public ModelOutput(AirCraftMap aircraftmap, DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways) {
         this.departureModel = departureModel;
         this.arrivalModel = arrivalModel;
         this.runways = runways;
+        this.aircrafts = aircraftmap;
     }
 
     // TODO: total delays out of all flights or just the ones that are delayed? assuming the former for now
@@ -265,8 +266,10 @@ public class ModelOutput implements IModelOutput {
      */
     private void updateSumsAndMaxs(ArrayList<String> exits){
         Iterator<String> iterator = exits.iterator();
-        String e = iterator.next();
+        String e = null;
         while (iterator.hasNext()){
+            e = iterator.next();
+            System.out.printf("Plane exitting %s \n", e);
             AirCraft plane = aircrafts.get(e);
             // its only delayed if it leaves the sim AFTER its scheduled time
             // now calculate wait times
@@ -283,8 +286,11 @@ public class ModelOutput implements IModelOutput {
             if (plane.getExitTime().isAfter(plane.getScheduled())){ // only check this if it was delayed
                 delay = (int) Duration.between(plane.getScheduled(), plane.getExitTime()).toMinutes();
             } 
+            System.out.printf("calc delay %d \n", delay);
             int waitTime = (int) Duration.between(plane.getEntryTime(), plane.getExitTime()).toMinutes();
             if (plane.getFlightType() == FlightType.ARRIVAL){
+                System.out.printf("arrival waittime\n");
+
                 maxArriveDelay = ((delay > maxArriveDelay) ? delay : maxArriveDelay);
                 sumArriveDelay += delay;
                 sumArriveWait += waitTime;
@@ -296,6 +302,8 @@ public class ModelOutput implements IModelOutput {
                 exitedArrivals.add(plane);
                 allExits.add(e);
             } else {
+                System.out.printf("depart waittime\n");
+
                 maxDepartDelay = ((delay > maxDepartDelay) ? delay : maxDepartDelay);
                 sumDepartDelay += delay;
                 sumDepartWait += waitTime;
@@ -307,7 +315,6 @@ public class ModelOutput implements IModelOutput {
                 exitedDepartures.add(plane);
                 allExits.add(e);
             }
-            e = iterator.next();
         }
     }
     //

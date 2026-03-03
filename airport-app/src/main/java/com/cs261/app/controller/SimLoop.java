@@ -30,7 +30,7 @@ public class SimLoop extends Task<ModelOutput>{
 	protected int runtime;
 	protected int currentTime;
 	protected DataGen dataGen;
-	protected ModelOutput output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue);
+	protected ModelOutput output = new ModelOutput(aircraftMap, departureModel, arrivalModel, runways);
 
 	/**
 	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
