@@ -20,7 +20,7 @@ public class SimService extends Service<ModelOutput>{
 
 
     /**
-     * Create background task
+     * Create background task, the simulation itself
      */
     @Override
     protected Task<ModelOutput> createTask() {
