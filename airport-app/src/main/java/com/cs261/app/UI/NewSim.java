@@ -57,7 +57,7 @@ public class NewSim
     private List<RunwayInputController> runwaysList = new ArrayList<>();
 
     @FXML
-    private void  checkSim()
+    private void  checkSim(ActionEvent event) throws IOException
     {
 
         errorMessage("loading...");
@@ -168,10 +168,17 @@ public class NewSim
         }
 
         errorMessage("All inputs valid! Ready to run simulation.");
-        //runwayArray[0].getInterruptions().get(0).print();
 
 
-    
+        // load waiting screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/simulationWait.fxml"));
+        Parent root = loader.load();
+
+        SimulationWait controller = loader.getController();
+        controller.startSim(runwayArray, dayNum, hourNum, minuteNum, failureProb, cancellationTime);
+        
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(root);
     }
 
     

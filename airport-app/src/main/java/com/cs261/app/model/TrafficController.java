@@ -50,11 +50,18 @@ public class TrafficController {
 
 		ArrayList<String> exitedPlanes = new ArrayList<>(); // list of all planes that exit their queues (take off or holding) in this iteration of the simulation
 
-		handleArrivals(exitedPlanes, currentTime);
-		handleDiversions(currentTime); 		// handle diversions stuff here
+		if (!holdingPattern.isEmpty()){
+			handleArrivals(exitedPlanes, currentTime);
+			System.out.println("handled arrivals");
+			handleDiversions(currentTime); 		// handle diversions stuff here
+		}
+		System.out.println("arrivals");
 
-		handleDepartures(exitedPlanes, currentTime);
-		handleCancellations(currentTime); 		// handle cancellations stuff here
+		if (!takeoffQueue.isEmpty()){
+			handleDepartures(exitedPlanes, currentTime);
+			handleCancellations(currentTime); 		// handle cancellations stuff here
+		}
+		System.out.println("departures");
 
 		/**
 		 * Check if the planes currently occupying each unavailable runway has finished its time on the runway 
@@ -64,7 +71,7 @@ public class TrafficController {
 		checkBusyRunways(currentTime, OperatingMode.TAKEOFF);
 
 		// check if any runways need to be converted because other runways have closed within the intreval [currenttime, currenttime + timeinc]
-
+		System.out.println("updateTraffic");
 		return exitedPlanes;
 	}
 
@@ -93,8 +100,10 @@ public class TrafficController {
 			/** for each available arrival runway, dequeue the holding queue.
 			 * Planes do not have to wait more if there are runways immediately available. 
 			 */
+			System.out.println("Help me");
 			while (!freeArrivals.isEmpty()){
-				RunWay landing = freeArrivals.get(0); // always pick from front of the list
+				System.out.println("Hoho");
+				RunWay landing = freeArrivals.remove(0); // always pick from front of the list
 				AirCraft front = holdingPattern.dequeue(); 
 				landing.addPlane(front); // assign the front plane to the available runway
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
@@ -115,9 +124,10 @@ public class TrafficController {
 		ArrayList<RunWay> freeDepartures = runways.getFreeRunways(OperatingMode.TAKEOFF); // all available arrival runways (inc. mixed mode on arrival turn)
 		if (freeDepartures.isEmpty()){ 				
         ArrayList<AirCraft> dangerPlanes = takeoffQueue.inCancellationDanger(currentTime);
-
+		System.out.println("departures got runways");
 		// if there are free mixed runways, put any planes in danger of cancellation on those
         for (AirCraft front : dangerPlanes) {
+			System.out.println("departure loop");
             RunWay mixed = runways.getMixedRunWay();
             if (mixed != null) {
                 takeoffQueue.remove(front); 
@@ -132,7 +142,8 @@ public class TrafficController {
 			 * Planes do not have to wait more if there are runways immediately available. 
 			 */
 			while (!freeDepartures.isEmpty()){
-				RunWay takeoff = freeDepartures.get(0); // always pick from front of the list
+				System.out.println("departure loop");
+				RunWay takeoff = freeDepartures.remove(0); // always pick from front of the list
 				AirCraft front = takeoffQueue.dequeue(); 
 				takeoff.addPlane(front); // assign the front plane to the available runway
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
@@ -148,13 +159,16 @@ public class TrafficController {
 	 * @param currentTime number of ticks elapsed so far
 	 */
 	private void handleDiversions(int currentTime){
+		System.out.println("diversions");
 		ArrayList<AirCraft> emergencies = holdingPattern.getEmergencyPlanes();
 		for (AirCraft a : emergencies){ 
+			System.out.println("diversion loop");
 			if ((currentTime - a.getEmergencyTime()) >= Utils.emergencyTime){
 				a.setExitTime(Utils.convertTicksToDate(currentTime));
 				a.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
 			}
 		}
+		System.out.println("finish");
 	}
 
 	/** Check if the planes in the takeoff queue have been there longer than the maximum

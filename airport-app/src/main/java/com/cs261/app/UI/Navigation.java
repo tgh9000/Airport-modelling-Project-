@@ -24,11 +24,8 @@ public class Navigation
 
     public void goToSecondPage(ActionEvent event) throws IOException 
     {
-
-        Font.loadFont(getClass().getResourceAsStream("/com/cs261/fonts/Inter/Inter-VariableFont_opsz,wght.ttf"), 12);        
         FXMLLoader loader =
-                new FXMLLoader(getClass().getResource("inputForm.fxml"));
-
+                new FXMLLoader(getClass().getResource("/com/cs261/app/inputForm.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource())
