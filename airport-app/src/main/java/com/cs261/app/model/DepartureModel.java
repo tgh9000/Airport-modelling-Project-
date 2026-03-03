@@ -36,6 +36,7 @@ public class DepartureModel {
 		}
 		
 		i = null;
+		System.out.println("updateDepartures");
 	}
 
 	/**

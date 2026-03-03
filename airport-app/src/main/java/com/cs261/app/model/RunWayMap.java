@@ -58,8 +58,8 @@ public class RunWayMap {
 	 * @param time
 	 */
 	public void addRunwaysStatusChange(int time){
-		for (RunWay r : runways){
-			r.addStatus(time);
+		for (int r = 0; r < runways.length; r++){
+			runways[r].addStatus(time);
 		}
 	}
 
@@ -68,8 +68,8 @@ public class RunWayMap {
 	 * @param time 
 	 */
 	public void removeRunWaysStatusChange(int time){
-		for (RunWay r : runways){
-			r.removeStatus(time);
+		for (int r = 0; r < runways.length; r++){
+			runways[r].removeStatus(time);
 		}
 	}
 
@@ -80,8 +80,8 @@ public class RunWayMap {
 	 */
 	public int checkAvailable(OperatingMode mode){
 		int count = 0;
-		for (RunWay r : runways){
-			if ((r.getMode() == mode || r.getMode() == OperatingMode.MIXED) && r.getStatus() == OperationStatus.AVAILABLE){
+		for (int r = 0; r < runways.length; r++){
+			if ((runways[r].getMode() == mode || runways[r].getMode() == OperatingMode.MIXED) && runways[r].getStatus() == OperationStatus.AVAILABLE){
 				count++;
 			} 
 		}
@@ -95,9 +95,9 @@ public class RunWayMap {
 	 */
 	public ArrayList<RunWay> getFreeRunways(OperatingMode mode){
 		ArrayList<RunWay> result = new ArrayList<>();
-		for (RunWay r : runways){
-			if (r.getMixedModeTurn() == mode && r.getStatus() == OperationStatus.AVAILABLE && !r.hasPlane()){
-				result.add(r);
+		for (int r = 0; r < runways.length; r++){
+			if (runways[r].getMixedModeTurn() == mode && runways[r].getStatus() == OperationStatus.AVAILABLE && !runways[r].hasPlane()){
+				result.add(runways[r]);
 			}
 		}
 		return result;
@@ -110,9 +110,9 @@ public class RunWayMap {
 	 */
 	public ArrayList<RunWay> getBusyRunways(OperatingMode mode){
 		ArrayList<RunWay> result = new ArrayList<>();
-		for (RunWay r : runways){
-			if (r.getMixedModeTurn() == mode && r.getStatus() == OperationStatus.AVAILABLE && r.hasPlane()){
-				result.add(r);
+		for (int r = 0; r < runways.length; r++){
+			if (runways[r].getMixedModeTurn() == mode && runways[r].getStatus() == OperationStatus.AVAILABLE && runways[r].hasPlane()){
+				result.add(runways[r]);
 			}
 		}
 		return result;

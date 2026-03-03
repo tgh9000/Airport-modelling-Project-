@@ -97,6 +97,7 @@ public class AirCraft {
 	 */
 	public void setExitTime(LocalDateTime exitTime) {
 		this.exitTime = exitTime;
+		System.out.println("exittiem");
 	}
 
 	/**
@@ -245,8 +246,6 @@ public class AirCraft {
 		return updateFuelEmergency(t); 
     }
     
-    // TODO: updateTakeOffFlight()
-
 	public void addToRunway(String runway){
 		this.assignedRunway = runway;
 		this.zoneStatus = ZoneStatus.RUNWAY;

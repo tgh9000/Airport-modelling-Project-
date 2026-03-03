@@ -13,6 +13,7 @@ import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.DataGen;
 import com.cs261.app.model.DepartureModel;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,16 +30,16 @@ public class SimLoop extends Task<ModelOutput>{
 	protected int currentTime;
 	protected DataGen dataGen;
 	protected ModelOutput output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue);
-	
+	private DoubleProperty progress;
 
 	/**
 	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
 	 */
-	public SimLoop(RunWay[] userRunways, int userRuntime){
+	public SimLoop(RunWay[] userRunways, int userRuntime, DoubleProperty progress){
 		this.runways = new RunWayMap(userRunways);
 		this.runtime = userRuntime;
 		this.currentTime = 0;
-
+		this.progress = progress;
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
 		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
 	}
@@ -46,6 +47,7 @@ public class SimLoop extends Task<ModelOutput>{
 	@Override
 	protected ModelOutput call() throws Exception {
 		while (currentTime != runtime) {
+			System.out.printf("current %d \n", currentTime);
 			// get flights for this tick
 			List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
 			List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
@@ -57,6 +59,7 @@ public class SimLoop extends Task<ModelOutput>{
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
 			currentTime += Utils.timeInc;
 			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
+			progress.set(currentTime / runtime);
 		}	
 		return output;
 	}

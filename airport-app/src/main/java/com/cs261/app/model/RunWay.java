@@ -83,6 +83,10 @@ public class RunWay {
 	 * @param currentPlane the plane to set
 	 */
 	public void addPlane(AirCraft plane) {
+		if (plane == null){
+			return;
+		}
+
 		if (plane.getFlightType().getCode() == mixedModeTurn.getCode()){ // check the plane is of the correct type for the runway
 			this.currentPlane = plane.getCallSign();
 			plane.addToRunway(runwayNumber); // update plane with the runway it is occupying
@@ -95,10 +99,11 @@ public class RunWay {
 				}
 			}
 		}
+		System.out.println("added plane");
 	}
 
 	/**
-	 * Remove plane that current occupies the runway
+	 * Remove plane that currently occupies the runway
 	 * @return plane removed
 	 */
 	public String removePlane(){
