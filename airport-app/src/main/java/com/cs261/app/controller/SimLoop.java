@@ -13,6 +13,7 @@ import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.DataGen;
 import com.cs261.app.model.DepartureModel;
 
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import java.util.List;
@@ -61,7 +62,7 @@ public class SimLoop extends Task<ModelOutput>{
 			currentTime += Utils.timeInc;
 			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
 			System.out.println("returned output");
-			progress.set(currentTime / runtime);
+			Platform.runLater(() -> progress.set(currentTime / runtime));
 		}	
 		return output;
 	}
