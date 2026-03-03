@@ -6,6 +6,8 @@ import com.cs261.app.model.ModelOutput;
 import com.cs261.app.model.RunWay;
 import com.cs261.app.model.Utils;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -17,14 +19,13 @@ public class SimService extends Service<ModelOutput>{
     private int runtimeInput; // in ticks
     private double failrate;
     private int cancelTime;
-
-
+    private DoubleProperty taskProgress = new SimpleDoubleProperty();
     /**
      * Create background task, the simulation itself
      */
     @Override
     protected Task<ModelOutput> createTask() {
-        return new SimLoop(runwayInput, runtimeInput);  
+        return new SimLoop(runwayInput, runtimeInput, taskProgress);  
     }
 
     /**
@@ -46,5 +47,9 @@ public class SimService extends Service<ModelOutput>{
         // make the date
         LocalDateTime endtime = LocalDateTime.of(2026, 1, 1, 0,0,0).plusDays((long) days).plusHours((long) hours).plusMinutes((long) mins);
         this.runtimeInput = Utils.convertDateToTicks(endtime);
+    }
+
+    public DoubleProperty getTaskProgress(){
+        return taskProgress;
     }
 }

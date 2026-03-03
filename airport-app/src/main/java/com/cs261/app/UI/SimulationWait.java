@@ -4,9 +4,13 @@ import com.cs261.app.controller.SimService;
 import com.cs261.app.model.RunWay;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.ProgressBar;
 
 public class SimulationWait {
-    private SimService myService;
+    public SimService myService;
+    @FXML
+    public ProgressBar simProgressWait;
 
     /**
      * Initialise the parameters of simulation from input form 
@@ -21,7 +25,8 @@ public class SimulationWait {
     public void startSim(RunWay[] runways, int days, int hours, int mins, float failprob, int cancelTime){
         myService = new SimService();
         myService.setParams(runways, days, hours, mins, failprob, cancelTime);
-    
+        simProgressWait.progressProperty().bind(myService.getTaskProgress());
+
         // start the simulation once scene is rendered
         Platform.runLater(() -> myService.start());
     }
