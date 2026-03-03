@@ -6,7 +6,7 @@ import com.cs261.app.model.RunWay;
 import javafx.application.Platform;
 
 public class SimulationWait {
-    SimService myService;
+    private SimService myService;
 
     /**
      * Initialise the parameters of simulation from input form 
