@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.ArrayList;
 
 public class TakeOffQueue {
     /** 
@@ -23,10 +24,10 @@ public class TakeOffQueue {
     public void enqueue(AirCraft aircraft) {
         queue.addLast(aircraft);
 
-    // update maximum length if current size exceeds it
-    if (queue.size() > maxQueueLength) {
-        maxQueueLength = queue.size();
-    }
+        // update maximum length if current size exceeds it
+        if (queue.size() > maxQueueLength) {
+            maxQueueLength = queue.size();
+        }
 
     }
 
@@ -36,6 +37,11 @@ public class TakeOffQueue {
             return null;  // TODO might want to change to throw exception
         }
         return queue.removeFirst();
+    }
+
+    // removes specifies aircraft from the queue
+    public boolean remove(AirCraft aircraft) {
+        return queue.remove(aircraft); 
     }
 
     // returns the aircraft at a specific position in the queue
@@ -69,15 +75,33 @@ public class TakeOffQueue {
     public int getMaxQueueLength() {
         return maxQueueLength;
     }
+
+    /**
+     * Returns a list of aircraft in the takeoff queue that are in danger of being cancelled
+     * due to their wait time.
+     * @param currentTime the current time in simulation ticks
+     * @return an arraylist of aircraft in danger of cancellation
+     */
+    public ArrayList<AirCraft> inCancellationDanger(int currentTime) {
+        ArrayList<AirCraft> dangerPlanes = new ArrayList<>();
+        for (AirCraft plane : queue) {
+            int entry = Utils.convertDateToTicks(plane.getEntryTime());
+            if ((currentTime - entry) >= Utils.dangerOfCancel) {
+                dangerPlanes.add(plane);
+            }
+        }
+        return dangerPlanes;
+    }
+
 //}
 
 public static void main(String[] args) {
 
     TakeOffQueue myTakeoff = new TakeOffQueue();
-    AirCraft plane = new AirCraft(AirCraft.FlightType.ARRIVAL, "PO111", "Delta", "JFK", "LAX", LocalDateTime.of(2026, 2, 19, 14, 30), LocalDateTime.of(2026, 2, 19, 14, 35), 450, 8000, 30000, AirCraft.EmergencyStatus.NONE);
-    AirCraft plane2 = new AirCraft(AirCraft.FlightType.ARRIVAL, "PT222", "Pelta", "PFK", "PAX", LocalDateTime.of(2026, 1, 9, 17, 30), LocalDateTime.of(2026, 1, 9, 17, 35), 400, 8500, 35000, AirCraft.EmergencyStatus.NONE);
-    AirCraft plane3 = new AirCraft(AirCraft.FlightType.ARRIVAL, "PT333", "Pelta", "PFK", "PAX", LocalDateTime.of(2026, 1, 9, 17, 30), LocalDateTime.of(2026, 1, 9, 17, 35), 400, 8500, 35000, AirCraft.EmergencyStatus.NONE);
-    AirCraft plane4 = new AirCraft(AirCraft.FlightType.ARRIVAL, "PF444", "Pelta", "PFK", "PAX", LocalDateTime.of(2026, 1, 9, 17, 30), LocalDateTime.of(2026, 1, 9, 17, 35), 400, 8500, 35000, AirCraft.EmergencyStatus.NONE);
+    AirCraft plane = new AirCraft(AirCraft.FlightType.ARRIVAL, "PO111", "Delta", "JFK", "LAX", LocalDateTime.of(2026, 2, 19, 14, 30), LocalDateTime.of(2026, 2, 19, 14, 35), 450, 8000, 30000, AirCraft.EmergencyStatus.NONE, -1);
+    AirCraft plane2 = new AirCraft(AirCraft.FlightType.ARRIVAL, "PT222", "Pelta", "PFK", "PAX", LocalDateTime.of(2026, 1, 9, 17, 30), LocalDateTime.of(2026, 1, 9, 17, 35), 400, 8500, 35000, AirCraft.EmergencyStatus.NONE, -1);
+    AirCraft plane3 = new AirCraft(AirCraft.FlightType.ARRIVAL, "PT333", "Pelta", "PFK", "PAX", LocalDateTime.of(2026, 1, 9, 17, 30), LocalDateTime.of(2026, 1, 9, 17, 35), 400, 8500, 35000, AirCraft.EmergencyStatus.NONE, -1);
+    AirCraft plane4 = new AirCraft(AirCraft.FlightType.ARRIVAL, "PF444", "Pelta", "PFK", "PAX", LocalDateTime.of(2026, 1, 9, 17, 30), LocalDateTime.of(2026, 1, 9, 17, 35), 400, 8500, 35000, AirCraft.EmergencyStatus.NONE, -1);
 
     myTakeoff.enqueue(plane2);
     myTakeoff.enqueue(plane);

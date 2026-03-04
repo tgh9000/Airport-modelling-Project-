@@ -1,0 +1,294 @@
+.root {
+    -fx-background-color: #FFFCF9;
+    -fx-font-family: "Inter";
+}
+
+/* Default button style */
+.roundButtonFill {
+    -fx-background-color: #2D78B8;
+    -fx-border-color: rgb(0, 73, 156);
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.285), 20, 0, 4, 4);
+    -fx-padding: 6px 10px;
+    -fx-background-insets: 0;
+}
+
+.roundButtonOutline {
+    -fx-background-color: #FFFCF9;
+    -fx-border-width: 2;
+    -fx-border-color: #014795;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #4b4846;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 10px;
+    -fx-background-insets: 0;
+    /* -fx-effect: dropshadow(gaussian, #dedcd9, 10, 0.4, 0.2, 0.2); */
+}
+
+.normalBtn {
+    -fx-background-color: #FFFCF9;
+    -fx-border-width: 2;
+    -fx-border-color: #b8b6b6;
+    -fx-border-radius: 4px;
+    -fx-text-fill: #4b4846;
+    -fx-font-size: 11px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 4px;
+    -fx-background-insets: 0;
+}
+
+.landingBtn1 {
+    -fx-background-color: #014795;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 24px;
+    -fx-padding: 5px;
+    -fx-border-width: 2px;
+    -fx-border-color: #023a7a;
+    -fx-border-radius: 24;
+}
+
+.landingBtn1:hover{
+    -fx-background-color: #62C370;
+    -fx-border-color: #4d9e59;
+}
+
+.landingBtn2{
+    -fx-background-color: #014795;
+    -fx-font-weight: bold;
+    -fx-background-radius: 24px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 24px;
+    -fx-border-color: #023a7a;
+    -fx-text-fill: white;
+}
+
+.landingBtn2:hover {
+    -fx-background-color: #fb133e;
+    -fx-border-color: #c00f30;
+}
+
+/* Hover effect */
+.roundButtonFill:hover {
+    -fx-background-color: #24639a;
+    -fx-border-color: #023a7a;
+}
+
+.roundButtonOutline:hover {
+    -fx-background-color: #efedec;
+    -fx-border-color: #2D78B8;
+}
+
+/* 
+#0b3954
+#07004D
+0a2463
+*/
+
+/* Pressed effect 
+.button:pressed {   
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.6), 10, 0, 5, 5);
+    -fx-effect: dropshadow(gaussian, #ffffff, 0, 0, 0, 0);
+}*/
+
+.label {
+    -fx-padding: 10 10 10 10;
+}
+
+.button {
+    -fx-padding: 10 10 10 10;
+}
+
+.inputStack {
+    -fx-background-color: #122840;
+}
+
+.text-field {
+    -fx-background-color: #FFFCF9;
+    -fx-border-width: 1;
+    -fx-border-color: #b8b6b6;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    /* -fx-effect: dropshadow(gaussian, #dedcd9, 10, 0.4, 0.2, 0.2); */
+}
+
+/* Main ComboBox */
+.combo-box {
+    -fx-background-color: #FFFCF9;
+    -fx-border-color: #b8b6b6;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+
+    -fx-padding: 4px 10px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+/* Hover effect */
+.combo-box:hover {
+    -fx-border-color: #4b4846;
+}
+
+/* Focused effect */
+.combo-box:focused {
+    -fx-border-color: #4b4846;
+    -fx-border-width: 2px;
+}
+
+/* Arrow button area */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+/* Arrow icon */
+.combo-box .arrow {
+    -fx-background-color: #4b4846;
+}
+
+/* Dropdown list */
+.combo-box-popup .list-view {
+    -fx-background-color: #f1f1f1;
+    -fx-border-color: #4b4846;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #000000; 
+}
+
+/* List cells */
+.combo-box-popup .list-cell {
+    -fx-padding: 8px 12px;
+    -fx-background-color: #f1f1f1;
+}
+
+/* Hovered item */
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #b8b6b6;
+    -fx-background-radius: 8px;
+}
+
+/* Selected item */
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #A6BEDA;
+    -fx-text-fill: white;
+}
+
+.scroll-pane {
+    -fx-background-color: #d2d2d2;
+    -fx-background-radius: 5;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #d2d2d2;
+    -fx-background-radius: 5;
+}
+
+.nicerLabel {
+    -fx-background-color: #FFFCF9;
+    -fx-background-radius: 16px;
+    -fx-padding: 2;
+    -fx-border-width: 1px;
+    -fx-border-color: #b8b6b6;
+    -fx-border-radius: 16px;
+}
+
+/* Scroll bar track */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+/* The track (the area behind the thumb) */
+.scroll-bar .track {
+    -fx-background-color: #f1f1f1;
+    -fx-background-radius: 6px;
+}
+
+/* The draggable thumb */
+.scroll-bar .thumb {
+    -fx-background-color: #4b4846;
+    -fx-background-radius: 6px;
+}
+
+/* Hover effect */
+.scroll-bar .thumb:hover {
+    -fx-background-color: #333130;
+}
+
+/* Remove arrow buttons (optional modern look) */
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: " "; /* removes arrow shape */
+    -fx-padding: 0;
+}
+
+.runwayVbox {
+    -fx-background-color: #FFFCF9;
+    -fx-background-radius: 16px;
+    -fx-padding: 2;
+    -fx-border-width: 1px;
+    -fx-border-color: #b8b6b6;
+    -fx-border-radius: 16px;
+}
+
+
+.logoBg {
+    -fx-background-color: white;
+    -fx-background-radius: 64px;
+    -fx-padding: 15;
+}
+
+.startpageBg{
+    -fx-background-color: radial-gradient(
+        center 50% 0%, 
+        radius 100%, 
+        #1E4A72 20%,
+        #1A3A5C 100%, 
+        #122840 100%);
+    /* linear-gradient(
+        from 0% 100% to 100% 0%,
+        #fffcf970 0%,
+        #f2f2f265 53%,
+        #bec7d462 100%
+    );     */
+}
+
+.startpgSq{
+    -fx-text-fill: white;
+    -fx-background-color: rgba(255, 255, 255, 0.333);
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-padding: 12 24;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.3, 0, 4);
+}
+
+.landingTitle {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.progress-bar {
+    -fx-accent: #4DA6FF; /* progress color */
+}
+
+.progress-bar .track {
+    -fx-background-color: #F0F4F8; /* background track */
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+

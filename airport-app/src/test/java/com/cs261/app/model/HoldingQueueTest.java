@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 class HoldingQueueTest {
 
-    private AirCraft createArrival(String id, AirCraft.EmergencyStatus status) {
+    private AirCraft createArrival(String id, AirCraft.EmergencyStatus status, int emergencyTime) {
         return new AirCraft(
                 AirCraft.FlightType.ARRIVAL,
                 id,
@@ -16,10 +16,11 @@ class HoldingQueueTest {
                 "BBB",
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                400,
-                8000,
-                30000,
-                status
+                400f,
+                8000f,
+                30000f,
+                status,
+                emergencyTime
         );
     }
 
@@ -27,8 +28,8 @@ class HoldingQueueTest {
     void emergencyAircraftShouldBePrioritised() {
         HoldingQueue queue = new HoldingQueue(5);
 
-        queue.enqueue(1, createArrival("N1", AirCraft.EmergencyStatus.NONE));
-        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.FUEL));
+        queue.enqueue(1, createArrival("N1", AirCraft.EmergencyStatus.NONE, -1));
+        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.now())));
 
         assertEquals("E1", queue.top().getCallSign());
     }
@@ -37,8 +38,8 @@ class HoldingQueueTest {
     void earlierSerialShouldWinIfSameEmergency() {
         HoldingQueue queue = new HoldingQueue(5);
 
-        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
-        queue.enqueue(2, createArrival("A2", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE, -1));
+        queue.enqueue(2, createArrival("A2", AirCraft.EmergencyStatus.NONE, -1));
 
         assertEquals("A1", queue.top().getCallSign());
     }
@@ -74,7 +75,7 @@ class HoldingQueueTest {
         HoldingQueue queue = new HoldingQueue(5);
         assertTrue(queue.isEmpty());
 
-        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE, -1));
         assertFalse(queue.isEmpty());
     }
 
@@ -82,8 +83,8 @@ class HoldingQueueTest {
     void resizeShouldNotLoseElements() {
         HoldingQueue queue = new HoldingQueue(1);
 
-        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
-        queue.enqueue(2, createArrival("A2", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE, -1));
+        queue.enqueue(2, createArrival("A2", AirCraft.EmergencyStatus.NONE, -1));
 
         assertEquals(2, queue.size());
     }
@@ -92,7 +93,7 @@ class HoldingQueueTest {
     void topShouldNotRemoveElement() {
         HoldingQueue queue = new HoldingQueue(5);
 
-        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE, -1));
 
         assertEquals("A1", queue.top().getCallSign());
         assertEquals(1, queue.size());

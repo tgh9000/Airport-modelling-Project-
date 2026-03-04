@@ -4,62 +4,67 @@ import com.cs261.app.model.AirCraftMap;
 import com.cs261.app.model.ArrivalModel;
 import com.cs261.app.model.Utils;
 import com.cs261.app.model.HoldingQueue;
-import com.cs261.app.model.IModelOutput;
 import com.cs261.app.model.ModelOutput;
 import com.cs261.app.model.RunWay;
 import com.cs261.app.model.RunWayMap;
 import com.cs261.app.model.TakeOffQueue;
 import com.cs261.app.model.TrafficController;
 import com.cs261.app.model.AirCraft;
-import com.cs261.app.model.RunWay;
 import com.cs261.app.model.DataGen;
+import com.cs261.app.model.DepartureModel;
 
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import java.util.List;
 import java.util.ArrayList;
 
-public class SimLoop extends Task<IModelOutput>{
+public class SimLoop extends Task<ModelOutput>{
 	protected AirCraftMap aircraftMap = new AirCraftMap();
 	protected HoldingQueue holdingPattern = new HoldingQueue(500);
 	protected TakeOffQueue takeOffQueue = new TakeOffQueue();
 	protected RunWayMap runways;
 	protected ArrivalModel arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
+	protected DepartureModel departureModel = new DepartureModel(aircraftMap, takeOffQueue);
 	protected TrafficController trafficModel;
 	protected int runtime;
 	protected int currentTime;
 	protected DataGen dataGen;
-	
-	// TODO: add data gen and departure model
-	
+	protected ModelOutput output;
+
+	/**
+	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
+	 */
 	public SimLoop(RunWay[] userRunways, int userRuntime){
 		this.runways = new RunWayMap(userRunways);
 		this.runtime = userRuntime;
 		this.currentTime = 0;
-
-		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue);
-		this.dataGen = new DataGen(userRuntime, 15, 15); // init with runtime and default flow rate per hour.
+		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
+		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
+		this.output = new ModelOutput(aircraftMap, departureModel, arrivalModel, runways);
 	}
 	
 	@Override
 	protected ModelOutput call() throws Exception {
 		while (currentTime != runtime) {
+			System.out.printf("current %d \n", currentTime);
 			// get flights for this tick
 			List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
 			List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
-			
 			// arrivals update, add flights 
 			arrivalModel.updateArrivals(newArrivals, currentTime);
 			// departures update, add flights
-			// TODO: departureModel.update..
+			departureModel.updateDepartures(newDepartures, currentTime);
 			// traffic controller update, check runways and stuff
 			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
-			// sort by exit time. check this sorts the right thing
-			exits.sort((String a, String b) -> aircraftMap.get(a).getExitTime().compareTo(aircraftMap.get(b).getExitTime()));
+			System.out.println("returned traffic");
 			currentTime += Utils.timeInc;
-			// TODO: output.update...
-		}
-		
-		return null;
+			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
+			System.out.println("returned output");
+			updateProgress((double) currentTime, (double) runtime);
+		}	
+		output.finishCalculations();
+		System.out.println("finished everything");
+		return output;
 	}
-
 }

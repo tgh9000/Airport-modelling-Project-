@@ -38,22 +38,23 @@ public class InvariantTest {
         }
     }
 
-/* calls holdingqueue dequeue even when empty causing simulation to crash due to error
-    private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
-        return new TestableSimLoop(runways, runtimeTicks).runSync();
-    }
-*/
+    /* calls holdingqueue dequeue even when empty causing simulation to crash due to error
+        private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
+            return new TestableSimLoop(runways, runtimeTicks).runSync();
+        }
+    */
 
-private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
-    try {
-        return new TestableSimLoop(runways, runtimeTicks).runSync();
-    } catch (RuntimeException ex) {
-        Assumptions.assumeTrue(false,
-                "Simulation crashed (incomplete model). Skipping invariants until fixed. Cause: "
-                        + ex.getCause());
-        return null; // unreachable
+    private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
+        try {
+            return new TestableSimLoop(runways, runtimeTicks).runSync();
+        } catch (RuntimeException ex) {
+            Assumptions.assumeTrue(false,
+                    "Simulation crashed (incomplete model). Skipping invariants until fixed. Cause: "
+                            + ex.getCause());
+            return null; // unreachable
+        }
     }
-}
+    
     private static RunWay landing(int bearing) {
         return new RunWay(3000, bearing, RunWay.OperatingMode.LANDING, null, null);
     }

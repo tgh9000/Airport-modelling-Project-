@@ -7,24 +7,18 @@ import java.util.Set;
 public class ArrivalModel {
 	private AirCraftMap aircraftMap;
 	private HoldingQueue holdingPattern;
-	private IModelOutput output = null;
-	private int totalArrivals;
+	private int totalArrivals = 0;
+	private int landedPlanes = 0;
 
 
 	public ArrivalModel(AirCraftMap map, HoldingQueue queue) {
 		this.aircraftMap = map;
 		this.holdingPattern = queue;
-		totalArrivals = 0;
 	}
 	
-	public void updateArrivals(List<AirCraft> newPlanes, int currentTime) {
-		
-		/**
-		 * TODO: (Rhys) need to think about what to set emergency time as when it enters the sim as health/mech ie how to pass in current time
-		 * TODO: need to add stuff for output
-		*/
-		
+	public void updateArrivals(List<AirCraft> newPlanes, int currentTime) {		
 		// add new planes 
+		System.out.printf("num planes %d \n", newPlanes.size());
 		Iterator<AirCraft> i = newPlanes.listIterator();
 		while (i.hasNext()){
 			AirCraft a = i.next();
@@ -32,10 +26,31 @@ public class ArrivalModel {
 			aircraftMap.put(a);	
 		}
 		i = null;
+		System.out.printf("num planes added %d \n", totalArrivals);
 		holdingPattern.updateHolding(currentTime);
+		System.out.println("updateArrivals");
+	}
+
+	/**
+	 * Updates the number of planes THAT HAVE ACTUALLY LANDED. therefore does not include diversions.
+	 */
+	public void updateLanded(){
+		landedPlanes++;
+		System.out.println("updated landed planes #");
+	}
+
+	/**
+	 * @return the number of planes that actually landed
+	 */
+	public int getLanded(){
+		return landedPlanes;
 	}
 
 	public Set<String> getHoldingPatternAircraftIds() {
 		return holdingPattern.getAircraftIds();
+	}
+
+	public int getTotalArrivals(){
+		return totalArrivals;
 	}
 }
