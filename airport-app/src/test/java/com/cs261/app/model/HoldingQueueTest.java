@@ -44,6 +44,32 @@ class HoldingQueueTest {
     }
 
     @Test
+    void earlierEmergencyShouldWin() {
+        HoldingQueue queue = new HoldingQueue(5);
+
+        queue.enqueue(1, createArrival("E1", AirCraft.EmergencyStatus.HEALTH));
+        queue.enqueue(2, createArrival("E2", AirCraft.EmergencyStatus.FUEL));
+
+        assertEquals("E1", queue.top().getCallSign());
+    }
+
+    @Test
+    void multipleEmergenciesAndNonEmergencies() {
+        HoldingQueue queue = new HoldingQueue(5);
+
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.MECH));
+        queue.enqueue(3, createArrival("A2", AirCraft.EmergencyStatus.NONE));
+        queue.enqueue(4, createArrival("E2", AirCraft.EmergencyStatus.FUEL));
+
+        assertEquals("E1", queue.top().getCallSign());
+        queue.dequeue();
+        assertEquals("E2", queue.top().getCallSign());
+        assertEquals("A1", queue.top().getCallSign());
+
+    }
+
+    @Test
     void isEmptyShouldWorkCorrectly() {
         HoldingQueue queue = new HoldingQueue(5);
         assertTrue(queue.isEmpty());
