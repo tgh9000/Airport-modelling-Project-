@@ -182,9 +182,14 @@ class HoldingQueueTest {
         HoldingQueue queue = new HoldingQueue(6);
         
         queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE, -1));
-        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.now())));
-        queue.enqueue(3, createArrival("E2", AirCraft.EmergencyStatus.MECH, Utils.convertDateToTicks(LocalDateTime.now())));
-        queue.enqueue(4, createArrival("E3", AirCraft.EmergencyStatus.HEALTH, Utils.convertDateToTicks(LocalDateTime.now())));
+        // queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.now())));
+        // queue.enqueue(3, createArrival("E2", AirCraft.EmergencyStatus.MECH, Utils.convertDateToTicks(LocalDateTime.now())));
+        // queue.enqueue(4, createArrival("E3", AirCraft.EmergencyStatus.HEALTH, Utils.convertDateToTicks(LocalDateTime.now())));
+
+        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.of(2026, 1, 1, 0, 5))));
+        queue.enqueue(3, createArrival("E2", AirCraft.EmergencyStatus.MECH, Utils.convertDateToTicks(LocalDateTime.of(2026, 1, 1, 0, 10))));
+        queue.enqueue(4, createArrival("E3", AirCraft.EmergencyStatus.HEALTH, Utils.convertDateToTicks(LocalDateTime.of(2026, 1, 1, 0, 15))));        
+
         queue.enqueue(5, createArrival("A2", AirCraft.EmergencyStatus.NONE, -1));
         
         ArrayList<AirCraft> planes = queue.getEmergencyPlanes();
@@ -197,9 +202,9 @@ class HoldingQueueTest {
         System.out.println(planes.get(1).getCallSign());
         System.out.println(planes.get(2).getCallSign());
 
-        System.out.println(expected.get(0).getCallSign());
-        System.out.println(expected.get(1).getCallSign());
-        System.out.println(expected.get(2).getCallSign());
+        // System.out.println(expected.get(0).getCallSign());
+        // System.out.println(expected.get(1).getCallSign());
+        // System.out.println(expected.get(2).getCallSign());
         assertTrue(planes.equals(expected));
     }
 
