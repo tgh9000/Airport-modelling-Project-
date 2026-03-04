@@ -48,8 +48,8 @@ class HoldingQueueTest {
     void earlierEmergencyShouldWin() {
         HoldingQueue queue = new HoldingQueue(5);
 
-        queue.enqueue(1, createArrival("E1", AirCraft.EmergencyStatus.HEALTH));
-        queue.enqueue(2, createArrival("E2", AirCraft.EmergencyStatus.FUEL));
+        queue.enqueue(1, createArrival("E1", AirCraft.EmergencyStatus.HEALTH, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(2, createArrival("E2", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.now())));
 
         assertEquals("E1", queue.top().getCallSign());
     }
@@ -58,14 +58,15 @@ class HoldingQueueTest {
     void multipleEmergenciesAndNonEmergencies() {
         HoldingQueue queue = new HoldingQueue(5);
 
-        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE));
-        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.MECH));
-        queue.enqueue(3, createArrival("A2", AirCraft.EmergencyStatus.NONE));
-        queue.enqueue(4, createArrival("E2", AirCraft.EmergencyStatus.FUEL));
+        queue.enqueue(1, createArrival("A1", AirCraft.EmergencyStatus.NONE, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(2, createArrival("E1", AirCraft.EmergencyStatus.MECH, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(3, createArrival("A2", AirCraft.EmergencyStatus.NONE, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(4, createArrival("E2", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.now())));
 
         assertEquals("E1", queue.top().getCallSign());
         queue.dequeue();
         assertEquals("E2", queue.top().getCallSign());
+        queue.dequeue();
         assertEquals("A1", queue.top().getCallSign());
 
     }
