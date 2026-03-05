@@ -206,7 +206,13 @@ public class HoldingQueue {
 	 */
 	public void updateHolding(int t) {
 		for (int i = 0; i < size(); i++) {
-			if (heap[i].getAircraft().updateHoldingFlight(t)) { // update holding flight returns true if there is a fuel emergency 
+			AirCraft p;
+			if (getParent(i) == null){
+				p = null;
+			} else {
+				p = getParent(i).getAircraft();
+			}
+			if (heap[i].getAircraft().updateHoldingFlight(t, p)) { // update holding flight returns true if there is a fuel emergency 
 				upHeap(i); // might need to move it up the heap
 			} else { // no fuel emergency for now
 				continue;
