@@ -4,11 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-// TODO need to add where time enter queue stored
-// TODO test getTakeoffQueueAircraftIds and other things
-
-// TODO the point of this is to find out which planes have been cancelled
-
 public class DepartureModel {
 	private AirCraftMap aircraftMap;
 	private TakeOffQueue takeoffQueue;
