@@ -12,8 +12,13 @@ public class App extends Application {
         //System.out.println(App.class.getResource("/com/cs261/app/companyLogo.png"));
         
         FXMLLoader loader = new FXMLLoader(
+<<<<<<< Updated upstream
                 //App.class.getResource("/com/cs261/app/start.fxml"));
                 App.class.getResource("/com/cs261/app/start.fxml"));
+=======
+                App.class.getResource("/com/cs261/app/start.fxml"));
+                //App.class.getResource("/com/cs261/app/graphs(arrivals).fxml"));
+>>>>>>> Stashed changes
         //https://www.youtube.com/watch?v=9XJicRt_FaI
         //Scene scene = new Scene(loader.load());
         Image icon = new Image(

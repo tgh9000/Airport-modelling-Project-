@@ -112,7 +112,7 @@ public class ArrivalsGraphController
     // navigation methods
 
     /**
-     * 
+     * Takes user to the Departures graph page when the button is clicked.
      * @param event the event that is triggered when the user clicks the button.
      * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
      */
@@ -120,6 +120,23 @@ public class ArrivalsGraphController
     {
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("/com/cs261/app/graphs(departures).fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        stage.getScene().setRoot(root);   
+    }
+
+    /**
+     * 
+     * @param event the event that is triggered when the user clicks the button.
+     * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
+     */
+    public void goHome(ActionEvent event) throws IOException 
+    {
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/keyData.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource())

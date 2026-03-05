@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-
 import com.cs261.app.model.AirCraft.FlightType;
 import com.cs261.app.model.RunWay.OperationStatus;
 
@@ -27,6 +26,21 @@ public class ModelOutput implements IModelOutput {
     ArrayList<AirCraft> planesInTQueue = new ArrayList<>();
     ArrayList<AirCraft> planesInHQueue = new ArrayList<>();
 
+<<<<<<< Updated upstream
+=======
+    // aircraft map
+    private AirCraftMap aircrafts;
+
+    /**
+     * Returns the aircraft object associated with a given callsign.
+     * @param callsign the callsign of the plane you want to get
+     * @return the plane object associated with the callsign, or null if no such plane exists
+     */
+    public AirCraft getPlaneByCallsign(String callsign){
+        return aircrafts.get(callsign);
+    }
+
+>>>>>>> Stashed changes
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
     private int maxTQueuePlanes = 0;

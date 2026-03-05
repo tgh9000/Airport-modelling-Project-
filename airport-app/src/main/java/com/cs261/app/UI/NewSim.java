@@ -151,7 +151,7 @@ public class NewSim
             errorMessage("Invalid cancellation time");
             return;
         }
-
+        int[] modeCounts = new int[3]; // 0 = landing, 1 = takeoff, 2 = mixed
         //parse each runway information
         runwayArray = new RunWay[runways];
         for(int i = 0 ; i < runwaysList.size(); i ++)
@@ -163,12 +163,27 @@ public class NewSim
                 errorMessage("Invalid input for runway " + (i + 1));
                 return;
             }
+            switch (r.getMode()) {
+                case LANDING:
+                    modeCounts[0]++;
+                    break;
+                case TAKEOFF:
+                    modeCounts[1]++;
+                    break;
+                case MIXED:
+                    modeCounts[2]++;
+                    break;
+                default:
+                    break;
+                    
+            }
+
             runwayArray[i] = r;
 
         }
-
+        Globals.runwayModes = modeCounts;
         errorMessage("All inputs valid! Ready to run simulation.");
-
+        Globals.duration = dayNum + " days, " + hourNum + " hours, " + minuteNum + " minutes";
 
         // load waiting screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/simulationWait.fxml"));
