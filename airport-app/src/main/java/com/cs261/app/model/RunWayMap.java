@@ -11,9 +11,9 @@ import com.cs261.app.model.RunWay.OperationStatus;
  */
 public class RunWayMap {
 	private RunWay[] runways;
-	private int numArrivalRunways;	
-	private int numDepartureRunways;
-	private int numMixedRunways;
+	// private int numArrivalRunways;	
+	// private int numDepartureRunways;
+	// private int numMixedRunways;
 
 	public RunWayMap(RunWay[] runwayList) {
 		this.runways = runwayList;
@@ -116,26 +116,26 @@ public class RunWayMap {
 		return result;
 	}
 
-	/**
-	 * @return number of arrival runways
-	 */
-	public int getNumArrivals(){
-		return numArrivalRunways;
-	}
+	// /**
+	//  * @return number of arrival runways
+	//  */
+	// public int getNumArrivals(){
+	// 	return numArrivalRunways;
+	// }
 
-	/**
-	 * @return number of mixed runways
-	 */
-	public int getNumMixed(){
-		return numMixedRunways;
-	}
+	// /**
+	//  * @return number of mixed runways
+	//  */
+	// public int getNumMixed(){
+	// 	return numMixedRunways;
+	// }
 
-	/**
-	 * @return number of depature runways
-	 */
-	public int getNumDepart(){
-		return numDepartureRunways;
-	}
+	// /**
+	//  * @return number of depature runways
+	//  */
+	// public int getNumDepart(){
+	// 	return numDepartureRunways;
+	// }
 
 	/**
 	 * @return list of all runways
