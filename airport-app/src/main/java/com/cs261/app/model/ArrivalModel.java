@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Handle adding airplanes into arrivals
+ */
 public class ArrivalModel {
 	private AirCraftMap aircraftMap;
 	private HoldingQueue holdingPattern;

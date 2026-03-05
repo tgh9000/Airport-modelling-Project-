@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Handle adding airplanes into departures
+ */
 public class DepartureModel {
 	private AirCraftMap aircraftMap;
 	private TakeOffQueue takeoffQueue;

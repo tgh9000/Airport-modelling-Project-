@@ -1,5 +1,6 @@
 package com.cs261.app.model;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import com.cs261.app.model.AirCraft.EmergencyStatus;
@@ -7,27 +8,29 @@ import com.cs261.app.model.AirCraft.FlightType;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents airport holding queue as a priority queue 
+ */
 public class HoldingQueue {
 	HoldingEntry[] heap; // internally an array
-	int size;
-	int max;
+	int size = 0;
+	int max = 0;
 	int capacity;
 	
 	public HoldingQueue(int cap) {
 		this.capacity = cap;
 		heap = new HoldingEntry[cap];
-		max = 0;
 	}
 	
 	/**
-	 * @return number of elements in heap
+	 * @return number of elements in the priority queue
 	 */
 	public int size() {
 		return size;
 	}
 	
 	/**
-	 * resize heap to twice its original size
+	 * Resize heap to twice its original size once array fills up
 	 */
 	private void resize() {
 		capacity *= 2;
@@ -41,7 +44,10 @@ public class HoldingQueue {
 	 * @param i 
 	 * @param j
 	 */
-	private void swap(int i, int j) {
+	private void swap(int i, int j) throws InvalidParameterException {
+		if (i < 0 || j < 0){
+			throw new InvalidParameterException("Negative indexes");
+		}
 		HoldingEntry first = heap[i];
 		heap[i] = heap[j];
 		heap[j] = first;
@@ -52,9 +58,9 @@ public class HoldingQueue {
 	 * @param i
 	 * @return left child
 	 */
-	private HoldingEntry getLeft(int i) {
-		if (i >= (capacity / 2)) {
-			return null;
+	private HoldingEntry getLeft(int i) throws InvalidParameterException{
+		if (i >= (capacity / 2) || i < 0) {
+			throw new InvalidParameterException();
 		}
 		return heap[(2 * i) + 1];
 	}
@@ -63,18 +69,22 @@ public class HoldingQueue {
 	 * @param i
 	 * @return right child
 	 */
-	private HoldingEntry getRight(int i) {
+	private HoldingEntry getRight(int i) throws InvalidParameterException{
 		if (i >= (capacity / 2)) {
-			return null;
+			throw new InvalidParameterException();
 		}
 		return heap[(2 * i) + 2];
 	}
 	/**
 	 * return parent of some node i
 	 * @param i
-	 * @return parent 
+	 * @return parent entry or null if it is the root
 	 */
-	private HoldingEntry getParent(int i) {
+	private HoldingEntry getParent(int i) throws InvalidParameterException {
+		if (i < 0){
+			throw new InvalidParameterException();
+		}
+		
 		if (i == 0) {
 			return null;
 		}
@@ -87,35 +97,32 @@ public class HoldingQueue {
 		return this.size == 0;
 	}
 	/**
-	 * add plane to holding queue and then sort priority
+	 * add plane to end of holding queue and then sort priority
 	 * @param plane to be added
+	 * @param k the serial number of the flight, ie what number arrival flight it is out of all flights that have been set for arrival
+	 * so far
 	 */
-	public void enqueue(int k, AirCraft plane) {
-		if (plane.getFlightType() != FlightType.ARRIVAL) {
-			return;
+	public void enqueue(int k, AirCraft plane) throws InvalidParameterException{
+		if (plane.getFlightType() != FlightType.ARRIVAL || k < 0) {
+			throw new InvalidParameterException("Attempt to queue invalid flight");
 		}
-		
-		HoldingEntry newEntry = new HoldingEntry(k, plane);
-
 		if (size >= capacity) {
 			resize();
 		}
-		
+		HoldingEntry newEntry = new HoldingEntry(k, plane);
 		heap[size] = newEntry;
 		size++;
 		upHeap(size - 1);
 	}
 	/**
 	 * get highest priority plane in queue
-	 * @return root of heap
+	 * @return root of heap or null if the queue is empty
 	 */
 	public AirCraft dequeue() {
 		System.out.println("try dequeue");
-
 		if (isEmpty()){
 			return null;
 		} 
-		
 		AirCraft result = heap[0].getAircraft();
 		heap[0] = heap[size - 1]; // move the lowest rightmost node on tree to here
 		heap[size - 1] = null; // no duplicate planes
@@ -129,21 +136,25 @@ public class HoldingQueue {
 	 * @param i node you are moving up the tree
 	 */
 	private void upHeap(int i) {
-		if (i == 0 || size() < 2) {
-			return;
-		}
+		try {
+			if (i == 0 || size() < 2) {
+				return;
+			}
 
-		HoldingEntry parent = getParent(i);
-		if (parent == null){
-			return;
-		}
-		// if the i'th entry is more important, swap
-		if (heap[i].compareTo(parent) > 0){
-			int j = (int) (i - 1) / 2;
-			swap(i, j);
-			upHeap(j);
-		} else {
-			return;
+			HoldingEntry parent = getParent(i);
+			if (parent == null){
+				return;
+			}
+			// if the i'th entry is more important, swap
+			if (heap[i].compareTo(parent) > 0){
+				int j = (int) (i - 1) / 2;
+				swap(i, j);
+				upHeap(j);
+			} else {
+				return;
+			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 	/**
@@ -151,37 +162,41 @@ public class HoldingQueue {
 	 * @param i node to down heap from
 	 */
 	private void downheap(int i) {
-		if (i >= size() || size() < 2) {
-			return;
-		}
+		try {
+			if (i >= size() || size() < 2) {
+				return;
+			}
 
-		// find child with the greatest emergency priority
-		int check;
-		HoldingEntry left = getLeft(i);
-		HoldingEntry right = getRight(i);
+			// find child with the greatest emergency priority
+			int check;
+			HoldingEntry left = getLeft(i);
+			HoldingEntry right = getRight(i);
 
-		//  there has to be at least two nodes for this to run so only check if left or right is null
+			//  there has to be at least two nodes for this to run so only check if left or right is null
 
-		if (left == null && right == null){
-			return; 
-		} else if (left == null && right != null){
-			check = (2 * i) + 2;
-		} else if (left != null && right == null){
-			check = (2 * i) + 1;
-		} else {
-			if (right.compareTo(left) > 0){ // if right child node is more important than the left child node, compare it against parent
+			if (left == null && right == null){
+				return; 
+			} else if (left == null && right != null){
 				check = (2 * i) + 2;
+			} else if (left != null && right == null){
+				check = (2 * i) + 1;
 			} else {
-				check = (2 * i) + 1; // if theyre the same or left is more important just check left
-			}	
-		}
+				if (right.compareTo(left) > 0){ // if right child node is more important than the left child node, compare it against parent
+					check = (2 * i) + 2;
+				} else {
+					check = (2 * i) + 1; // if theyre the same or left is more important just check left
+				}	
+			}
 
-		// if the node i is strictly less important than its most important child, swap
-		if (heap[i].compareTo(heap[check]) < 0){
-			swap(i, check); // swap 
-			downheap(check); // new index of node i
-		} else {
-			return; // if they are the same or node i is less important (more than/equal to) dont swap
+			// if the node i is strictly less important than its most important child, swap
+			if (heap[i].compareTo(heap[check]) < 0){
+				swap(i, check); // swap 
+				downheap(check); // new index of node i
+			} else {
+				return; // if they are the same or node i is less important (more than/equal to) dont swap
+			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 	
@@ -192,7 +207,7 @@ public class HoldingQueue {
 	 */
 	public void updateHolding(int t) {
 		for (int i = 0; i < size(); i++) {
-			if (heap[i].getAircraft().updateHoldingFlight(t)) {
+			if (heap[i].getAircraft().updateHoldingFlight(t)) { // update holding flight returns true if there is a fuel emergency 
 				upHeap(i); // might need to move it up the heap
 			} else { // no fuel emergency for now
 				continue;
