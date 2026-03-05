@@ -14,7 +14,6 @@ public class TakeOffQueue {
      */
 
     private LinkedList<AirCraft> queue;
-    private int maxQueueLength = 0;
 
     public TakeOffQueue() {
         this.queue = new LinkedList<>();
@@ -23,11 +22,6 @@ public class TakeOffQueue {
     // adds aircraft to the back of the queue
     public void enqueue(AirCraft aircraft) {
         queue.addLast(aircraft);
-
-        // update maximum length if current size exceeds it
-        if (queue.size() > maxQueueLength) {
-            maxQueueLength = queue.size();
-        }
 
     }
 
@@ -69,11 +63,6 @@ public class TakeOffQueue {
             ids.add(plane.getCallSign());
         }
         return ids;
-    }
-
-    // returns the maximum takeoff queue length
-    public int getMaxQueueLength() {
-        return maxQueueLength;
     }
 
     /**

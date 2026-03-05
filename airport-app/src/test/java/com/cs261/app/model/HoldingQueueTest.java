@@ -208,5 +208,27 @@ class HoldingQueueTest {
         assertTrue(planes.equals(expected));
     }
 
+    @Test
+    void multipleEmergencyTypesShouldHaveCorrectOrder() {
+        HoldingQueue queue = new HoldingQueue(5);
+
+        queue.enqueue(1, createArrival("E1", AirCraft.EmergencyStatus.MECH, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(2, createArrival("E2", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(3, createArrival("E3", AirCraft.EmergencyStatus.HEALTH, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(4, createArrival("E4", AirCraft.EmergencyStatus.MECH, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(5, createArrival("E5", AirCraft.EmergencyStatus.FUEL, Utils.convertDateToTicks(LocalDateTime.now())));
+        queue.enqueue(6, createArrival("E6", AirCraft.EmergencyStatus.HEALTH, Utils.convertDateToTicks(LocalDateTime.now())));
+
+        assertEquals("E1", queue.top().getCallSign());
+        queue.dequeue();
+        assertEquals("E2", queue.top().getCallSign());
+        queue.dequeue();
+        assertEquals("E3", queue.top().getCallSign());
+        queue.dequeue();
+        assertEquals("E4", queue.top().getCallSign());
+        queue.dequeue();
+        assertEquals("E5", queue.top().getCallSign());
+    }
+
 }
 

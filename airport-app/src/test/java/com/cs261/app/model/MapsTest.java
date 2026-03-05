@@ -79,6 +79,8 @@ class MapsTest {
                 map.getFreeRunways(RunWay.OperatingMode.LANDING);
 
         assertNotNull(free);
+        assertEquals(RunWay.OperatingMode.MIXED, free.get(1).getMode());
+        assertEquals(RunWay.OperatingMode.LANDING, free.get(0).getMode());
     }
 
     @Test
@@ -92,5 +94,11 @@ class MapsTest {
     @Test
     void getRunwayShouldReturnNullIfIdDoesNotExist() {
         assertNull(map.getRunway("99"));
+    }
+
+    @Test
+    void getNumArrivalRunwaysCorrectly() {
+        int size = map.getNumArrivals();
+        assertEquals(1, size);
     }
 }

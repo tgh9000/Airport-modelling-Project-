@@ -10,13 +10,11 @@ import java.util.Set;
 public class HoldingQueue {
 	HoldingEntry[] heap; // internally an array
 	int size;
-	int max;
 	int capacity;
 	
 	public HoldingQueue(int cap) {
 		this.capacity = cap;
 		heap = new HoldingEntry[cap];
-		max = 0;
 	}
 	
 	/**
