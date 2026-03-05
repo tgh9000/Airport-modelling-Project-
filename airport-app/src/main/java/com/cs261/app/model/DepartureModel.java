@@ -19,23 +19,26 @@ public class DepartureModel {
 	 * Adds a new aircraft to the takeoff queue.
 	 *
 	 * @param newPlanes the aircrafts to be added to the takeoff queue
-	 * @param currentTime the current simulation time
+	 * @param currentTime the current time elapsed in the simulation 
 	 */
 	public void updateDepartures(List<AirCraft> newPlanes, int currentTime) {
-		Iterator<AirCraft> i = newPlanes.iterator();
-		while (i.hasNext()){
-			AirCraft a = i.next();
-			takeoffQueue.enqueue(a);
-			aircraftMap.put(a);
-			totalDepartutes++;
+		try {
+			Iterator<AirCraft> i = newPlanes.iterator();
+			while (i.hasNext()){
+				AirCraft a = i.next();
+				takeoffQueue.enqueue(a);
+				aircraftMap.put(a);
+				totalDepartutes++;
+			}
+			
+			i = null;
+			System.out.println("updateDepartures");
+		} catch (Exception e){
+			e.printStackTrace();
 		}
-		
-		i = null;
-		System.out.println("updateDepartures");
 	}
 
 	/**
-	 * @author Afra
 	 * @return total departures processed in the system overall (inc cancellations and stuff)
 	 */
 	public int getTotalDepartures(){
@@ -44,14 +47,12 @@ public class DepartureModel {
 
 	/**
 	 * Updates the number of planes THAT HAVE ACTUALLY TAKEN OFF. therefore does not include cancellations.
-	 * @author Afra 
 	 */
 	public void updateTakenOff(){
 		takenOffPlanes++;
 	}
 
 	/**
-	 * @author Afra
 	 * @return planes that actually took off
 	 */
 	public int getTakenOff(){
