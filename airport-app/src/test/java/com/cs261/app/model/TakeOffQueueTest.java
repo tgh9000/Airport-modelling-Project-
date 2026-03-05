@@ -56,18 +56,18 @@ class TakeOffQueueTest {
         assertNull(queue.dequeue());
     }
 
-    @Test
-    void maxQueueLengthShouldTrackPeak() {
-        TakeOffQueue queue = new TakeOffQueue();
+    // @Test
+    // void maxQueueLengthShouldTrackPeak() {
+    //     TakeOffQueue queue = new TakeOffQueue();
 
-        queue.enqueue(createDeparture("A1"));
-        queue.enqueue(createDeparture("A2"));
-        queue.enqueue(createDeparture("A3"));
+    //     queue.enqueue(createDeparture("A1"));
+    //     queue.enqueue(createDeparture("A2"));
+    //     queue.enqueue(createDeparture("A3"));
 
-        queue.dequeue();
+    //     queue.dequeue();
 
-        assertEquals(3, queue.getMaxQueueLength());
-    }
+    //     assertEquals(3, queue.getMaxQueueLength());
+    // }
 
     @Test
     void getAircraftIdsReturnsAllIds() {

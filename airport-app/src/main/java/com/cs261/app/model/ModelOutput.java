@@ -426,6 +426,11 @@ public class ModelOutput implements IModelOutput {
         return getSimExitTable(exitedDepartures);
     }
 
+    /**
+     * Form departure and arrive tables
+     * @param list list of departed or arrived planes
+     * @return each row is a flight. column 1 = runway it was on, column 2 = call sign of flight, column 3 = exit time of flight
+     */
     public String[][] getSimExitTable(ArrayList<AirCraft> list){
         String[][] table = new String[list.size()][3];
         for (int i = 0; i < list.size(); i++){
