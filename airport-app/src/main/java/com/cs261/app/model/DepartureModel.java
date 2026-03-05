@@ -72,13 +72,4 @@ public class DepartureModel {
 		return takeoffQueue.getAircraftIds();
 	}
 	
-	/**
-	 * Returns the maximum length the takeoff queue has reached.
-	 *
-	 * @return maximum recorded takeoff queue length
-	 */
-	public int getMaxTakeOffQueueLength() {
-		return takeoffQueue.getMaxQueueLength();
-	}
-
 }

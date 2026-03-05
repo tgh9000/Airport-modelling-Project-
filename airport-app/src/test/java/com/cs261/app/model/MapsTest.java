@@ -3,6 +3,7 @@ package com.cs261.app.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,8 +98,26 @@ class MapsTest {
     }
 
     @Test
-    void getNumArrivalRunwaysCorrectly() {
-        int size = map.getNumArrivals();
-        assertEquals(1, size);
+    void getBusyRunwaysShouldReturnBusyRunways() {
+        AirCraft arrivingPlane = new AirCraft(
+                AirCraft.FlightType.ARRIVAL,
+                "A1",
+                "Airline",
+                "AAA",
+                "BBB",
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                400f,
+                8000f,
+                30000f,
+                AirCraft.EmergencyStatus.NONE,
+                -1
+        );
+        arrivalRunway.addPlane(arrivingPlane);
+        ArrayList<RunWay> busy =
+                map.getBusyRunways(RunWay.OperatingMode.LANDING);
+
+        assertEquals("09", busy.get(0).getRunwayNumber());
     }
+
 }
