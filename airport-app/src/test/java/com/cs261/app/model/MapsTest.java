@@ -120,4 +120,12 @@ class MapsTest {
         assertEquals("09", busy.get(0).getRunwayNumber());
     }
 
+    @Test
+    void getRunwaysShouldReturnAllRunways() {
+
+        // TODO
+
+        assertTrue(false);
+    }
+
 }
