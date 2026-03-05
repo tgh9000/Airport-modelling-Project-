@@ -11,8 +11,6 @@ import com.cs261.app.model.RunWay.OperationStatus;
  */
 public class RunWayMap {
 	private RunWay[] runways;
-	
-	// details 
 	private int numArrivalRunways;	
 	private int numDepartureRunways;
 	private int numMixedRunways;
