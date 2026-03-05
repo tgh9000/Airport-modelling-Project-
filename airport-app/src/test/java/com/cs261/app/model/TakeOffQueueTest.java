@@ -81,3 +81,14 @@ class TakeOffQueueTest {
         assertEquals(2, queue.getAircraftIds().size());
     }
 }
+
+// public static void main(String[] args) {
+
+//     TakeOffQueue myTakeoff = new TakeOffQueue();
+//     AirCraft plane = new AirCraft(AirCraft.FlightType.ARRIVAL, "PO111", "Delta", "JFK", "LAX", LocalDateTime.of(2026, 2, 19, 14, 30), LocalDateTime.of(2026, 2, 19, 14, 35), 450, 8000, 30000, AirCraft.EmergencyStatus.NONE, -1);
+//     AirCraft plane2 = new AirCraft(AirCraft.FlightType.ARRIVAL, "PT222", "Pelta", "PFK", "PAX", LocalDateTime.of(2026, 1, 9, 17, 30), LocalDateTime.of(2026, 1, 9, 17, 35), 400, 8500, 35000, AirCraft.EmergencyStatus.NONE, -1);
+//     myTakeoff.enqueue(plane);
+
+//     System.out.println(myTakeoff.remove(plane2));
+
+// }
