@@ -2,6 +2,7 @@ package com.cs261.app.model;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 /**
@@ -26,18 +27,13 @@ public class TakeOffQueue {
         queue.addLast(aircraft);
     }
 
-    // removes aircraft from front of queue
-    public AirCraft dequeue() throws InvalidParameterException{
-
-    }
-
     /**
      * Removes and returns the aircraft at the front of the queue. If the queue is 
      * empty, it returns null.
      *
      * @return the aircraft at the front of the queue, or null if the queue is empty
      */
-    public AirCraft dequeue() throws InvalidParameterException{
+    public AirCraft dequeue() throws InvalidParameterException {
         if (queue.isEmpty()) {
             throw new InvalidParameterException();
         }
