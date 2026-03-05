@@ -18,17 +18,21 @@ public class ArrivalModel {
 	
 	public void updateArrivals(List<AirCraft> newPlanes, int currentTime) {		
 		// add new planes 
-		System.out.printf("num planes %d \n", newPlanes.size());
-		Iterator<AirCraft> i = newPlanes.listIterator();
-		while (i.hasNext()){
-			AirCraft a = i.next();
-			holdingPattern.enqueue(totalArrivals++, a);	 // increment total arrivals and add plane to holding queue
-			aircraftMap.put(a);	
+		//System.out.printf("num planes %d \n", newPlanes.size());
+		try {
+			Iterator<AirCraft> i = newPlanes.listIterator();
+			while (i.hasNext()){
+				AirCraft a = i.next();
+				holdingPattern.enqueue(totalArrivals++, a);	 // increment total arrivals and add plane to holding queue
+				aircraftMap.put(a);	
+			}
+			i = null;
+			System.out.printf("num planes added %d \n", totalArrivals);
+			holdingPattern.updateHolding(currentTime);
+			System.out.println("updateArrivals");
+		} catch (Exception e){
+			e.printStackTrace();
 		}
-		i = null;
-		System.out.printf("num planes added %d \n", totalArrivals);
-		holdingPattern.updateHolding(currentTime);
-		System.out.println("updateArrivals");
 	}
 
 	/**
