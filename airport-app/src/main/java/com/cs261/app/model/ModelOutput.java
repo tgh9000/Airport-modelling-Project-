@@ -122,14 +122,14 @@ public class ModelOutput implements IModelOutput {
     /**
      * @return table that plots scheduled time against actual exit time of takeoffs
      */
-    public Double[][] getGraphDepartDifferences() {
-        return (Double[][]) graphDepartDifferences.toArray();
+    public ArrayList<Double[]> getGraphDepartDifferences() {
+        return  this.graphDepartDifferences;
     }
     /**
      * @return table that plots scheduled timme against actual exit time of landings
      */
-    public Double[][] getGraphArrivalDifferences() {
-        return (Double[][]) graphArrivalDifferences.toArray();
+    public ArrayList<Double[]> getGraphArrivalDifferences() {
+        return this.graphArrivalDifferences;
     }
     // tables
     /**
@@ -245,6 +245,9 @@ public class ModelOutput implements IModelOutput {
         System.out.println("rkaeofft");
         updateSumsAndMaxs(exitedPlanes);
         System.out.println("finished model output");
+        updateGraph(exitedPlanes, time);
+        System.out.println("update graph");
+
     }
 
     private void updateGraph(ArrayList<String> exitedPlanes, int time){
@@ -271,8 +274,8 @@ public class ModelOutput implements IModelOutput {
         valueA[1] = avgA;
         valueD[0] = (double) time;
         valueD[1] = avgD;
-        graphArrivalDifferences.add(valueA);
-        graphDepartDifferences.add(valueD);
+        this.graphArrivalDifferences.add(valueA);
+        this.graphDepartDifferences.add(valueD);
     }
 
     /**
