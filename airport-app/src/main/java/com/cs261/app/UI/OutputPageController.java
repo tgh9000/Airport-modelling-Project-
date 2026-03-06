@@ -34,7 +34,7 @@ public class OutputPageController {
         initializeCoords();
         
         //table trees
-        
+        loadTables();
 
         //
 
@@ -50,13 +50,23 @@ public class OutputPageController {
     @FXML
     private void loadTables()
     {
+        //arrivals table.
         String[][] tableAllArrivals = output.getTableAllArrivals();
 
         for(int i = 0; i < tableAllArrivals.length; i++)
         {   //Runway,callsign,scheduled,actual,delay
  
 
-            ArrivalRow row = new ArrivalRow(tableAllArrivals[i][0], tableAllArrivals[i][1], tableAllArrivals[i][2], tableAllArrivals[i][3], tableAllArrivals[i][4] );
+            ArrivalRow row = new ArrivalRow(tableAllArrivals[i][0], tableAllArrivals[i][1], tableAllArrivals[i][2] );
+
+            List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault( Integer.parseInt( tableAllArrivals[i[3]]), new ArrayList<>());
+            if(list == null)
+            {
+                list = new ArrayList<>();
+            }
+            list.add(row);
+
+            Globals.arrivalsTree.put(Integer.parseInt(row.getScheduled()), list);
             //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
             
             

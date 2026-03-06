@@ -253,6 +253,8 @@ public class ModelOutput implements IModelOutput {
     private void updateGraph(ArrayList<String> exitedPlanes, int time){
         double delayA = 0;
         double delayD = 0;
+        double numdepart = 0;
+        double numarrive = 0;
         for (int i = 0; i < exitedPlanes.size(); i++){
             AirCraft a = aircrafts.get(exitedPlanes.get(i));
             double delay = 0;
@@ -262,18 +264,30 @@ public class ModelOutput implements IModelOutput {
 
             if (a.getFlightType() == FlightType.ARRIVAL){
                 delayA += delay;
+                numarrive++;
             } else {
                 delayD += delay;
+                numdepart++;
             }
         }
-        double avgA = delayA / time;
-        double avgD = delayD / time;
+
         Double[] valueA = new Double[2];
         Double[] valueD = new Double[2];
+
+        if (numarrive == 0){
+            valueA[1] = (double) 0.0;
+        } else {
+            valueA[1] = (double) delayA / numarrive;
+        }
+
+        if (numdepart == 0){
+            valueD[1] = (double) 0.0;
+        } else {
+            valueD[1] = (double) delayD / numdepart;
+        }
+
         valueA[0] = (double) time;
-        valueA[1] = avgA;
         valueD[0] = (double) time;
-        valueD[1] = avgD;
         this.graphArrivalDifferences.add(valueA);
         this.graphDepartDifferences.add(valueD);
     }
@@ -484,6 +498,8 @@ public class ModelOutput implements IModelOutput {
             table[i][0] = a.getRunway();
             table[i][1] = a.getCallSign();
             table[i][2] = a.getExitTime().toString();
+            table[i][3] = Utils.convertDateToTicks(a.getExitTime()).toString();
+
         }
         return table;
     }

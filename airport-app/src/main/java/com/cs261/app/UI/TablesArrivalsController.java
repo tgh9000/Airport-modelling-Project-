@@ -42,6 +42,7 @@ public class TablesArrivalsController
         delayColumn.setCellValueFactory(new PropertyValueFactory<>("delay"));
         waitColumn.setCellValueFactory(new PropertyValueFactory<>("wait"));
         data = Globals.getArrivalsTableData(currentTimeStamp);
+        
         arrivalsTable.setItems(data);
 
     }
