@@ -26,10 +26,7 @@ public class ModelOutput implements IModelOutput {
     ArrayList<AirCraft> planesInTQueue = new ArrayList<>();
     ArrayList<AirCraft> planesInHQueue = new ArrayList<>();
 
-<<<<<<< Updated upstream
-=======
-    // aircraft map
-    private AirCraftMap aircrafts;
+
 
     /**
      * Returns the aircraft object associated with a given callsign.
@@ -40,7 +37,6 @@ public class ModelOutput implements IModelOutput {
         return aircrafts.get(callsign);
     }
 
->>>>>>> Stashed changes
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
     private int maxTQueuePlanes = 0;

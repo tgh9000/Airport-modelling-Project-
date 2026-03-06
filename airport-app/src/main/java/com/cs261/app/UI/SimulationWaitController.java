@@ -46,11 +46,13 @@ public class SimulationWaitController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/outputPage.fxml"));
                     Parent p = loader.load();
-                    OutputPageController outputController = loader.getController();
-                    outputController.init(output);
+                   
 
                     Stage stage = (Stage) simProgressWait.getScene().getWindow();
                     stage.getScene().setRoot(p);
+
+                    OutputPageController outputController = loader.getController();
+                    outputController.init(output);
                 } catch (Exception e){
                     e.printStackTrace();
                     // code to close program or restart task

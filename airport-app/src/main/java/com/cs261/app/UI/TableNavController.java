@@ -3,6 +3,9 @@ package com.cs261.app.UI;
 //import com.cs261.app.controller.ResultsContext;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
+
+import java.io.IOException;
+
 import com.cs261.app.UI.Globals;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -143,7 +146,8 @@ public class TableNavController {
         }
     }
 
-    private void loadPage(ActionEvent event, String fxml) {
+    private void loadPage(ActionEvent event, String fxml) 
+    {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -153,35 +157,15 @@ public class TableNavController {
         }
     }
 
-    @FXML
-    private void goHome(ActionEvent event) {
-        loadPage(event, "/com/cs261/app/kpiHome.fxml");
-    }
+    // make a page that asks the user if they want to close the page and save their run.
 
-    @FXML
-    private void goToDepartures(ActionEvent event) {
-        loadPage(event, "/com/cs261/app/tables(Departures).fxml");
-    }
 
     @FXML
     private void goToArrivals(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
     }
 
-    @FXML
-    private void goToQueue(ActionEvent event) {
-        loadPage(event, "/com/cs261/app/tables(TO).fxml");
-    }
 
-    @FXML
-    private void goToHolding(ActionEvent event) {
-        loadPage(event, "/com/cs261/app/tables(HP).fxml");
-    }
-
-    @FXML
-    private void goToRunways(ActionEvent event) {
-        loadPage(event, "/com/cs261/app/tables(Runway).fxml");
-    }
 
     @FXML
     private void goToGraphs(ActionEvent event) {
