@@ -4,9 +4,12 @@ package com.cs261.app.UI;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 import java.io.IOException;
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 import com.cs261.app.UI.Globals;
@@ -33,8 +36,12 @@ import javafx.stage.Stage;
 
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 public class TableNavController 
 {
+=======
+public class TableNavController {
+>>>>>>> Stashed changes
 =======
 public class TableNavController {
 >>>>>>> Stashed changes
@@ -155,8 +162,12 @@ public class TableNavController {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private void loadPage(ActionEvent event, String fxml) 
     {
+=======
+    private void loadPage(ActionEvent event, String fxml) {
+>>>>>>> Stashed changes
 =======
     private void loadPage(ActionEvent event, String fxml) {
 >>>>>>> Stashed changes
@@ -170,9 +181,12 @@ public class TableNavController {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     // make a page that asks the user if they want to close the page and save their run.
 
 =======
+=======
+>>>>>>> Stashed changes
     @FXML
     private void goHome(ActionEvent event) {
         loadPage(event, "/com/cs261/app/kpiHome.fxml");
@@ -182,6 +196,9 @@ public class TableNavController {
     private void goToDepartures(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Departures).fxml");
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     @FXML
@@ -190,7 +207,10 @@ public class TableNavController {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
     @FXML
     private void goToQueue(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(TO).fxml");
@@ -205,6 +225,9 @@ public class TableNavController {
     private void goToRunways(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Runway).fxml");
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     @FXML

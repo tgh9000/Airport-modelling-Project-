@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+<<<<<<< Updated upstream
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
+=======
+>>>>>>> Stashed changes
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -21,11 +24,14 @@ public class OutputPageController {
         this.output = output;
         Globals.output = output; 
 
+<<<<<<< Updated upstream
         //calculate the arrivals and depaartures graph data
         initializeCoords();
         
         //table trees
         
+=======
+>>>>>>> Stashed changes
         //
 
         //go load the right page after this.
@@ -36,6 +42,7 @@ public class OutputPageController {
         }
 
     }
+<<<<<<< Updated upstream
     @FXML
     private void loadTables()
     {
@@ -76,6 +83,8 @@ public class OutputPageController {
         //System.out.println("Coords initialized and the size of the depart series is: " + departSeries.getData().size());
         //System.out.println("Coords initialized and the size of the arrive series is: " + arriveSeries.getData().size());
     }
+=======
+>>>>>>> Stashed changes
 
     @FXML
     private StackPane outputPageStackPane;
@@ -88,11 +97,18 @@ public class OutputPageController {
         );
 
         Parent root = loader.load();
+<<<<<<< Updated upstream
         
         Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
         
         stage.setScene(new Scene(root));
         stage.setMaximized(true);
+=======
+
+        Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+>>>>>>> Stashed changes
 
     }
 }

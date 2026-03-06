@@ -39,6 +39,15 @@ public class ModelOutput implements IModelOutput {
         return aircrafts.get(callsign);
     }
 
+    /**
+     * Returns the aircraft object associated with a given callsign.
+     * @param callsign the callsign of the plane you want to get
+     * @return the plane object associated with the callsign, or null if no such plane exists
+     */
+    public AirCraft getPlaneByCallsign(String callsign){
+        return aircrafts.get(callsign);
+    }
+
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
     private int maxTQueuePlanes = 0;
