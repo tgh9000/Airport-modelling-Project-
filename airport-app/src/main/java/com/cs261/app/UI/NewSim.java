@@ -184,6 +184,7 @@ public class NewSim
         Globals.runwayModes = modeCounts;
         errorMessage("All inputs valid! Ready to run simulation.");
         Globals.duration = dayNum + " days, " + hourNum + " hours, " + minuteNum + " minutes";
+        Globals.totalTicks = String.valueOf((dayNum * 24 * 60 + hourNum * 60 + minuteNum));
 
         // load waiting screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/simulationWait.fxml"));

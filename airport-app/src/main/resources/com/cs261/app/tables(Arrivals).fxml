@@ -66,7 +66,7 @@
                         <TextField fx:id="timestampField1" prefHeight="36.0" prefWidth="340.0" promptText="Enter end Timestamp" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" />
             
                         <!-- Search Button -->
-                        <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" />
+                        <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" onAction="#searchByTimestamp" />
             
                         <!-- Spacer -->
                         <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="NEVER" />
@@ -110,8 +110,8 @@
             
                             <!-- Pagination Controls -->
                             <HBox alignment="CENTER_RIGHT" spacing="10">
-                                <Button text="◀" />
-                                <Button text="▶" />
+                                <Button text="◀" fx:id="btnPrev" onAction = "#prev" />
+                                <Button text="▶" fx:id="btnNext" onAction = "#next" />
                             </HBox>
             
                         </VBox>
@@ -123,11 +123,13 @@
           </VBox>
       </children>
    </HBox>
+   <!-- 
    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
       <children>
-            <!-- Back Button -->
+            Back Button
             <Button fx:id="btnBack" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #c8d8e8;-fx-text-fill: #1a3a5c;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="◀" />
       </children>
    </HBox>
+   -->
 
 </AnchorPane>
