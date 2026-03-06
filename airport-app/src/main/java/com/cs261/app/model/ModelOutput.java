@@ -189,6 +189,17 @@ public class ModelOutput implements IModelOutput {
     }
 
     /**
+     * @return int[0] = number of arrival runways, int[1] = number of departure runways, int[2] = number of mixed runways
+     */
+    public int[] getNumberRunways(){
+        int[] result = new int[3];
+        result[0] = runways.getNumArrivals();
+        result[1] = runways.getNumDepart();
+        result[3] = runways.getNumMixed();
+        return result;
+    }
+
+    /**
      * @return total number of airplanes that actually took off
      */
     public int getTotalAircraftTakenOff() {
