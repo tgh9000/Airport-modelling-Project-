@@ -245,6 +245,7 @@ public class ModelOutput implements IModelOutput {
         System.out.println("rkaeofft");
         updateSumsAndMaxs(exitedPlanes);
         System.out.println("finished model output");
+        updateGraph(exitedPlanes, time);
     }
 
     private void updateGraph(ArrayList<String> exitedPlanes, int time){
