@@ -46,8 +46,6 @@ public class SimulationWaitController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/outputPage.fxml"));
                     Parent p = loader.load();
-                   
-
                     Stage stage = (Stage) simProgressWait.getScene().getWindow();
                     stage.getScene().setRoot(p);
 

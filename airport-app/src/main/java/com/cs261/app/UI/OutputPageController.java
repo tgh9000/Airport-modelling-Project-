@@ -13,9 +13,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
- 
-
-
 public class OutputPageController {
     public ModelOutput output;
     

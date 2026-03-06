@@ -1,7 +1,10 @@
 package com.cs261.app.UI;
 
+import java.util.Optional;
+
 //import com.cs261.app.controller.ResultsContext;
 import com.cs261.app.model.AirCraft;
+import com.cs261.app.model.HandleOutput;
 import com.cs261.app.model.ModelOutput;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -16,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -149,8 +153,7 @@ public class TableNavController
     }
 
 
-    private void loadPage(ActionEvent event, String fxml) 
-    {
+    private void loadPage(ActionEvent event, String fxml) {
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
@@ -178,7 +181,17 @@ public class TableNavController
 
     @FXML
     private void goToArrivals(ActionEvent event) {
-        loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
+        Alert saveAlert = new Alert(AlertType.CONFIRMATION, "Do you want to save the simulation statistics before exitting?");
+        saveAlert.getButtonTypes().add(ButtonType.YES);
+        saveAlert.getButtonTypes().add(ButtonType.NO);
+
+        saveAlert.showAndWait().ifPresent( response -> {
+            if (response == ButtonType.YES){
+                HandleOutput.storeMetrics(Globals.output);
+            } 
+            loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
+        }
+        );
     }
 
 
@@ -202,6 +215,17 @@ public class TableNavController
     private void goToGraphs(ActionEvent event) {
         loadPage(event, "/com/cs261/app/graphs(arrivals).fxml");
     }
+
+    @FXML 
+    private void gotoLanding(ActionEvent event){
+        
+        
+        
+        
+        loadPage(event, "/com/cs261/app/start.fxml");
+    }
+
+
 
     @FXML
     private void toggleDetailsPane(ActionEvent event) {
