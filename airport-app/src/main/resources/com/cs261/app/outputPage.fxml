@@ -10,15 +10,8 @@
     <children>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
                 <Label text="Finishing Up..."  style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 22px;"/>
-=======
-                <Label text="Finishing Up..." fx style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 22px;"/>
->>>>>>> Stashed changes
-=======
-                <Label text="Finishing Up..." fx style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 22px;"/>
->>>>>>> Stashed changes
+
             </children>
         </VBox>
     </children>
