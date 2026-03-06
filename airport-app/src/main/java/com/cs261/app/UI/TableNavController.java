@@ -5,9 +5,12 @@ import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 import java.io.IOException;
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -37,8 +40,12 @@ import javafx.stage.Stage;
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 public class TableNavController 
 {
+=======
+public class TableNavController {
+>>>>>>> Stashed changes
 =======
 public class TableNavController {
 >>>>>>> Stashed changes
@@ -163,8 +170,12 @@ public class TableNavController {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private void loadPage(ActionEvent event, String fxml) 
     {
+=======
+    private void loadPage(ActionEvent event, String fxml) {
+>>>>>>> Stashed changes
 =======
     private void loadPage(ActionEvent event, String fxml) {
 >>>>>>> Stashed changes
@@ -182,9 +193,12 @@ public class TableNavController {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     // make a page that asks the user if they want to close the page and save their run.
 
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     @FXML
@@ -197,6 +211,9 @@ public class TableNavController {
         loadPage(event, "/com/cs261/app/tables(Departures).fxml");
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -208,7 +225,10 @@ public class TableNavController {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     @FXML
@@ -226,6 +246,9 @@ public class TableNavController {
         loadPage(event, "/com/cs261/app/tables(Runway).fxml");
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
