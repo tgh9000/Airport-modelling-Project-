@@ -52,8 +52,8 @@ public class ModelOutput implements IModelOutput {
     private double avgDepartWait = 0;
 
     // TABLES TO OUTPUT 
-    private ArrayList<Double[]> graphDepartDifferences;
-    private ArrayList<Double[]> graphArrivalDifferences;
+    private ArrayList<Double[]> graphDepartDifferences =  new ArrayList<>();
+    private ArrayList<Double[]> graphArrivalDifferences =  new ArrayList<>();
     private String[][] tableAllDepartures;
     private String[][] tableAllArrivals;
     private String[][] tableHoldingQueue;
