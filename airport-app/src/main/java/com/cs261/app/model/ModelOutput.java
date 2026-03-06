@@ -488,17 +488,18 @@ public class ModelOutput implements IModelOutput {
     /**
      * Form departure and arrive tables
      * @param list list of departed or arrived planes
-     * @return each row is a flight. column 1 = runway it was on, column 2 = call sign of flight, column 3 = exit time of flight
+     * @return each row is a flight. column 1 = runway it was on, column 2 = call sign of flight, column3 = scheduled arrival time, column4 = actual arrival time, column 5 = exit time of flight
      */
     public String[][] getSimExitTable(ArrayList<AirCraft> list){
-        String[][] table = new String[list.size()][4];
+        String[][] table = new String[list.size()][6];
         for (int i = 0; i < list.size(); i++){
             AirCraft a = list.get(i);
             table[i][0] = a.getRunway();
             table[i][1] = a.getCallSign();
-            table[i][2] = a.getExitTime().toString();
-            table[i][3] = String.valueOf( Utils.convertDateToTicks(a.getExitTime()));
-
+            table[i][2] = a.getScheduled().toString();
+            table[i][3] = a.getEntryTime().toString();
+            table[i][4] = a.getExitTime().toString();
+            table[i][5] = String.valueOf(Utils.convertDateToTicks(a.getExitTime()));
         }
         return table;
     }

@@ -181,17 +181,7 @@ public class TableNavController
 
     @FXML
     private void goToArrivals(ActionEvent event) {
-        Alert saveAlert = new Alert(AlertType.CONFIRMATION, "Do you want to save the simulation statistics before exitting?");
-        saveAlert.getButtonTypes().add(ButtonType.YES);
-        saveAlert.getButtonTypes().add(ButtonType.NO);
-
-        saveAlert.showAndWait().ifPresent( response -> {
-            if (response == ButtonType.YES){
-                HandleOutput.storeMetrics(Globals.output);
-            } 
-            loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
-        }
-        );
+        loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
     }
 
 
@@ -218,11 +208,17 @@ public class TableNavController
 
     @FXML 
     private void gotoLanding(ActionEvent event){
-        
-        
-        
-        
-        loadPage(event, "/com/cs261/app/start.fxml");
+        Alert saveAlert = new Alert(AlertType.NONE, "Do you want to save the simulation statistics before exitting?");
+        saveAlert.getButtonTypes().add(ButtonType.YES);
+        saveAlert.getButtonTypes().add(ButtonType.NO);
+
+        saveAlert.showAndWait().ifPresent( response -> {
+            if (response == ButtonType.YES){
+                HandleOutput.storeMetrics(Globals.output);
+            } 
+            loadPage(event, "/com/cs261/app/start.fxml");
+        }
+        );
     }
 
 
