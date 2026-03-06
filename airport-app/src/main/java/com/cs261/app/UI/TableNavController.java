@@ -3,9 +3,12 @@ package com.cs261.app.UI;
 //import com.cs261.app.controller.ResultsContext;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
+<<<<<<< Updated upstream
 
 import java.io.IOException;
 
+=======
+>>>>>>> Stashed changes
 import com.cs261.app.UI.Globals;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,8 +32,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
+<<<<<<< Updated upstream
 public class TableNavController 
 {
+=======
+public class TableNavController {
+>>>>>>> Stashed changes
 
     /** Simple row for popup tables: id (callsign/runway id) and details line. */
     private static class IdDetail {
@@ -147,8 +154,12 @@ public class TableNavController
         }
     }
 
+<<<<<<< Updated upstream
     private void loadPage(ActionEvent event, String fxml) 
     {
+=======
+    private void loadPage(ActionEvent event, String fxml) {
+>>>>>>> Stashed changes
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -158,14 +169,43 @@ public class TableNavController
         }
     }
 
+<<<<<<< Updated upstream
     // make a page that asks the user if they want to close the page and save their run.
 
+=======
+    @FXML
+    private void goHome(ActionEvent event) {
+        loadPage(event, "/com/cs261/app/kpiHome.fxml");
+    }
+
+    @FXML
+    private void goToDepartures(ActionEvent event) {
+        loadPage(event, "/com/cs261/app/tables(Departures).fxml");
+    }
+>>>>>>> Stashed changes
 
     @FXML
     private void goToArrivals(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
     }
 
+<<<<<<< Updated upstream
+=======
+    @FXML
+    private void goToQueue(ActionEvent event) {
+        loadPage(event, "/com/cs261/app/tables(TO).fxml");
+    }
+
+    @FXML
+    private void goToHolding(ActionEvent event) {
+        loadPage(event, "/com/cs261/app/tables(HP).fxml");
+    }
+
+    @FXML
+    private void goToRunways(ActionEvent event) {
+        loadPage(event, "/com/cs261/app/tables(Runway).fxml");
+    }
+>>>>>>> Stashed changes
 
     @FXML
     private void goToGraphs(ActionEvent event) {
