@@ -33,7 +33,8 @@ public class Utils {
 	 * Convert from ticks to LocalDateTime
 	 * Adding number of minutes to january 1st 2026 00:00
 	 */
-	public static LocalDateTime convertTicksToDate(int t){
+	public static LocalDateTime convertTicksToDate(int t)
+	{
 		LocalDateTime date = LocalDateTime.of(2026, 1, 1, 0, 0).plusMinutes(t * Utils.timeInc);
 		return date;
 	}

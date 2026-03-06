@@ -1,19 +1,19 @@
 package com.cs261.app.UI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.cs261.app.model.ModelOutput;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.collections.ObservableList;
 
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+ 
 
 
 public class OutputPageController {
@@ -28,7 +28,7 @@ public class OutputPageController {
         initializeCoords();
         
         //table trees
-        
+        loadTables();
 
         //
 
@@ -44,14 +44,25 @@ public class OutputPageController {
     @FXML
     private void loadTables()
     {
+        //arrivals table.
         String[][] tableAllArrivals = output.getTableAllArrivals();
+
         for(int i = 0; i < tableAllArrivals.length; i++)
-        {
-            ObservableList<ArrivalRow> data = javafx.collections.FXCollections.observableArrayList();
-            for(int j = 0; j < tableAllArrivals[i].length; j++)
+        {   //Runway,callsign,actual
+ 
+
+            ArrivalRow row = new ArrivalRow(tableAllArrivals[i][0], tableAllArrivals[i][1], tableAllArrivals[i][2] );
+            String timeStamp = tableAllArrivals[i][3];
+            List<ArrivalRow> list = Globals.arrivalsTree.get( Integer.parseInt(timeStamp));
+            if(list == null)
             {
-                //data.add(new ArrivalRow(tableAllArrivals[i][j]));
+                list = new ArrayList<>();
             }
+            list.add(row);
+
+            Globals.arrivalsTree.put(Integer.parseInt(tableAllArrivals[i][3]), list);
+            //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
+            
             
         }
     }
@@ -60,20 +71,22 @@ public class OutputPageController {
     @FXML
     private void initializeCoords() 
     {
-        int[][] depart = output.getGraphDepartDifferences();
-        int[][] arrive = output.getGraphArrivalDifferences();
-
+        ArrayList<Double[]>  depart = output.getGraphDepartDifferences();
+        
+        ArrayList<Double[]> arrive = output.getGraphArrivalDifferences();
+        System.out.println("Depart size: " + depart.size());
+        System.out.println("Arrive size: " + arrive.size());
         XYChart.Series<Number, Number> departSeries = new XYChart.Series<>();
         XYChart.Series<Number, Number> arriveSeries = new XYChart.Series<>();
 
-        for (int i = 0; i < depart.length; i++) 
+        for (int i = 0; i < depart.size(); i++) 
         {
-            departSeries.getData().add(new XYChart.Data<>(depart[i][0], depart[i][1]));
+            departSeries.getData().add(new XYChart.Data<>(depart.get(i)[0], depart.get(i)[1]));
             
         }
-        for (int i = 0; i < arrive.length; i++) 
+        for (int i = 0; i < arrive.size(); i++) 
         {
-            arriveSeries.getData().add(new XYChart.Data<>(arrive[i][0], arrive[i][1]));
+            arriveSeries.getData().add(new XYChart.Data<>(arrive.get(i)[0], arrive.get(i)[1]));
             
         }
         Globals.departSeries = departSeries;
