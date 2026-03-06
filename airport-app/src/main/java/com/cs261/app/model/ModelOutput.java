@@ -26,10 +26,6 @@ public class ModelOutput implements IModelOutput {
     ArrayList<AirCraft> planesInTQueue = new ArrayList<>();
     ArrayList<AirCraft> planesInHQueue = new ArrayList<>();
 
-
-
-
-
     /**
      * Returns the aircraft object associated with a given callsign.
      * @param callsign the callsign of the plane you want to get
@@ -38,8 +34,6 @@ public class ModelOutput implements IModelOutput {
     public AirCraft getPlaneByCallsign(String callsign){
         return aircrafts.get(callsign);
     }
-
-  
 
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
@@ -58,8 +52,8 @@ public class ModelOutput implements IModelOutput {
     private double avgDepartWait = 0;
 
     // TABLES TO OUTPUT 
-    private int[][] graphDepartDifferences;
-    private int[][] graphArrivalDifferences;
+    private ArrayList<Double[]> graphDepartDifferences;
+    private ArrayList<Double[]> graphArrivalDifferences;
     private String[][] tableAllDepartures;
     private String[][] tableAllArrivals;
     private String[][] tableHoldingQueue;
@@ -128,14 +122,14 @@ public class ModelOutput implements IModelOutput {
     /**
      * @return table that plots scheduled time against actual exit time of takeoffs
      */
-    public int[][] getGraphDepartDifferences() {
-        return graphDepartDifferences;
+    public Double[][] getGraphDepartDifferences() {
+        return (Double[][]) graphDepartDifferences.toArray();
     }
     /**
      * @return table that plots scheduled timme against actual exit time of landings
      */
-    public int[][] getGraphArrivalDifferences() {
-        return graphArrivalDifferences;
+    public Double[][] getGraphArrivalDifferences() {
+        return (Double[][]) graphArrivalDifferences.toArray();
     }
     // tables
     /**
@@ -222,10 +216,6 @@ public class ModelOutput implements IModelOutput {
         System.out.println("calcAverageTakeOffWaitTime");
 
         // tables and graphs
-        graphArrivalDifferences = arrivalDifferenceGraph();
-        System.out.println("arrivalDifferenceGraph");
-        graphDepartDifferences = departDifferenceGraph();
-        System.out.println("departDifferenceGraph");
         tableAllDepartures = departuresTable();
         System.out.println("departuresTable");
         tableAllArrivals = arrivalsTable();
@@ -241,7 +231,7 @@ public class ModelOutput implements IModelOutput {
     /**
      * Method called in simloop at the end of the iteration to update output statistics 
      */
-    public void updateOutput(ArrayList<String> exitedPlanes, int holdingSz, int takeOffSz){
+    public void updateOutput(ArrayList<String> exitedPlanes, int holdingSz, int takeOffSz, int time){
 		if (exitedPlanes.isEmpty()){
             System.out.println("exits");
             return;
@@ -255,6 +245,34 @@ public class ModelOutput implements IModelOutput {
         System.out.println("rkaeofft");
         updateSumsAndMaxs(exitedPlanes);
         System.out.println("finished model output");
+    }
+
+    private void updateGraph(ArrayList<String> exitedPlanes, int time){
+        double delayA = 0;
+        double delayD = 0;
+        for (int i = 0; i < exitedPlanes.size(); i++){
+            AirCraft a = aircrafts.get(exitedPlanes.get(i));
+            double delay = 0;
+            if (a.getExitTime().isAfter(a.getScheduled())){
+                delay = (double) Duration.between(a.getScheduled(), a.getExitTime()).toMinutes();
+            }   
+
+            if (a.getFlightType() == FlightType.ARRIVAL){
+                delayA += delay;
+            } else {
+                delayD += delay;
+            }
+        }
+        double avgA = delayA / time;
+        double avgD = delayD / time;
+        Double[] valueA = new Double[2];
+        Double[] valueD = new Double[2];
+        valueA[0] = (double) time;
+        valueA[1] = avgA;
+        valueD[0] = (double) time;
+        valueD[1] = avgD;
+        graphArrivalDifferences.add(valueA);
+        graphDepartDifferences.add(valueD);
     }
 
     /**
@@ -465,38 +483,6 @@ public class ModelOutput implements IModelOutput {
             table[i][2] = a.getExitTime().toString();
         }
         return table;
-    }
-
-    /**
-     * @return difference in scheduled time and actual time of arrivals
-     */
-    public int[][] arrivalDifferenceGraph(){
-        int[][] graph = new int[exitedArrivals.size()][2];
-        for (int i = 0; i < exitedArrivals.size(); i++){
-            LocalDateTime a = exitedArrivals.get(i).getScheduled();
-            LocalDateTime b = exitedArrivals.get(i).getExitTime();
-            if (b.isAfter(a)){
-                graph[i][1] = (int) Duration.between(exitedArrivals.get(i).getScheduled(), exitedArrivals.get(i).getExitTime()).toMinutes();
-                graph[i][0] = Utils.convertDateToTicks(b) * Utils.timeInc; // number of minutes since start at which it exitted
-            }
-        }
-        return graph;
-    }
-
-    /**
-     * @return difference in scheduled time and actual time of departures
-     */
-    public int[][] departDifferenceGraph(){
-        int[][] graph = new int[exitedDepartures.size()][2];
-        for (int i = 0; i < exitedDepartures.size(); i++){
-            LocalDateTime a = exitedDepartures.get(i).getScheduled();
-            LocalDateTime b = exitedDepartures.get(i).getExitTime();
-            if (b.isAfter(a)){
-                graph[i][1] = (int) Duration.between(exitedDepartures.get(i).getScheduled(), exitedDepartures.get(i).getExitTime()).toMinutes();
-                graph[i][0] = Utils.convertDateToTicks(b) * Utils.timeInc; // number of minutes since start at which it exitted
-            }
-        }
-        return graph;
     }
 
     // lists and maps 
