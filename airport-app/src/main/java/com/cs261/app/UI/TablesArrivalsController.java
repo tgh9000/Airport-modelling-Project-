@@ -1,10 +1,10 @@
 package com.cs261.app.UI;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.collections.ObservableList;
 
 public class TablesArrivalsController 
 {
@@ -20,28 +20,22 @@ public class TablesArrivalsController
     private TableColumn<ArrivalRow, String> callsignColumn;
 
     @FXML
-    private TableColumn<ArrivalRow, String> scheduledColumn;
+    private TableColumn<ArrivalRow, String> runwayColumn;
 
     @FXML
     private TableColumn<ArrivalRow, String> actualColumn;
 
-    @FXML
-    private TableColumn<ArrivalRow, String> delayColumn;
-
-    @FXML
-    private TableColumn<ArrivalRow, String> waitColumn;
     
 
     @FXML
     public void initialize() 
     {
-
+        //arrivalsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        runwayColumn.setCellValueFactory(new PropertyValueFactory<>("runway"));
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
-        scheduledColumn.setCellValueFactory(new PropertyValueFactory<>("scheduled"));
+
         actualColumn.setCellValueFactory(new PropertyValueFactory<>("actual"));
-        delayColumn.setCellValueFactory(new PropertyValueFactory<>("delay"));
-        waitColumn.setCellValueFactory(new PropertyValueFactory<>("wait"));
-        data = Globals.getArrivalsTableData(currentTimeStamp);
+        data = Globals.getArrivalsTableData();
         
         arrivalsTable.setItems(data);
 

@@ -62,13 +62,14 @@
                     <HBox alignment="CENTER_LEFT" spacing="10.0">
             
                         <!-- Search Field -->
-                        <TextField fx:id="timestampField" prefHeight="36.0" prefWidth="340.0" promptText="Insert Timestamp here" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" />
+                        <TextField fx:id="timestampField" prefHeight="36.0" prefWidth="340.0" promptText="Enter start Timestamp" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="timestampField1" prefHeight="36.0" prefWidth="340.0" promptText="Enter end Timestamp" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" />
             
                         <!-- Search Button -->
                         <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" />
             
                         <!-- Spacer -->
-                        <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="ALWAYS" />
+                        <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="NEVER" />
                     </HBox>
                   <HBox alignment="CENTER">
                      <children>
@@ -90,21 +91,19 @@
                          <padding>
                       <Insets bottom="20" left="30" right="30" top="20" />
                   </padding>
-               <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="478.0">
+               <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="478.0" VBox.vgrow="ALWAYS">
                   <children>
             
-                        <VBox spacing="15">
+                        <VBox spacing="15" HBox.hgrow="ALWAYS">
             
                             <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Arrival Data" />
             
                             <TableView fx:id="arrivalsTable" prefHeight="400" style="-fx-background-radius: 10; -fx-border-radius: 10;">
       
                               <columns>
-                                 <TableColumn fx:id="callsignColumn" prefWidth="150" text="Plane Callsign" />
-                                 <TableColumn fx:id="scheduledColumn" prefWidth="150" text="Scheduled arrival time" />
-                                 <TableColumn fx:id="actualColumn" prefWidth="150" text="Actual arrival time" />
-                                 <TableColumn fx:id="delayColumn" prefWidth="150" text="Delay" />
-                                 <TableColumn fx:id="waitColumn" prefWidth="200" text="Wait Time" />
+                                 <TableColumn fx:id="runwayColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Runway" />
+                                 <TableColumn fx:id="callsignColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Plane Callsign" />
+                                 <TableColumn fx:id="actualColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Actual arrival time" />
                               </columns>
       
                            </TableView>

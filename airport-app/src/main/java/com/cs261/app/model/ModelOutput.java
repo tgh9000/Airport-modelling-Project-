@@ -1,6 +1,5 @@
 package com.cs261.app.model;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -492,13 +491,13 @@ public class ModelOutput implements IModelOutput {
      * @return each row is a flight. column 1 = runway it was on, column 2 = call sign of flight, column 3 = exit time of flight
      */
     public String[][] getSimExitTable(ArrayList<AirCraft> list){
-        String[][] table = new String[list.size()][3];
+        String[][] table = new String[list.size()][4];
         for (int i = 0; i < list.size(); i++){
             AirCraft a = list.get(i);
             table[i][0] = a.getRunway();
             table[i][1] = a.getCallSign();
             table[i][2] = a.getExitTime().toString();
-            table[i][3] = Utils.convertDateToTicks(a.getExitTime()).toString();
+            table[i][3] = String.valueOf( Utils.convertDateToTicks(a.getExitTime()));
 
         }
         return table;

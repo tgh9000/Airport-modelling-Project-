@@ -10,10 +10,6 @@ import com.cs261.app.model.ModelOutput;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
-
-import com.cs261.app.model.AirCraft;
-import com.cs261.app.model.ModelOutput;
-
 public class Globals 
 {   
      
@@ -29,10 +25,10 @@ public class Globals
     public static XYChart.Series<Number, Number> arriveSeries; 
 
     // trees required for the tables.
-    public static TreeMap<Integer,List<ArrivalRow>> arrivalsTree;
-    public static TreeMap<Integer, AirCraft> departuresTree;
+    public static TreeMap<Integer,List<ArrivalRow>> arrivalsTree = new TreeMap<>();
+    public static TreeMap<Integer, AirCraft> departuresTree = new TreeMap<>();
 
-    public static ObservableList<ArrivalRow>  getArrivalsTableData( int TimeStamp)
+    public static ObservableList<ArrivalRow>  getArrivalsTableDataRange( int TimeStamp)
     {
         Map<Integer, List<ArrivalRow>> result = arrivalsTree.subMap(TimeStamp, TimeStamp + 15);
         ObservableList<ArrivalRow> data = javafx.collections.FXCollections.observableArrayList();
@@ -41,6 +37,19 @@ public class Globals
         }
 
 
+        return data;
+    }
+
+
+    public static ObservableList<ArrivalRow>  getArrivalsTableData( )
+    {
+        ObservableList<ArrivalRow> data = javafx.collections.FXCollections.observableArrayList();
+        for (Map.Entry<Integer, List<ArrivalRow>> entry : arrivalsTree.entrySet()) {
+            data.addAll(entry.getValue());
+        }
+        
+
+        
         return data;
     }
 

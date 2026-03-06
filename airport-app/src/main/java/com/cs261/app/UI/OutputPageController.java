@@ -1,23 +1,17 @@
 package com.cs261.app.UI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.cs261.app.model.ModelOutput;
-import com.cs261.app.model.AirCraft;
-import com.cs261.app.model.Utils;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.collections.ObservableList;
-
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
 
  
 
@@ -54,19 +48,19 @@ public class OutputPageController {
         String[][] tableAllArrivals = output.getTableAllArrivals();
 
         for(int i = 0; i < tableAllArrivals.length; i++)
-        {   //Runway,callsign,scheduled,actual,delay
+        {   //Runway,callsign,actual
  
 
             ArrivalRow row = new ArrivalRow(tableAllArrivals[i][0], tableAllArrivals[i][1], tableAllArrivals[i][2] );
-
-            List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault( Integer.parseInt( tableAllArrivals[i[3]]), new ArrayList<>());
+            String timeStamp = tableAllArrivals[i][3];
+            List<ArrivalRow> list = Globals.arrivalsTree.get( Integer.parseInt(timeStamp));
             if(list == null)
             {
                 list = new ArrayList<>();
             }
             list.add(row);
 
-            Globals.arrivalsTree.put(Integer.parseInt(row.getScheduled()), list);
+            Globals.arrivalsTree.put(Integer.parseInt(tableAllArrivals[i][3]), list);
             //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
             
             
