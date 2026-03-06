@@ -10,6 +10,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 
 public class OutputPageController {
@@ -24,6 +26,8 @@ public class OutputPageController {
         
         //table trees
         
+        //
+
         //go load the right page after this.
         try {
             switchScene();

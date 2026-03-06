@@ -9,6 +9,9 @@ import com.cs261.app.model.ModelOutput;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
+import com.cs261.app.model.AirCraft;
+import com.cs261.app.model.ModelOutput;
+
 public class Globals 
 {   
      

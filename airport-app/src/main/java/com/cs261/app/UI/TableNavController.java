@@ -29,7 +29,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-public class TableNavController {
+public class TableNavController 
+{
 
     /** Simple row for popup tables: id (callsign/runway id) and details line. */
     private static class IdDetail {
@@ -164,7 +165,6 @@ public class TableNavController {
     private void goToArrivals(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
     }
-
 
 
     @FXML
