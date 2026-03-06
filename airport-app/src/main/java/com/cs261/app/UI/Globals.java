@@ -17,6 +17,8 @@ public class Globals
 
     public static String duration;
 
+    public static String totalTicks;
+
     public static int[] runwayModes;
 
 
@@ -28,9 +30,9 @@ public class Globals
     public static TreeMap<Integer,List<ArrivalRow>> arrivalsTree = new TreeMap<>();
     public static TreeMap<Integer, AirCraft> departuresTree = new TreeMap<>();
 
-    public static ObservableList<ArrivalRow>  getArrivalsTableDataRange( int TimeStamp)
+    public static ObservableList<ArrivalRow>  getArrivalsTableDataRange( int TimeStamp,int endTStamp)
     {
-        Map<Integer, List<ArrivalRow>> result = arrivalsTree.subMap(TimeStamp, TimeStamp + 15);
+        Map<Integer, List<ArrivalRow>> result = arrivalsTree.subMap(TimeStamp, endTStamp);
         ObservableList<ArrivalRow> data = javafx.collections.FXCollections.observableArrayList();
         for (List<ArrivalRow> rows : result.values()) {
             data.addAll(rows);
