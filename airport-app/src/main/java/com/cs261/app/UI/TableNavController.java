@@ -3,19 +3,7 @@ package com.cs261.app.UI;
 //import com.cs261.app.controller.ResultsContext;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-import java.io.IOException;
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-import com.cs261.app.UI.Globals;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,31 +15,23 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
 public class TableNavController 
 {
-=======
-public class TableNavController {
->>>>>>> Stashed changes
-=======
-public class TableNavController {
->>>>>>> Stashed changes
-=======
-public class TableNavController {
->>>>>>> Stashed changes
+
+
+
 
     /** Simple row for popup tables: id (callsign/runway id) and details line. */
     private static class IdDetail {
@@ -168,20 +148,10 @@ public class TableNavController {
         }
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     private void loadPage(ActionEvent event, String fxml) 
     {
-=======
-    private void loadPage(ActionEvent event, String fxml) {
->>>>>>> Stashed changes
-=======
-    private void loadPage(ActionEvent event, String fxml) {
->>>>>>> Stashed changes
-=======
-    private void loadPage(ActionEvent event, String fxml) {
->>>>>>> Stashed changes
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -191,16 +161,10 @@ public class TableNavController {
         }
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     // make a page that asks the user if they want to close the page and save their run.
 
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
     @FXML
     private void goHome(ActionEvent event) {
         loadPage(event, "/com/cs261/app/kpiHome.fxml");
@@ -210,27 +174,14 @@ public class TableNavController {
     private void goToDepartures(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Departures).fxml");
     }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 
     @FXML
     private void goToArrivals(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
     @FXML
     private void goToQueue(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(TO).fxml");
@@ -245,13 +196,7 @@ public class TableNavController {
     private void goToRunways(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Runway).fxml");
     }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 
     @FXML
     private void goToGraphs(ActionEvent event) {

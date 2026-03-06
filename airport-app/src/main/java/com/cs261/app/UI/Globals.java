@@ -1,6 +1,5 @@
 package com.cs261.app.UI;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,10 +10,7 @@ import com.cs261.app.model.ModelOutput;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
 
@@ -27,8 +23,7 @@ public class Globals
 
     public static int[] runwayModes;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     // lists used for the grapsh
     public static XYChart.Series<Number, Number> departSeries; 
     public static XYChart.Series<Number, Number> arriveSeries; 
@@ -49,10 +44,7 @@ public class Globals
         return data;
     }
 
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
     public static AirCraft  GetAirplane(String callsign)
     {
         return output.getPlaneByCallsign(callsign);
