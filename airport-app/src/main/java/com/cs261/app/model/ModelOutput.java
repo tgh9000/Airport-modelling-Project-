@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-
 import com.cs261.app.model.AirCraft.FlightType;
 import com.cs261.app.model.RunWay.OperationStatus;
 
@@ -26,6 +25,21 @@ public class ModelOutput implements IModelOutput {
     HashSet<String> allExits = new HashSet<>();
     ArrayList<AirCraft> planesInTQueue = new ArrayList<>();
     ArrayList<AirCraft> planesInHQueue = new ArrayList<>();
+
+
+
+
+
+    /**
+     * Returns the aircraft object associated with a given callsign.
+     * @param callsign the callsign of the plane you want to get
+     * @return the plane object associated with the callsign, or null if no such plane exists
+     */
+    public AirCraft getPlaneByCallsign(String callsign){
+        return aircrafts.get(callsign);
+    }
+
+  
 
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
@@ -172,6 +186,17 @@ public class ModelOutput implements IModelOutput {
      */
     public int getTotalAircraftLanded() {
         return arrivalModel.getLanded();
+    }
+
+    /**
+     * @return int[0] = number of arrival runways, int[1] = number of departure runways, int[2] = number of mixed runways
+     */
+    public int[] getNumberRunways(){
+        int[] result = new int[3];
+        result[0] = runways.getNumArrivals();
+        result[1] = runways.getNumDepart();
+        result[3] = runways.getNumMixed();
+        return result;
     }
 
     /**
