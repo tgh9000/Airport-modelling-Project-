@@ -10,6 +10,9 @@ import java.util.Random;
 import com.cs261.app.model.AirCraft.FlightType;
 import com.cs261.app.model.AirCraft.EmergencyStatus;
 
+/**
+ * Generate flight schedule for modelling
+ */
 public class DataGen {
     /* Pre generate flight queues, sorted by actual entry time. */
     private Queue<AirCraft> scheduledArrivals;

@@ -26,7 +26,8 @@
                      </image>
                   </ImageView>
                   </StackPane> -->
-                  <Button alignment="BOTTOM_CENTER" onAction="#goToSecondPage" prefHeight="21.0" prefWidth="200.0" styleClass="landingBtn1" text="Load new simulation" />
+                  <Button alignment="BOTTOM_CENTER" onAction="#goToSecondPage" prefHeight="21.0" prefWidth="200.0" styleClass="landingBtn1" text="Load New Simulation" />
+                  <Button alignment="BOTTOM_CENTER" onAction="#goToCompare" prefHeight="21.0" prefWidth="200.0" styleClass="landingBtn1" text="Compare Previous Simulations" />
                   <Button mnemonicParsing="false" onAction="#closeApp" prefWidth="150.0" text="Close application" styleClass="landingBtn2" />
                </children>
             </VBox>

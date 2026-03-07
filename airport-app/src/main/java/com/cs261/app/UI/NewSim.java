@@ -151,7 +151,7 @@ public class NewSim
             errorMessage("Invalid cancellation time");
             return;
         }
-
+        int[] modeCounts = new int[3]; // 0 = landing, 1 = takeoff, 2 = mixed
         //parse each runway information
         runwayArray = new RunWay[runways];
         for(int i = 0 ; i < runwaysList.size(); i ++)
@@ -163,18 +163,34 @@ public class NewSim
                 errorMessage("Invalid input for runway " + (i + 1));
                 return;
             }
+            switch (r.getMode()) {
+                case LANDING:
+                    modeCounts[0]++;
+                    break;
+                case TAKEOFF:
+                    modeCounts[1]++;
+                    break;
+                case MIXED:
+                    modeCounts[2]++;
+                    break;
+                default:
+                    break;
+                    
+            }
+
             runwayArray[i] = r;
 
         }
-
+        Globals.runwayModes = modeCounts;
         errorMessage("All inputs valid! Ready to run simulation.");
-
+        Globals.duration = dayNum + " days, " + hourNum + " hours, " + minuteNum + " minutes";
+        Globals.totalTicks = String.valueOf((dayNum * 24 * 60 + hourNum * 60 + minuteNum));
 
         // load waiting screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/simulationWait.fxml"));
         Parent root = loader.load();
 
-        SimulationWait controller = loader.getController();
+        SimulationWaitController controller = loader.getController();
         controller.startSim(runwayArray, dayNum, hourNum, minuteNum, failureProb, cancellationTime);
         
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -209,7 +225,7 @@ public class NewSim
     {
 
         Parent root = FXMLLoader.load(
-        getClass().getResource("start.fxml"));
+        getClass().getResource("/com/cs261/app/start.fxml"));
 
         Stage stage = (Stage) ((Node) event.getSource())
                 .getScene().getWindow();

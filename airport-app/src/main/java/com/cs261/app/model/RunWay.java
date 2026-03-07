@@ -2,6 +2,9 @@ package com.cs261.app.model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents each runway
+ */
 public class RunWay {
 	/**
 	 * Represents the operating mode of the runway
@@ -35,7 +38,7 @@ public class RunWay {
 	private String runwayNumber; // runway number
 	private int length; // does not affect simulation
 	private int bearing;
-	private String currentPlane; // occupying aircraft callsign
+	private String currentPlane = null; // occupying aircraft callsign
 	private OperationStatus status;
 	private OperatingMode mode;
 
@@ -49,12 +52,9 @@ public class RunWay {
 		this.bearing = bearing;
 		this.mode = mode;
 		this.status = OperationStatus.AVAILABLE; // always starts as available
-		
-		this.currentPlane = null;
 		this.runwayNumber = calcID(this.bearing);
 		this.changeStatusTo = change;
 		this.changeStatusTimes = timeAt;
-
 		if (mode == OperatingMode.MIXED) {
 			this.mixedModeTurn = OperatingMode.LANDING; // mixed runways start with arrivals
 		} else {
@@ -81,10 +81,11 @@ public class RunWay {
 	/**
 	 * Assign an occupying plane to the runway
 	 * @param currentPlane the plane to set
+	 * @return true if plane is set, false otherwise
 	 */
-	public void addPlane(AirCraft plane) {
+	public boolean addPlane(AirCraft plane) {
 		if (plane == null){
-			return;
+			return false;
 		}
 
 		if (plane.getFlightType().getCode() == mixedModeTurn.getCode()){ // check the plane is of the correct type for the runway
@@ -92,14 +93,20 @@ public class RunWay {
 			plane.addToRunway(runwayNumber); // update plane with the runway it is occupying
 
 			if (this.mode == OperatingMode.MIXED) {
-				if (this.mixedModeTurn == OperatingMode.LANDING) {
-					this.mixedModeTurn = OperatingMode.TAKEOFF;
-				} else {
-					this.mixedModeTurn = OperatingMode.LANDING;
+				switch (this.mixedModeTurn){
+					case OperatingMode.LANDING:
+						this.mixedModeTurn = OperatingMode.TAKEOFF;
+						break;
+					case OperatingMode.TAKEOFF:
+						this.mixedModeTurn = OperatingMode.LANDING;
+						break;
+					default:
+						break; // dont change because its an error
 				}
 			}
 		}
 		System.out.println("added plane");
+		return true;
 	}
 
 	/**

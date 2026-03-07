@@ -19,13 +19,15 @@ public class SimService extends Service<ModelOutput>{
     private int runtimeInput; // in ticks
     private double failrate;
     private int cancelTime;
-    private DoubleProperty taskProgress = new SimpleDoubleProperty();
+    private DoubleProperty taskProgress = new SimpleDoubleProperty(0);
     /**
      * Create background task, the simulation itself
      */
     @Override
     protected Task<ModelOutput> createTask() {
-        return new SimLoop(runwayInput, runtimeInput, taskProgress);  
+        SimLoop myTask = new SimLoop(runwayInput, runtimeInput);
+        taskProgress.bind(myTask.progressProperty());
+        return myTask;
     }
 
     /**

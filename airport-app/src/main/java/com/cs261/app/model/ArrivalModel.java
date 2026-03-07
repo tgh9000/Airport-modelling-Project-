@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Handle adding airplanes into arrivals
+ */
 public class ArrivalModel {
 	private AirCraftMap aircraftMap;
 	private HoldingQueue holdingPattern;
@@ -15,20 +18,27 @@ public class ArrivalModel {
 		this.aircraftMap = map;
 		this.holdingPattern = queue;
 	}
-	
+	/**
+	 * Update the flights that have arrived during the simulation time.
+	 * @param newPlanes the new planes for arrival in the simulation
+	 * @param currentTime time elapsed since the start of the simulation.
+	 */
 	public void updateArrivals(List<AirCraft> newPlanes, int currentTime) {		
-		// add new planes 
-		System.out.printf("num planes %d \n", newPlanes.size());
-		Iterator<AirCraft> i = newPlanes.listIterator();
-		while (i.hasNext()){
-			AirCraft a = i.next();
-			holdingPattern.enqueue(totalArrivals++, a);	 // increment total arrivals and add plane to holding queue
-			aircraftMap.put(a);	
+		//System.out.printf("num planes %d \n", newPlanes.size());
+		try {
+			Iterator<AirCraft> i = newPlanes.listIterator();
+			while (i.hasNext()){ // add new planes 
+				AirCraft a = i.next();
+				holdingPattern.enqueue(totalArrivals++, a);	 // increment total arrivals and add plane to holding queue
+				aircraftMap.put(a);	
+			}
+			i = null;
+			System.out.printf("num planes added %d \n", totalArrivals);
+			holdingPattern.updateHolding(currentTime);
+			System.out.println("updateArrivals");
+		} catch (Exception e){
+			e.printStackTrace();
 		}
-		i = null;
-		System.out.printf("num planes added %d \n", totalArrivals);
-		holdingPattern.updateHolding(currentTime);
-		System.out.println("updateArrivals");
 	}
 
 	/**
@@ -46,11 +56,18 @@ public class ArrivalModel {
 		return landedPlanes;
 	}
 
-	public Set<String> getHoldingPatternAircraftIds() {
-		return holdingPattern.getAircraftIds();
-	}
-
+	/**
+	 * @return the number of planes in the simulation that were set for arrival
+	 */
 	public int getTotalArrivals(){
 		return totalArrivals;
+	}
+
+	/**
+	 * (for testing purposes)
+	 * @return set of planes currently in the holding queue
+	 */
+	public Set<String> getHoldingPatternAircraftIds() {
+		return holdingPattern.getAircraftIds();
 	}
 }

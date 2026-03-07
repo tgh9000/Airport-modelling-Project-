@@ -107,18 +107,7 @@
 }
 
 .inputStack {
-    -fx-background-color: radial-gradient(
-        center 50% 0%, 
-        radius 100%, 
-        #014795 20%,
-        #A6BEDA 100%, 
-        #FFFCF9 100%),
-    linear-gradient(
-        from 0% 100% to 100% 0%,
-        #fffcf970 0%,
-        #f2f2f265 53%,
-        #bec7d462 100%
-    );   
+    -fx-background-color: #122840;
 }
 
 .text-field {
@@ -264,15 +253,15 @@
     -fx-background-color: radial-gradient(
         center 50% 0%, 
         radius 100%, 
-        #014795 20%,
-        #A6BEDA 100%, 
-        #FFFCF9 100%),
-    linear-gradient(
+        #1E4A72 20%,
+        #1A3A5C 100%, 
+        #122840 100%);
+    /* linear-gradient(
         from 0% 100% to 100% 0%,
         #fffcf970 0%,
         #f2f2f265 53%,
         #bec7d462 100%
-    );    
+    );     */
 }
 
 .startpgSq{
@@ -287,7 +276,19 @@
 .landingTitle {
     -fx-font-size: 32px;
     -fx-font-weight: bold;
+    -fx-text-fill: white;
 }
 
+.progress-bar {
+    -fx-accent: #4DA6FF; /* progress color */
+}
 
+.progress-bar .track {
+    -fx-background-color: #F0F4F8; /* background track */
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
 

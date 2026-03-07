@@ -26,37 +26,31 @@ public class InvariantTest {
      * Test-only wrapper to run SimLoop synchronously inside JUnit.
      * This avoids needing JavaFX Task execution + avoids sim.get().
      */
-private static class TestableSimLoop extends SimLoop {
+    private static class TestableSimLoop extends SimLoop {
 
-    public TestableSimLoop(RunWay[] userRunways, int userRuntime) {
-        super(userRunways, userRuntime, new SimpleDoubleProperty(0));
-    }
+        public TestableSimLoop(RunWay[] userRunways, int userRuntime) {
+            super(userRunways, userRuntime, new SimpleDoubleProperty(0));
+        }
 
-    public ModelOutput runSync() {
-        try {
-            return super.call();
-        } catch (Exception e) {
-            throw new RuntimeException("Simulation threw an exception", e);
+        public ModelOutput runSync() {
+            try {
+                return super.call();
+            } catch (Exception e) {
+                throw new RuntimeException("Simulation threw an exception", e);
+            }
         }
     }
-}
 
-//
- //   private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
-  //      return new TestableSimLoop(runways, runtimeTicks).runSync();
- //   }
-
-
-private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
-    try {
-        return new TestableSimLoop(runways, runtimeTicks).runSync();
-    } catch (RuntimeException ex) {
-        Assumptions.assumeTrue(false,
-                "Simulation crashed (incomplete model). Skipping invariants until fixed. Cause: "
-                        + ex.getCause());
-        return null; // unreachable
+    private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
+        try {
+            return new TestableSimLoop(runways, runtimeTicks).runSync();
+        } catch (RuntimeException ex) {
+            Assumptions.assumeTrue(false,
+                    "Simulation crashed (incomplete model). Skipping invariants until fixed. Cause: "
+                            + ex.getCause());
+            return null; // unreachable
+        }
     }
-}
 
     private static RunWay landing(int bearing) {
         return new RunWay(3000, bearing, RunWay.OperatingMode.LANDING, new RunWay.OperationStatus[0], new int[0][0]);
