@@ -48,7 +48,7 @@ public class OutputPageController {
         {   //Runway,callsign,actual
  
 
-            ArrivalRow row = new ArrivalRow(tableAllArrivals[i][0], tableAllArrivals[i][1], tableAllArrivals[i][2] );
+            ArrivalRow row = new ArrivalRow(tableAllArrivals[i][1], tableAllArrivals[i][0], tableAllArrivals[i][2] );
             String timeStamp = tableAllArrivals[i][3];
             List<ArrivalRow> list = Globals.arrivalsTree.get( Integer.parseInt(timeStamp));
             if(list == null)
