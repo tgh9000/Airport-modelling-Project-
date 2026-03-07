@@ -47,21 +47,26 @@ public class SimLoop extends Task<ModelOutput>{
 	@Override
 	protected ModelOutput call() throws Exception {
 		while (currentTime != runtime) {
-			System.out.printf("current %d \n", currentTime);
-			// get flights for this tick
-			List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
-			List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
-			// arrivals update, add flights 
-			arrivalModel.updateArrivals(newArrivals, currentTime);
-			// departures update, add flights
-			departureModel.updateDepartures(newDepartures, currentTime);
-			// traffic controller update, check runways and stuff
-			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
-			System.out.println("returned traffic");
-			currentTime += Utils.timeInc;
-			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), currentTime);
-			System.out.println("returned output");
-			updateProgress((double) currentTime, (double) runtime);
+			try {
+				System.out.printf("current %d \n", currentTime);
+				// get flights for this tick
+				List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
+				List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
+				// arrivals update, add flights 
+				arrivalModel.updateArrivals(newArrivals, currentTime);
+				// departures update, add flights
+				departureModel.updateDepartures(newDepartures, currentTime);
+				// traffic controller update, check runways and stuff
+				ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
+				System.out.println("returned traffic");
+				currentTime += Utils.timeInc;
+				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
+				System.out.println("returned output");
+				updateProgress((double) currentTime, (double) runtime);	
+			} catch (Exception e){
+				e.printStackTrace();
+				continue; // need to retry the iteration
+			}
 		}	
 		output.finishCalculations();
 		System.out.println("finished everything");
