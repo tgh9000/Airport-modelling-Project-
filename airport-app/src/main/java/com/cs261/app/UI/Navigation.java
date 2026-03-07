@@ -21,9 +21,10 @@ public class Navigation
         stage.getScene().setRoot(root);
     }   
 
-    private void load(ActionEvent event, String str) throws IOException{
+    @FXML
+    public void goToSecondPage(ActionEvent event) throws IOException {
         FXMLLoader loader =
-                new FXMLLoader(getClass().getResource(str));
+                new FXMLLoader(getClass().getResource("/com/cs261/app/inputForm.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource())
@@ -33,13 +34,17 @@ public class Navigation
     }
 
     @FXML
-    public void goToSecondPage(ActionEvent event) throws IOException {
-        load(event, "/com/cs261/app/inputForm.fxml");
-    }
-
-    @FXML
     public void goToCompare(ActionEvent event) throws IOException {
-        load(event, "/com/cs261/app/compareSimPage.fxml");
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/compareSimPage.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        CompareSimController controller = loader.getController();
+        controller.init();
+        stage.getScene().setRoot(root);  
     }
 
     public void closeApp(ActionEvent event) throws IOException {
