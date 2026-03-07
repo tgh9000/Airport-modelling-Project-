@@ -20,7 +20,7 @@ public class OutputPageController {
         this.output = output;
         Globals.output = output; 
 
-
+        
         //calculate the arrivals and depaartures graph data
         initializeCoords();
         
@@ -48,8 +48,8 @@ public class OutputPageController {
         {   //Runway,callsign,actual
  
 
-            ArrivalRow row = new ArrivalRow(tableAllArrivals[i][1], tableAllArrivals[i][0], tableAllArrivals[i][2] );
-            String timeStamp = tableAllArrivals[i][3];
+            ArrivalRow row = new ArrivalRow(tableAllArrivals[i][1], tableAllArrivals[i][0], tableAllArrivals[i][2], tableAllArrivals[i][3],tableAllArrivals[i][4]);
+            String timeStamp = tableAllArrivals[i][5];
             List<ArrivalRow> list = Globals.arrivalsTree.get( Integer.parseInt(timeStamp));
             if(list == null)
             {
@@ -57,11 +57,57 @@ public class OutputPageController {
             }
             list.add(row);
 
-            Globals.arrivalsTree.put(Integer.parseInt(tableAllArrivals[i][3]), list);
+            Globals.arrivalsTree.put(Integer.parseInt(timeStamp), list);
             //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
             
             
         }
+       // System.out.println("Arrivals tree size: " + Globals.arrivalsTree.size());
+        //departures table.
+        String[][] tableAllDepartures = output.getTableAllDepartures();
+        for(int i = 0; i < tableAllDepartures.length; i++)
+        {   //Runway,callsign,actual
+ 
+
+            ArrivalRow row = new ArrivalRow(tableAllDepartures[i][1], tableAllDepartures[i][0], tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4]);
+            String timeStamp = tableAllDepartures[i][5];
+            List<ArrivalRow> list = Globals.departuresTree.get( Integer.parseInt(timeStamp));
+            if(list == null)
+            {
+                list = new ArrayList<>();
+            }
+            list.add(row);
+
+            Globals.departuresTree.put(Integer.parseInt(timeStamp), list);
+            //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
+            
+            
+        }
+        //System.out.println("test2");
+
+
+        //queue table
+        String[][] tableAllqueue = output.getTableTakeOffQueue();
+        for(int i = 0; i < tableAllqueue.length; i++)
+        {   //Runway,callsign,actual
+ 
+
+            QueueRow row = new QueueRow(tableAllDepartures[i][0],tableAllDepartures[i][1],  tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4]);
+            String timeStamp = tableAllDepartures[i][5];
+            List<QueueRow> list = Globals.queueTree.get( Integer.parseInt(timeStamp));
+            if(list == null)
+            {
+                list = new ArrayList<>();
+            }
+            list.add(row);
+
+            Globals.queueTree.put(Integer.parseInt(timeStamp), list);
+            //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
+            
+            
+        }
+        //System.out.println("test 3");
+
     }
 
 

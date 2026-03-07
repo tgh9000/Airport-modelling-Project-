@@ -454,7 +454,7 @@ public class ModelOutput implements IModelOutput {
      * column1 = call sign, column2 = scheduled departure/arrival time, column3 = actual departure/arrival time, column4 = delay, column5 = wait time
      */
     public String[][] getQueueTable(ArrayList<AirCraft> list){
-        String[][] table = new String[list.size()][5];
+        String[][] table = new String[list.size()][6];
         for (int i = 0; i < list.size(); i++){
             AirCraft a = list.get(i);
             int delay = 0;
@@ -467,6 +467,7 @@ public class ModelOutput implements IModelOutput {
             table[i][2] = a.getEntryTime().toString(); 
             table[i][3] = Integer.toString(delay);
             table[i][4] = Integer.toString((int) Duration.between(a.getEntryTime(), a.getExitTime()).toMinutes());
+            table[i][5] = String.valueOf(Utils.convertDateToTicks(a.getExitTime()));
         }
         return table;
     }
