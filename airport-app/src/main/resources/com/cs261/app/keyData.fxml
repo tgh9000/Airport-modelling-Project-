@@ -4,9 +4,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="480.0" prefWidth="720.0" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TableNavController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TableNavController">
 
     <VBox prefHeight="480.0" prefWidth="140.0" spacing="0" style="-fx-background-color: #1a3a5c;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
         <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #122840; -fx-cursor: hand;">
-            <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#goHome" prefHeight="86.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-cursor: hand;" HBox.hgrow="ALWAYS">
+            <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="86.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-cursor: hand;" HBox.hgrow="ALWAYS">
                 <graphic>
                     <ImageView fitHeight="101.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                         <image><Image url="@logoNoBack.png" /></image>
@@ -26,13 +26,10 @@
                 </graphic>
             </Button>
         </HBox>
-        <Button fx:id="btnHome" onAction="#goHome" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: #2a5a8c;-fx-text-fill: white;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 700;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;-fx-border-left-width: 4;-fx-border-color: #4da6ff transparent transparent transparent;" text="Home" />
-        <Button fx:id="btnDepartures" onAction="#goToDepartures" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Departures" />
-        <Button fx:id="btnArrivals" onAction="#goToArrivals" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Arrivals" />
-        <Button fx:id="btnQueue" onAction="#goToQueue" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Take-Off Queue" />
-        <Button fx:id="btnHolding" onAction="#goToHolding" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Holding Pattern" />
-        <Button fx:id="btnRunways" onAction="#goToRunways" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Runways" />
-        <Button fx:id="btnGraphs" onAction="#goToGraphs" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Graphs" />
+        <!--    <Button fx:id="btnHome"  alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: #2a5a8c;-fx-text-fill: white;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 700;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;-fx-border-left-width: 4;-fx-border-color: #4da6ff transparent transparent transparent;" text="Home" />    -->
+        <Button fx:id="btnTables" alignment="CENTER_LEFT" onAction="#goToDepartures" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Tables" />
+        <Button fx:id="btnGraphs" alignment="CENTER_LEFT" onAction="#goToGraphs" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Graphs" />
+        <Button fx:id="btnExitOutputPg" alignment="CENTER_LEFT" onAction="#gotoLanding" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Exit Simulation" />
     </VBox>
 
     <VBox spacing="14.0" style="-fx-background-color: #f0f4f8;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="140" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -43,11 +40,8 @@
         <VBox>
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <TextField fx:id="timestampField" prefHeight="36.0" prefWidth="340.0" promptText="Insert Timestamp here"
-                               style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" />
-                    <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="60.0"
-                            style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;"
-                            text="🔍" />
+                    <TextField fx:id="timestampField" prefHeight="36.0" prefWidth="340.0" promptText="Insert Timestamp here" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" />
+                    <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" />
                     <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="ALWAYS" />
                 </HBox>
             </children>
@@ -66,31 +60,21 @@
         <Label fx:id="kpiDuration" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Duration of simulation: —" />
     </VBox>
 
-    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0"
-          AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
-            <Button fx:id="btnDetailsToggle" onAction="#toggleDetailsPane"
-                    prefHeight="36.0" prefWidth="36.0"
-                    style="-fx-background-color: #c8d8e8;-fx-text-fill: #1a3a5c;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;"
-                    text="◀" />
+            <Button fx:id="btnDetailsToggle" onAction="#toggleDetailsPane" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #c8d8e8;-fx-text-fill: #1a3a5c;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="◀" />
         </children>
     </HBox>
 
-    <VBox fx:id="detailsPane" visible="false" managed="false"
-          prefWidth="280.0" spacing="12.0"
-          style="-fx-background-color: #e3edf9; -fx-padding: 10;"
-          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <VBox fx:id="detailsPane" managed="false" prefWidth="280.0" spacing="12.0" style="-fx-background-color: #e3edf9; -fx-padding: 10;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
             <TabPane fx:id="detailsTabPane">
                 <tabs>
                     <Tab text="Planes">
                         <content>
                             <VBox spacing="8.0" style="-fx-padding: 5;">
-                                <TextField fx:id="planesSearchField" promptText="Search by callsign or ID..."
-                                           prefHeight="30.0" prefWidth="240.0"
-                                           style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 12px;-fx-padding: 4 8;" />
-                                <TableView fx:id="planesTable" prefHeight="220.0"
-                                           style="-fx-background-radius: 10; -fx-border-radius: 10;">
+                                <TextField fx:id="planesSearchField" prefHeight="30.0" prefWidth="240.0" promptText="Search by callsign or ID..." style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 12px;-fx-padding: 4 8;" />
+                                <TableView fx:id="planesTable" prefHeight="220.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
                                     <columns>
                                         <TableColumn fx:id="planesIdColumn" prefWidth="100.0" text="Callsign" />
                                         <TableColumn fx:id="planesDetailColumn" prefWidth="160.0" text="Details" />
@@ -102,11 +86,8 @@
                     <Tab text="Runways">
                         <content>
                             <VBox spacing="8.0" style="-fx-padding: 5;">
-                                <TextField fx:id="runwaysSearchField" promptText="Search by runway ID..."
-                                           prefHeight="30.0" prefWidth="240.0"
-                                           style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 12px;-fx-padding: 4 8;" />
-                                <TableView fx:id="runwaysTable" prefHeight="220.0"
-                                           style="-fx-background-radius: 10; -fx-border-radius: 10;">
+                                <TextField fx:id="runwaysSearchField" prefHeight="30.0" prefWidth="240.0" promptText="Search by runway ID..." style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 12px;-fx-padding: 4 8;" />
+                                <TableView fx:id="runwaysTable" prefHeight="220.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
                                     <columns>
                                         <TableColumn fx:id="runwaysIdColumn" prefWidth="100.0" text="Runway ID" />
                                         <TableColumn fx:id="runwaysDetailColumn" prefWidth="160.0" text="Details" />
@@ -117,8 +98,7 @@
                     </Tab>
                 </tabs>
             </TabPane>
-            <Button fx:id="btnCloseDetails" onAction="#closeDetailsPane" text="Close"
-                    style="-fx-background-color: #1a3a5c;-fx-text-fill: white;-fx-background-radius: 6;-fx-cursor: hand;-fx-padding: 8 20;" />
+            <Button fx:id="btnCloseDetails" onAction="#closeDetailsPane" style="-fx-background-color: #1a3a5c;-fx-text-fill: white;-fx-background-radius: 6;-fx-cursor: hand;-fx-padding: 8 20;" text="Close" />
         </children>
     </VBox>
 </AnchorPane>

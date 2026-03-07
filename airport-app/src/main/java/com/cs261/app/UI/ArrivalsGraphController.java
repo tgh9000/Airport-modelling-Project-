@@ -42,12 +42,14 @@ public class ArrivalsGraphController
      */
     private void loadData() {
 
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        XYChart.Series<Number, Number> series =Globals.arriveSeries;
+
+        /* 
         // adding data to the graph.
         series.getData().add(new XYChart.Data<>(2, 10));
         series.getData().add(new XYChart.Data<>(4, 25));
         series.getData().add(new XYChart.Data<>(5, 18));
-        series.getData().add(new XYChart.Data<>(6, 40));
+        series.getData().add(new XYChart.Data<>(6, 40)); */
 
         arrivalsGraph.setCreateSymbols(true);
         arrivalsGraph.getData().add(series);
@@ -112,7 +114,7 @@ public class ArrivalsGraphController
     // navigation methods
 
     /**
-     * 
+     * Takes user to the Departures graph page when the button is clicked.
      * @param event the event that is triggered when the user clicks the button.
      * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
      */
@@ -120,6 +122,23 @@ public class ArrivalsGraphController
     {
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("/com/cs261/app/graphs(departures).fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        stage.getScene().setRoot(root);   
+    }
+
+    /**
+     * 
+     * @param event the event that is triggered when the user clicks the button.
+     * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
+     */
+    public void goHome(ActionEvent event) throws IOException 
+    {
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/keyData.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource())

@@ -6,11 +6,12 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<StackPane stylesheets="@../teststyle.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.OutputPageController" style="-fx-background-color: #F0F4F8">
+<StackPane fx:id = "outputPageStackPane" stylesheets="@../teststyle.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.OutputPageController" style="-fx-background-color: #F0F4F8">
     <children>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-                <Label text="PLACEHOLDER" style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 22px;"/>
+                <Label text="Finishing Up..."  style="-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 22px;"/>
+
             </children>
         </VBox>
     </children>
