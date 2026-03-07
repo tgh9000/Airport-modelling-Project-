@@ -138,6 +138,8 @@ public class TablesArrivalsController
         //arrivalsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         runwayColumn.setCellValueFactory(new PropertyValueFactory<>("runway"));
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
+        
+        
 
         actualColumn.setCellValueFactory(new PropertyValueFactory<>("actual"));
         data = Globals.getArrivalsTableData();

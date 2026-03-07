@@ -66,7 +66,7 @@
                         <TextField fx:id="timestampField1" prefHeight="36.0" prefWidth="340.0" promptText="Enter end Timestamp" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" />
             
                         <!-- Search Button -->
-                        <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" onAction="#searchByTimestamp" />
+                        <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#searchByTimestamp" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" />
             
                         <!-- Spacer -->
                         <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="NEVER" />
@@ -101,8 +101,9 @@
                             <TableView fx:id="arrivalsTable" prefHeight="400" style="-fx-background-radius: 10; -fx-border-radius: 10;">
       
                               <columns>
+                                 <TableColumn fx:id="callsignColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Plane Callsign" /> 
                                  <TableColumn fx:id="runwayColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Runway" />
-                                 <TableColumn fx:id="callsignColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Plane Callsign" />
+                                 
                                  <TableColumn fx:id="actualColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Actual arrival time" />
                               </columns>
       
@@ -110,8 +111,8 @@
             
                             <!-- Pagination Controls -->
                             <HBox alignment="CENTER_RIGHT" spacing="10">
-                                <Button text="◀" fx:id="btnPrev" onAction = "#prev" />
-                                <Button text="▶" fx:id="btnNext" onAction = "#next" />
+                                <Button fx:id="btnPrev" onAction="#prev" text="◀" />
+                                <Button fx:id="btnNext" onAction="#next" text="▶" />
                             </HBox>
             
                         </VBox>
