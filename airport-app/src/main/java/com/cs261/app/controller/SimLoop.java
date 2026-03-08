@@ -60,7 +60,7 @@ public class SimLoop extends Task<ModelOutput>{
 				ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
 				System.out.println("returned traffic");
 				currentTime += Utils.timeInc;
-				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
+				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), currentTime);
 				System.out.println("returned output");
 				updateProgress((double) currentTime, (double) runtime);	
 			} catch (Exception e){

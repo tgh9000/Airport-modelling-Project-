@@ -46,13 +46,13 @@
 .landingBtn1 {
     -fx-background-color: #014795;
     -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 24px;
-    -fx-padding: 5px;
+    -fx-font-size: 16px;
+    -fx-font-weight: NORMAL;
+    -fx-background-radius: 16px;
+    -fx-padding: 10px;
     -fx-border-width: 2px;
     -fx-border-color: #023a7a;
-    -fx-border-radius: 24;
+    -fx-border-radius:16px;
 }
 
 .landingBtn1:hover{
@@ -251,10 +251,10 @@
 
 .startpageBg{
     -fx-background-color: radial-gradient(
-        center 50% 0%, 
-        radius 100%, 
-        #1E4A72 20%,
-        #1A3A5C 100%, 
+        center 40% 50%, 
+        radius 80%, 
+        #285681 20%,
+        #1A3A5C 80%, 
         #122840 100%);
     /* linear-gradient(
         from 0% 100% to 100% 0%,
@@ -267,15 +267,15 @@
 .startpgSq{
     -fx-text-fill: white;
     -fx-background-color: rgba(255, 255, 255, 0.333);
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-padding: 12 24;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 20 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.3, 0, 4);
 }
 
 .landingTitle {
-    -fx-font-size: 32px;
-    -fx-font-weight: bold;
+    -fx-font-size: 48px;
+    -fx-font-weight: BOLD;
     -fx-text-fill: white;
 }
 
