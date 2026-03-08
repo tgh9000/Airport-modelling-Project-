@@ -30,7 +30,6 @@ public class Globals
     public static TreeMap<Integer,List<ArrivalRow>> arrivalsTree = new TreeMap<>();
     public static TreeMap<Integer, List<ArrivalRow>> departuresTree = new TreeMap<>();
     public static TreeMap<Integer, List<QueueRow>> queueTree = new TreeMap<>();
-    public static TreeMap<Integer, List<QueueRow>> holdingTree = new TreeMap<>();
 
     public static ObservableList<ArrivalRow>  getArrivalsTableDataRange( int TimeStamp,int endTStamp)
     {
@@ -105,33 +104,6 @@ public class Globals
     {
         ObservableList<QueueRow> data = javafx.collections.FXCollections.observableArrayList();
         for (Map.Entry<Integer, List<QueueRow>> entry : queueTree.entrySet()) {
-            data.addAll(entry.getValue());
-        }
-        
-
-        
-        return data;
-    }
-
-
-
-    public static ObservableList<QueueRow>  getHoldingTableDataRange( int TimeStamp,int endTStamp)
-    {
-        Map<Integer, List<QueueRow>> result = holdingTree.subMap(TimeStamp, endTStamp);
-        ObservableList<QueueRow> data = javafx.collections.FXCollections.observableArrayList();
-        for (List<QueueRow> rows : result.values()) {
-            data.addAll(rows);
-        }
-
-
-        return data;
-    }
-
-
-    public static ObservableList<QueueRow>  getHoldingTableData( )
-    {
-        ObservableList<QueueRow> data = javafx.collections.FXCollections.observableArrayList();
-        for (Map.Entry<Integer, List<QueueRow>> entry : holdingTree.entrySet()) {
             data.addAll(entry.getValue());
         }
         
