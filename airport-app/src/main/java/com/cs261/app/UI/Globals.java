@@ -1,5 +1,6 @@
 package com.cs261.app.UI;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,6 +21,7 @@ public class Globals
     public static String totalTicks;
 
     public static int[] runwayModes;
+    
 
 
     // lists used for the grapsh
@@ -31,6 +33,8 @@ public class Globals
     public static TreeMap<Integer, List<ArrivalRow>> departuresTree = new TreeMap<>();
     public static TreeMap<Integer, List<QueueRow>> queueTree = new TreeMap<>();
     public static TreeMap<Integer, List<QueueRow>> holdingTree = new TreeMap<>();
+
+    public static HashMap<Integer,TreeMap<Integer, List<RunwayRow>>> RunwayTree = new HashMap<>();
 
     public static ObservableList<ArrivalRow>  getArrivalsTableDataRange( int TimeStamp,int endTStamp)
     {
@@ -133,6 +137,52 @@ public class Globals
         ObservableList<QueueRow> data = javafx.collections.FXCollections.observableArrayList();
         for (Map.Entry<Integer, List<QueueRow>> entry : holdingTree.entrySet()) {
             data.addAll(entry.getValue());
+        }
+        
+
+        
+        return data;
+    }
+
+
+
+
+    public static ObservableList<RunwayRow>  getRunwayTableDataRange( int TimeStamp,int endTStamp,int runway)
+    {
+        TreeMap<Integer, List<RunwayRow>> runwayData = RunwayTree.get(runway);
+        Map<Integer, List<RunwayRow>> result = runwayData.subMap(TimeStamp, endTStamp);
+        ObservableList<RunwayRow> data = javafx.collections.FXCollections.observableArrayList();
+        for (List<RunwayRow> rows : result.values()) {
+            data.addAll(rows);
+        }
+
+
+        return data;
+    }
+
+    public static ObservableList<RunwayRow>  getSingleRunwayTableData( int runway)
+    {
+        TreeMap<Integer, List<RunwayRow>> runwayData = RunwayTree.get(runway);
+        ObservableList<RunwayRow> data = javafx.collections.FXCollections.observableArrayList();
+        for (Map.Entry<Integer, List<RunwayRow>> entry : runwayData.entrySet()) {
+            data.addAll(entry.getValue());
+        }
+        
+
+        
+        return data;
+    }
+
+
+
+    public static ObservableList<RunwayRow>  getRunwayTableData( )
+    {
+        ObservableList<RunwayRow> data = javafx.collections.FXCollections.observableArrayList();
+        for (Map.Entry<Integer, TreeMap<Integer, List<RunwayRow>>> runwayEntry : RunwayTree.entrySet()) {
+            TreeMap<Integer, List<RunwayRow>> runwayData = runwayEntry.getValue();
+            for (Map.Entry<Integer, List<RunwayRow>> entry : runwayData.entrySet()) {
+                data.addAll(entry.getValue());
+            }
         }
         
 
