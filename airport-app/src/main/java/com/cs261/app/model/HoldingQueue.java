@@ -101,9 +101,9 @@ public class HoldingQueue {
 	 * @param k the serial number of the flight, ie what number arrival flight it is out of all flights that have been set for arrival
 	 * so far
 	 */
-	public void enqueue(int k, AirCraft plane) {
+	public void enqueue(int k, AirCraft plane) throws InvalidParameterException{
 		if (plane.getFlightType() != FlightType.ARRIVAL || k < 0) {
-			return;
+			throw new InvalidParameterException("Attempt to queue invalid flight");
 		}
 		if (size >= capacity) {
 			resize();
