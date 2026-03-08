@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Utils {
-	public static final int timeInc = 1;
+	public static int timeInc = 1;
     public static final float fuelBurn = 2.71f; // Per design doc.
 	public static final float fuelDensity = 0.8029f; // ""
 	public static final float groundSpeedKnots = 140.0f; // ""
@@ -30,6 +30,15 @@ public class Utils {
 	}
 
 	/**
+	 * For animations
+	 * @param t new time inc
+	 */
+	public static void setTimeInc(int t){
+		timeInc = t;
+	}
+
+
+	/**
 	 * Convert from ticks to LocalDateTime
 	 * Adding number of minutes to january 1st 2026 00:00
 	 */
@@ -38,7 +47,6 @@ public class Utils {
 		LocalDateTime date = LocalDateTime.of(2026, 1, 1, 0, 0).plusMinutes(t * Utils.timeInc);
 		return date;
 	}
-
 
 	/**
 	 * Convert from LocalDateTime to ticks

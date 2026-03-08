@@ -166,21 +166,8 @@ public class TrafficController {
 	 * @param currentTime number of ticks elapsed so far
 	 */
 	private void handleDiversions(int currentTime){
+		holdingPattern.removeDiversions(currentTime);
 		System.out.println("diversions");
-		ArrayList<AirCraft> emergencies = holdingPattern.getEmergencyPlanes();
-		
-		if (emergencies.isEmpty()){
-			return;
-		}
-
-		for (AirCraft a : emergencies){ 
-			System.out.println("diversion loop");
-			if ((currentTime - a.getEmergencyTime()) >= Utils.emergencyTime){
-				a.setExitTime(Utils.convertTicksToDate(currentTime));
-				a.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
-			}
-		}
-		System.out.println("finish");
 	}
 
 	/** Check if the planes in the takeoff queue have been there longer than the maximum
@@ -191,6 +178,7 @@ public class TrafficController {
 		for (int i=0; i < takeoffQueue.size(); i++) {
 			AirCraft a = takeoffQueue.getAircraftAt(i);
 			if ((currentTime - Utils.convertDateToTicks(a.getEntryTime())) >= Utils.cancelTime){
+				takeoffQueue.remove(a); // remove from queue
 				a.setExitTime(Utils.convertTicksToDate(currentTime));
 				a.setZoneStatus(AirCraft.ZoneStatus.CANCEL);
 			}
