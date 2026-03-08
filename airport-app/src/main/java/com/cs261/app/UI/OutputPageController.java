@@ -106,7 +106,30 @@ public class OutputPageController {
             
             
         }
-        //System.out.println("test 3");
+        
+
+
+
+        //Holding Pattern table
+        String[][] tableAllHolding = output.holdingQueueTable();
+        for(int i = 0; i < tableAllHolding.length; i++)
+        {   //Runway,callsign,actual
+ 
+
+            QueueRow row = new QueueRow(tableAllHolding[i][0],tableAllHolding[i][1],  tableAllHolding[i][2], tableAllHolding[i][3],tableAllHolding[i][4]);
+            String timeStamp = tableAllHolding[i][5];
+            List<QueueRow> list = Globals.holdingTree.get( Integer.parseInt(timeStamp));
+            if(list == null)
+            {
+                list = new ArrayList<>();
+            }
+            list.add(row);
+
+            Globals.holdingTree.put(Integer.parseInt(timeStamp), list);
+            //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
+            
+            
+        }
 
     }
 
