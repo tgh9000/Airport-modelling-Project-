@@ -41,7 +41,7 @@ public class SimulationWaitController {
 
         myService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             public void handle(WorkerStateEvent event) {
-                System.out.println("success event");
+                //System.out.println("success event");
                 ModelOutput output = myService.getValue();
 
                 try {

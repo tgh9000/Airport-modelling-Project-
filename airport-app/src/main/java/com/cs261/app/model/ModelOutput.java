@@ -242,25 +242,25 @@ public class ModelOutput implements IModelOutput {
     public void finishCalculations(){
         // averages
         avgArriveDelay = calcAvgArriveDelay();
-        System.out.println("calcAvgArriveDelay");
+        //System.out.println("calcAvgArriveDelay");
         avgDepartDelay = calcAvgDepartDelay();
-        System.out.println("calcAvgDepartDelay");
+        //System.out.println("calcAvgDepartDelay");
         avgArriveWait = calcAverageHoldingWaitTime();
-        System.out.println("calcAverageHoldingWaitTime");
+        //System.out.println("calcAverageHoldingWaitTime");
         avgDepartWait = calcAverageTakeOffWaitTime();
-        System.out.println("calcAverageTakeOffWaitTime");
+        //System.out.println("calcAverageTakeOffWaitTime");
 
         // tables and graphs
         tableAllDepartures = departuresTable();
-        System.out.println("departuresTable");
+        //System.out.println("departuresTable");
         tableAllArrivals = arrivalsTable();
-        System.out.println("arrivalsTable");
+        //System.out.println("arrivalsTable");
         tableHoldingQueue = holdingQueueTable();
-        System.out.println("holdingQueueTable");
+        //System.out.println("holdingQueueTable");
         tableTakeOffQueue = takeOffQueueTable();
-        System.out.println("takeOffQueueTable");
+        //System.out.println("takeOffQueueTable");
         tableRunways = runwayTable();
-        System.out.println("runwayTable");
+        //System.out.println("runwayTable");
     }
 
     /**
@@ -268,20 +268,20 @@ public class ModelOutput implements IModelOutput {
      */
     public void updateOutput(ArrayList<String> exitedPlanes, int holdingSz, int takeOffSz, int time){
 		if (exitedPlanes.isEmpty()){
-            System.out.println("exits");
+            //System.out.println("exits");
             return;
         }
         // sort the planes. this list will have max 10 planes on it in one iteration of the simulations as it has planes that are just off the runways. 
         exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
-        System.out.println("sorting");
+        //System.out.println("sorting");
         updateMaxHolding(holdingSz);
-        System.out.println("holding");
+        //System.out.println("holding");
         updateMaxTQueue(takeOffSz);
-        System.out.println("rkaeofft");
+        //System.out.println("rkaeofft");
         updateSumsAndMaxs(exitedPlanes);
-        System.out.println("finished model output");
+        //System.out.println("finished model output");
         updateGraph(exitedPlanes, time);
-        System.out.println("update graph");
+        //System.out.println("update graph");
 
     }
 
@@ -452,20 +452,20 @@ public class ModelOutput implements IModelOutput {
                 table[i][1] = runwayList[i].getMode().toString();
                 table[i][2] = runwayList[i].getStatus().toString();
                 table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
-                System.out.println("basic");
+                //System.out.println("basic");
                 for (int j = 4; j < 13; j++){
                     table[i][j] = "N/A";
                 }
-                System.out.println("extras");
+                //System.out.println("extras");
                 OperationStatus[] changes = runwayList[i].getChangedStatus();
 
                 for (int j = 0; j < changes.length; j++){
-                    System.out.println("sm");
+                   // System.out.println("sm");
                     table[i][4 + (3 * j)] = changes[i].toString();
                     table[i][5 + (3 * j)] = runwayList[i].getStatusChangeStartTime(j).toString();
                     table[i][6 + (3 * j)] = runwayList[i].getStatusChangeEndTime(j).toString();
                 }          
-                System.out.printf("finsihed runway %d \n", i);
+                //System.out.printf("finsihed runway %d \n", i);
             }
             return table;
         } catch (Exception e){

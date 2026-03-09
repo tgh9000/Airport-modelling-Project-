@@ -24,7 +24,7 @@ public class TableHoldingController
     //arrivalsTable.setItems(data);
 
     @FXML
-    private TableView<QueueRow> QueueTable;
+    private TableView<QueueRow> HoldingTable;
     ////column1 = call sign, column2 = scheduled departure/arrival time, column3 = actual departure/arrival time, column4 = delay, column5 = wait time
     @FXML
     private TableColumn<QueueRow, String> callsignColumn;
@@ -55,6 +55,7 @@ public class TableHoldingController
         boolean validInput2 = true;
         int startTimeStamp = 0;
         int endTimeStamp = 0;
+
         try{
             startTimeStamp = Integer.parseInt(timestampField.getText());
             //endTimeStamp = Integer.parseInt(timestampField1.getText());
@@ -63,7 +64,7 @@ public class TableHoldingController
         catch(Exception e)
         {
             validInput1 = false;
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         try{
             endTimeStamp = Integer.parseInt(timestampField1.getText());
@@ -73,23 +74,23 @@ public class TableHoldingController
         catch(Exception e)
         {
             validInput2 = false;
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         System.out.println("start: " + startTimeStamp);
         System.out.println("end: " + endTimeStamp);
         ObservableList<QueueRow> data = null;
         if(validInput1 && validInput2)
         {
-            data = Globals.getQueueTableDataRange(startTimeStamp,endTimeStamp);
+            data = Globals.getHoldingTableDataRange(startTimeStamp,endTimeStamp);
             currentEndStamp = endTimeStamp;
             currentTimeStamp = startTimeStamp;
-            QueueTable.setItems(data);
+            HoldingTable.setItems(data);
             
         }
         else
         {
-            data = Globals.getQueueTableData();
-            QueueTable.setItems(data);
+            data = Globals.getHoldingTableData();
+            HoldingTable.setItems(data);
             currentEndStamp = 30;
             currentTimeStamp = 0;
             
@@ -114,8 +115,8 @@ public class TableHoldingController
         }
         currentTimeStamp += 30;
         currentEndStamp += 30;
-        ObservableList<QueueRow> data = Globals.getQueueTableDataRange(currentTimeStamp, currentEndStamp);
-        QueueTable.setItems(data);
+        ObservableList<QueueRow> data = Globals.getHoldingTableDataRange(currentTimeStamp, currentEndStamp);
+        HoldingTable.setItems(data);
         
     }
 
@@ -129,8 +130,8 @@ public class TableHoldingController
         }
         currentTimeStamp -= 30;
         currentEndStamp -= 30;
-        ObservableList<QueueRow> data = Globals.getQueueTableDataRange(currentTimeStamp, currentEndStamp );
-        QueueTable.setItems(data);
+        ObservableList<QueueRow> data = Globals.getHoldingTableDataRange(currentTimeStamp, currentEndStamp );
+        HoldingTable.setItems(data);
     }
 
     
@@ -139,8 +140,8 @@ public class TableHoldingController
     @FXML
     public void resetTable()
     {
-    ObservableList<QueueRow> data = Globals.getQueueTableData();
-    QueueTable.setItems(data);
+    ObservableList<QueueRow> data = Globals.getHoldingTableData();
+    HoldingTable.setItems(data);
     }
 
     
@@ -153,9 +154,9 @@ public class TableHoldingController
         scheduledColumn.setCellValueFactory(new PropertyValueFactory<>("entryTime"));
         exitColumn.setCellValueFactory(new PropertyValueFactory<>("waitTime"));
         actualColumn.setCellValueFactory(new PropertyValueFactory<>("actual"));
-        data = Globals.getQueueTableData();
+        data = Globals.getHoldingTableData();
         
-        QueueTable.setItems(data);
+        HoldingTable.setItems(data);
 
     }
 
