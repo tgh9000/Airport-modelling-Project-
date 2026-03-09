@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="480.0" prefWidth="720.0" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="480.0" prefWidth="720.0" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TableRunwayController">
 
    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -36,13 +36,13 @@
             </HBox>
    
             <!-- Nav Buttons -->
-            <Button fx:id="btnDepartures" onAction = "#goHome" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Departures" />
+            <Button fx:id="btnDepartures" alignment="CENTER_LEFT" onAction="#goDeparture" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Departures" />
 
-            <Button fx:id="btnArrivals" onAction ="#goArrival" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent;   -fx-border-width: 0 0 1 0;   -fx-padding: 0 0 0 20;" text="Arrivals" />
+            <Button fx:id="btnArrivals" alignment="CENTER_LEFT" onAction="#goArrival" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent;   -fx-border-width: 0 0 1 0;   -fx-padding: 0 0 0 20;" text="Arrivals" />
 
-            <Button fx:id="btnQueue" onAction ="#goQueue" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Take Off Queue" />
+            <Button fx:id="btnQueue" alignment="CENTER_LEFT" onAction="#goQueue" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Take Off Queue" />
 
-            <Button fx:id="btnHolding" onAction ="#goHolding" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent;   -fx-border-width: 0 0 1 0;   -fx-padding: 0 0 0 20;" text="Holding Pattern" />
+            <Button fx:id="btnHolding" alignment="CENTER_LEFT" onAction="#goHolding" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent;   -fx-border-width: 0 0 1 0;   -fx-padding: 0 0 0 20;" text="Holding Pattern" />
 
             <Button fx:id="btnRunways" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: #2a5a8c;-fx-text-fill: white; -fx-font-size: 13px;  -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 700; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 0 20; -fx-border-left-width: 4; -fx-border-color: #4da6ff transparent transparent transparent;" text="Runways" />
                   
@@ -99,15 +99,16 @@
          
                            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Runway Flight Data" />
          
-                           <TableView fx:id="QueueTable" prefHeight="400" style="-fx-background-radius: 10; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
+                           <TableView fx:id="RunwayTable" prefHeight="400" style="-fx-background-radius: 10; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
          
                               <columns>
 
-                                 <TableColumn fx:id="callsignColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Plane Callsign" /> 
+                                 <TableColumn fx:id="callsignColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Plane Callsign" />
+                                 <TableColumn fx:id="typeColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Type of Flight" /> 
+                                 <TableColumn fx:id="runwayColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Runway" /> 
                                  <TableColumn fx:id="scheduledColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Scheduled arrival time" />
                                  <TableColumn fx:id="actualColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Actual arrival time" />
                                  <TableColumn fx:id="exitColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Exit time of simulation" />
-                                 <TableColumn fx:id="typeColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Type of Flight" />
                               
                               </columns>
          
@@ -130,36 +131,3 @@
    </HBox>
 
 </AnchorPane>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 

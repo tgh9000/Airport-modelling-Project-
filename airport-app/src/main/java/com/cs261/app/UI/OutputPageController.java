@@ -69,23 +69,28 @@ public class OutputPageController {
             Globals.arrivalsTree.put(Integer.parseInt(timeStamp), list);
             //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
 
-            //Runway table part.
-            RunwayRow runwayRow = new RunwayRow(tableAllArrivals[i][1], "Arrival", tableAllArrivals[i][2], tableAllArrivals[i][3],tableAllArrivals[i][4]);
-            int runwayNumIndex = Integer.parseInt(tableAllArrivals[i][0]);
-            TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
-            if(runwayData == null)
+            if (tableAllArrivals[i][0] != null )
             {
-                runwayData = new TreeMap<>();
-            }
-            Globals.RunwayTree.put(runwayNumIndex, runwayData);
+               //Runway table part.
+                RunwayRow runwayRow = new RunwayRow(tableAllArrivals[i][1], "Arrival", tableAllArrivals[i][2], tableAllArrivals[i][3],tableAllArrivals[i][4],tableAllArrivals[i][0]);
+                //System.out.println("runway num index: " + tableAllArrivals[i][0]);
+                int runwayNumIndex = Integer.parseInt(tableAllArrivals[i][0]);
+                TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
+                if(runwayData == null)
+                {
+                    runwayData = new TreeMap<>();
+                }
+                Globals.RunwayTree.put(runwayNumIndex, runwayData);
 
-            List<RunwayRow> runwayList = runwayData.get( Integer.parseInt(timeStamp));
-            if(runwayList == null)
-            {
-                runwayList = new ArrayList<>();
+                List<RunwayRow> runwayList = runwayData.get( Integer.parseInt(timeStamp));
+                if(runwayList == null)
+                {
+                    runwayList = new ArrayList<>();
+                }
+                runwayList.add(runwayRow);
+                runwayData.put(Integer.parseInt(timeStamp), runwayList);
+             
             }
-            runwayList.add(runwayRow);
-            runwayData.put(Integer.parseInt(timeStamp), runwayList);
             
             
             
@@ -110,24 +115,26 @@ public class OutputPageController {
             //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
 
 
-
-            //Runway table part.
-            RunwayRow runwayRow = new RunwayRow(tableAllDepartures[i][1], "Departure", tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4]);
-            int runwayNumIndex = Integer.parseInt(tableAllDepartures[i][0]);
-            TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
-            if(runwayData == null)
+            if(tableAllDepartures[i][0] != null)
             {
-                runwayData = new TreeMap<>();
-            }
-            Globals.RunwayTree.put(runwayNumIndex, runwayData);
+                //Runway table part.
+                RunwayRow runwayRow = new RunwayRow(tableAllDepartures[i][1], "Departure", tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4],tableAllDepartures[i][0]);
+                int runwayNumIndex = Integer.parseInt(tableAllDepartures[i][0]);
+                TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
+                if(runwayData == null)
+                {
+                    runwayData = new TreeMap<>();
+                }
+                Globals.RunwayTree.put(runwayNumIndex, runwayData);
 
-            List<RunwayRow> runwayList = runwayData.get( Integer.parseInt(timeStamp));
-            if(runwayList == null)
-            {
-                runwayList = new ArrayList<>();
+                List<RunwayRow> runwayList = runwayData.get( Integer.parseInt(timeStamp));
+                if(runwayList == null)
+                {
+                    runwayList = new ArrayList<>();
+                }
+                runwayList.add(runwayRow);
+                runwayData.put(Integer.parseInt(timeStamp), runwayList);
             }
-            runwayList.add(runwayRow);
-            runwayData.put(Integer.parseInt(timeStamp), runwayList);
             
             
         }
@@ -140,8 +147,8 @@ public class OutputPageController {
         {   //Runway,callsign,actual
  
 
-            QueueRow row = new QueueRow(tableAllDepartures[i][0],tableAllDepartures[i][1],  tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4]);
-            String timeStamp = tableAllDepartures[i][5];
+            QueueRow row = new QueueRow(tableAllqueue[i][0],tableAllqueue[i][1],  tableAllqueue[i][2], tableAllqueue[i][3],tableAllqueue[i][4]);
+            String timeStamp = tableAllqueue[i][5];
             List<QueueRow> list = Globals.queueTree.get( Integer.parseInt(timeStamp));
             if(list == null)
             {

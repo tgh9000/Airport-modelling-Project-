@@ -39,6 +39,10 @@ public class TableRunwayController
     private TableColumn<RunwayRow, String> exitColumn;
 
     @FXML
+    private TableColumn<RunwayRow, String> runwayColumn;
+
+
+    @FXML
     private javafx.scene.control.TextField timestampField;
     @FXML
     private javafx.scene.control.TextField timestampField1;
@@ -165,11 +169,12 @@ public class TableRunwayController
     public void initialize() 
     {
         //arrivalsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("flight type"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
         scheduledColumn.setCellValueFactory(new PropertyValueFactory<>("entryTime"));
         exitColumn.setCellValueFactory(new PropertyValueFactory<>("exitTime"));
         actualColumn.setCellValueFactory(new PropertyValueFactory<>("actual"));
+        runwayColumn.setCellValueFactory(new PropertyValueFactory<>("runway"));
         data = Globals.getRunwayTableData();
         
         RunwayTable.setItems(data);
@@ -225,6 +230,18 @@ public class TableRunwayController
                 .getScene().getWindow();
 
         stage.getScene().setRoot(root);  
+    }
+
+    @FXML
+    public void goArrival(ActionEvent event) throws IOException {
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/tables(Arrivals).fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        stage.getScene().setRoot(root); 
     }
 
 
