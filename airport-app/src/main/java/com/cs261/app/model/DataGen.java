@@ -85,20 +85,17 @@ public class DataGen {
         int departureInterval = 60 / departureRate;
 
         /* Generate arrivals. */
-        for (int scheduledMinutes = 0; scheduledMinutes < runtime; scheduledMinutes += arrivalInterval) {
-            LocalDateTime scheduledTime = Utils.simulationStart.plusMinutes(scheduledMinutes);
-            LocalDateTime actualEntryTime = applyBoxMuller(scheduledMinutes);
+        for (int scheduledOffset = 0; scheduledOffset < runtime; scheduledOffset += arrivalInterval) {
+            LocalDateTime scheduledTime = Utils.simulationStart.plusMinutes(scheduledOffset);
+            LocalDateTime actualEntryTime = applyBoxMuller(scheduledOffset);
 
             AirCraft arrival = generateArrival(scheduledTime, actualEntryTime);
             scheduledArrivals.add(arrival);
         }
 
         /* Generate departures. */
-        for (int scheduledMinutes = 0; scheduledMinutes < runtime; scheduledMinutes += departureInterval) {
-            LocalDateTime scheduledTime = Utils.simulationStart.plusMinutes(scheduledMinutes);
-            LocalDateTime actualEntryTime = applyBoxMuller(scheduledMinutes);
-
-            AirCraft departure = generateDeparture(scheduledTime, actualEntryTime);
+        for (int scheduledOffset = 0; scheduledOffset < runtime; scheduledOffset += departureInterval) {
+            AirCraft departure = generateDeparture(scheduledOffset);
             scheduledDepartures.add(departure);
         }
     }
@@ -187,14 +184,14 @@ public class DataGen {
     /** 
      *  Handle generation of a single departing aircraft and it's attributes.
      * 
-     *  Scheduled departure time = actual entry time + uniform random offset (10-30 minutes).
+     *  Scheduled departure time = time of generation + uniform random offset (10-30 minutes).
+     *  Actual entry time = Box muller applied to scheduled time.
      *  Departures are generated on the ground (altitude = 0, speed = 0) and never spawn with an emergency status.
      * 
-     *  @param scheduledTime Scheduled time of generation. 
-     *  @param actualEntryTime Time the aircraft actually enters the simulation.
+     *  @param scheduledOffset Scheduled time of generation from simulation start. 
      *  @return the configured departing AirCraft object.
      */
-    private AirCraft generateDeparture(LocalDateTime scheduledTime, LocalDateTime actualEntryTime) {
+    private AirCraft generateDeparture(int scheduledOffset) {
         /* Generate operator and callsign. */
         OperatorData operator = operators.get(random.nextInt(operators.size()));
         operator.count++;
@@ -219,7 +216,8 @@ public class DataGen {
 
         /** scheduledDeparture is the ideal time of generation + uniform random offset (10-30 minutes). */
         int departureOffset = 10 + random.nextInt(21); // uniform(10,30)
-        LocalDateTime scheduledDeparture = scheduledTime.plusMinutes(departureOffset);
+        LocalDateTime scheduledDeparture = Utils.simulationStart.plusMinutes(scheduledOffset + departureOffset);
+        LocalDateTime actualEntryTime = applyBoxMuller(scheduledOffset + departureOffset); // actual entry = box muller applied to scheduled
 
         /* Create aircraft and return. */
         return new AirCraft(
