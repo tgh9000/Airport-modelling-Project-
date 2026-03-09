@@ -24,7 +24,7 @@
                <Button alignment="CENTER_LEFT" onAction="#goToInput" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="New Simulation" />
                <Button alignment="CENTER_LEFT" onAction="#goToLanding" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Go Back" />
             </VBox>
-            <SplitPane fx:id="splitPaneCompare" dividerPositions="0.35" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <SplitPane fx:id="splitPaneCompare" dividerPositions="0.35" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
               <items>
                 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
                      <children>
@@ -33,7 +33,7 @@
                   </AnchorPane>
                 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
                      <children>
-                        <ScrollPane fx:id="compareScroll" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="398.0" prefWidth="315.0">
+                        <ScrollPane fx:id="compareScroll" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="398.0" prefWidth="315.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <VBox fx:id="comparableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                            </content>
