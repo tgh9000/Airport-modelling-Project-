@@ -118,7 +118,7 @@ public class HoldingQueue {
 	 * @return root of heap or null if the queue is empty
 	 */
 	public AirCraft dequeue() {
-		System.out.println("try dequeue");
+		//System.out.println("try dequeue");
 		if (isEmpty()){
 			return null;
 		} 
@@ -127,7 +127,7 @@ public class HoldingQueue {
 		heap[size - 1] = null; // no duplicate planes
 		size--;
 		downheap(0);
-		System.out.println("dequeue");
+		//System.out.println("dequeue");
 		return result;
 	}
 	/**
@@ -254,23 +254,29 @@ public class HoldingQueue {
 	 * emergency.
 	 */
 	public void removeDiversions(int t){
-		/**
-		 * The plane at the top, if it is an emergency, has been waiting longer than all other planes in emergency as it has the lowest serial number
-		 * therefore if this plane has not passed emergency wait time no planes below it has
-		 */
-		boolean keepGoing = true;
+		try {
+			/**
+			 * The plane at the top, if it is an emergency, has been waiting longer than all other planes in emergency as it has the lowest serial number
+			 * therefore if this plane has not passed emergency wait time no planes below it has
+			 */
+			boolean keepGoing = true;
 
-		while (keepGoing){
-			if (this.top().getEmergencyStatus() == EmergencyStatus.NONE){
-				keepGoing = false;
-			} else {
-				if ((t - this.top().getEmergencyTime()) >= Utils.emergencyTime){
-					AirCraft front = this.dequeue();
-					front.setExitTime(Utils.convertTicksToDate(t));
-					front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
-					keepGoing = true; // just in case next planes are also in emergency
+			while (keepGoing){
+				if (this.top().getEmergencyStatus() == EmergencyStatus.NONE){
+					keepGoing = false;
+				} else {
+					if ((t - this.top().getEmergencyTime()) >= Utils.emergencyTime){
+						AirCraft front = this.dequeue();
+						front.setExitTime(Utils.convertTicksToDate(t));
+						front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
+						keepGoing = true; // just in case next planes are also in emergency
+					} else {
+						keepGoing = false;  // otherwise, because the root is the plane that has been in HP longest (in emergency), then don't keep going as the rest are not over EmergencyTime too 
+					}
 				}
 			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 

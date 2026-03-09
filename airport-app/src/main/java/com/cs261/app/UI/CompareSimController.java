@@ -71,7 +71,7 @@ public class CompareSimController {
 
     public void loadSimRunsList(){
         List<String> runsList = HandleOutput.listStoredRuns();
-        System.out.println(runsList.toString());
+        //System.out.println(runsList.toString());
         runsListProp.get().addAll(runsList);
         runsListView.setItems(runsListProp);
     }

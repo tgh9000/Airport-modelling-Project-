@@ -35,7 +35,7 @@ public class DepartureModel {
 			}
 			
 			i = null;
-			System.out.println("updateDepartures");
+			//System.out.println("updateDepartures");
 		} catch (Exception e){
 			e.printStackTrace();
 		}

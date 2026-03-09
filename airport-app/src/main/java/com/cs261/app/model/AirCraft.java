@@ -236,7 +236,12 @@ public class AirCraft {
     public void updateAltitude(AirCraft parent){
 		// get its parents altitude 
 		if (parent == null){
-			if (this.altitude >= 2000) this.altitude -= 1000;
+			if (this.altitude >= 2000){
+				this.altitude -= 1000;
+				return;
+			} else {
+				return; // dont go any lower
+			}
 		}
 
 		double parentAlt = parent.getAltitude();
@@ -246,6 +251,7 @@ public class AirCraft {
 		} else {
 			this.altitude -= 1000;
 		}
+		return;
     }
     /**
      * Updates emergency status if there is a fuel emergency.
