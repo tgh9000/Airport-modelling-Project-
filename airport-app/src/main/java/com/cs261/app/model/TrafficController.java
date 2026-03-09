@@ -101,10 +101,13 @@ public class TrafficController {
 			 * Planes do not have to wait more if there are runways immediately available. 
 			 */
 			System.out.println("Help me");
-			while (!freeArrivals.isEmpty()){
+			while (!freeArrivals.isEmpty() && !holdingPattern.isEmpty()){
 				System.out.println("Hoho");
 				RunWay landing = freeArrivals.remove(0); // always pick from front of the list
 				AirCraft front = holdingPattern.dequeue(); 
+				if (front == null){//null guard
+					break;
+				}
 				landing.addPlane(front); // assign the front plane to the available runway
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
 				arrivalModel.updateLanded();
@@ -141,10 +144,13 @@ public class TrafficController {
 			/** for each available arrival runway, dequeue the takeoff queue.
 			 * Planes do not have to wait more if there are runways immediately available. 
 			 */
-			while (!freeDepartures.isEmpty()){
+			while (!freeDepartures.isEmpty() && !takeoffQueue.isEmpty()){
 				System.out.println("departure loop");
 				RunWay takeoff = freeDepartures.remove(0); // always pick from front of the list
 				AirCraft front = takeoffQueue.dequeue(); 
+				if (front == null){
+					break;
+				}
 				takeoff.addPlane(front); // assign the front plane to the available runway
 				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
 				departureModel.updateTakenOff();

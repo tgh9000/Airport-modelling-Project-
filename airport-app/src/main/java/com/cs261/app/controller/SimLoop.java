@@ -29,7 +29,7 @@ public class SimLoop extends Task<ModelOutput>{
 	protected int runtime;
 	protected int currentTime;
 	protected DataGen dataGen;
-	protected ModelOutput output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue);
+	protected ModelOutput output;
 	private DoubleProperty progress;
 
 	/**
@@ -42,6 +42,7 @@ public class SimLoop extends Task<ModelOutput>{
 		this.progress = progress;
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
 		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
+		this.output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue, aircraftMap);
 	}
 	
 	@Override

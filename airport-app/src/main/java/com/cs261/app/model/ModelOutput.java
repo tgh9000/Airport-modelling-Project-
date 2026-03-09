@@ -51,10 +51,11 @@ public class ModelOutput implements IModelOutput {
     private String[][] tableTakeOffQueue;
     private String[][] tableRunways;
 
-    public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways, HoldingQueue holdingPattern, TakeOffQueue takeOffQueue) {
+    public ModelOutput(DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways, HoldingQueue holdingPattern, TakeOffQueue takeOffQueue,AirCraftMap aircraftMap) {
         this.departureModel = departureModel;
         this.arrivalModel = arrivalModel;
         this.runways = runways;
+        this.aircrafts = aircraftMap;
     }
 
     // TODO: total delays out of all flights or just the ones that are delayed? assuming the former for now

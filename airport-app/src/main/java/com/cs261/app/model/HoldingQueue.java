@@ -217,7 +217,7 @@ public class HoldingQueue {
 	 */
 	public ArrayList<AirCraft> getEmergencyPlanes(){
 		ArrayList<AirCraft> temp = new ArrayList<>();
-		for (int i = 0; i < heap.length; i++){
+		for (int i = 0; i < size; i++){
 			System.out.println("k");
 			// // if the current node has a 0 emergency status, just stop
 			// if (heap[i].getAircraft().getEmergencyStatus() == EmergencyStatus.NONE){
@@ -238,7 +238,7 @@ public class HoldingQueue {
 	 */
 	public Set<String> getAircraftIds(){
 		Set<String> ids = new HashSet<>();
-		for (int i = 0; i < heap.length; i++){
+		for (int i = 0; i < size; i++){
 				ids.add(heap[i].getAircraft().getCallSign());
 		}
 		return ids;
