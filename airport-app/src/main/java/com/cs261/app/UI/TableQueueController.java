@@ -62,7 +62,7 @@ public class TableQueueController
         catch(Exception e)
         {
             validInput1 = false;
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         try{
             endTimeStamp = Integer.parseInt(timestampField1.getText());
@@ -72,7 +72,7 @@ public class TableQueueController
         catch(Exception e)
         {
             validInput2 = false;
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         System.out.println("start: " + startTimeStamp);
         System.out.println("end: " + endTimeStamp);
