@@ -118,7 +118,7 @@ public class HoldingQueue {
 	 * @return root of heap or null if the queue is empty
 	 */
 	public AirCraft dequeue() {
-		System.out.println("try dequeue");
+		//System.out.println("try dequeue");
 		if (isEmpty()){
 			return null;
 		} 
@@ -127,7 +127,7 @@ public class HoldingQueue {
 		heap[size - 1] = null; // no duplicate planes
 		size--;
 		downheap(0);
-		System.out.println("dequeue");
+		//System.out.println("dequeue");
 		return result;
 	}
 	/**

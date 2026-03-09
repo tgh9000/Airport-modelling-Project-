@@ -282,7 +282,7 @@ public class DataGen {
         while (!scheduledArrivals.isEmpty() && !scheduledArrivals.peek().getEntryTime().isAfter(nextT)) {
             arrivals.add(scheduledArrivals.poll());
         }
-        System.out.println("getArrivalsForTick");
+        //System.out.println("getArrivalsForTick");
         return arrivals;
     }
 
@@ -300,7 +300,7 @@ public class DataGen {
         while (!scheduledDepartures.isEmpty() && !scheduledDepartures.peek().getEntryTime().isAfter(nextT)) {
             departures.add(scheduledDepartures.poll());
         }
-        System.out.println("getDeparturesForTick");
+       // System.out.println("getDeparturesForTick");
         return departures;
     }
 

@@ -157,8 +157,8 @@ public class OutputPageController {
         }
         Globals.departSeries = departSeries;
         Globals.arriveSeries = arriveSeries;
-        //System.out.println("Coords initialized and the size of the depart series is: " + departSeries.getData().size());
-        //System.out.println("Coords initialized and the size of the arrive series is: " + arriveSeries.getData().size());
+        System.out.println("Coords initialized and the size of the depart series is: " + departSeries.getData().size());
+        System.out.println("Coords initialized and the size of the arrive series is: " + arriveSeries.getData().size());
     }
 
 

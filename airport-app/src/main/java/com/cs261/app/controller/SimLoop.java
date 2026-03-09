@@ -48,7 +48,7 @@ public class SimLoop extends Task<ModelOutput>{
 	protected ModelOutput call() throws Exception {
 		while (currentTime != runtime) {
 			try {
-				System.out.printf("current %d \n", currentTime);
+				//System.out.printf("current %d \n", currentTime);
 				// get flights for this tick
 				List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
 				List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
@@ -58,10 +58,10 @@ public class SimLoop extends Task<ModelOutput>{
 				departureModel.updateDepartures(newDepartures, currentTime);
 				// traffic controller update, check runways and stuff
 				ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
-				System.out.println("returned traffic");
+				//System.out.println("returned traffic");
 				currentTime += Utils.timeInc;
 				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), currentTime);
-				System.out.println("returned output");
+				//System.out.println("returned output");
 				updateProgress((double) currentTime, (double) runtime);	
 			} catch (Exception e){
 				e.printStackTrace();

@@ -33,9 +33,9 @@ public class ArrivalModel {
 				aircraftMap.put(a);	
 			}
 			i = null;
-			System.out.printf("num planes added %d \n", totalArrivals);
+			//System.out.printf("num planes added %d \n", totalArrivals);
 			holdingPattern.updateHolding(currentTime);
-			System.out.println("updateArrivals");
+			//System.out.println("updateArrivals");
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -46,7 +46,7 @@ public class ArrivalModel {
 	 */
 	public void updateLanded(){
 		landedPlanes++;
-		System.out.println("updated landed planes #");
+		//System.out.println("updated landed planes #");
 	}
 
 	/**
