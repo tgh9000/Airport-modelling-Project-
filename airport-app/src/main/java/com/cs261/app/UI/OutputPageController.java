@@ -2,6 +2,7 @@ package com.cs261.app.UI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import com.cs261.app.model.ModelOutput;
 
@@ -41,6 +42,14 @@ public class OutputPageController {
     @FXML
     private void loadTables()
     {
+        int runwayNum =  Globals.runwayModes.length;
+        //idk if i need this 
+        TreeMap<Integer, List<RunwayRow>> [] runwayTree = new TreeMap[runwayNum];
+        for(int i = 0; i < runwayNum; i++)
+        {
+            runwayTree[i] = new TreeMap<>();
+        }
+
         //arrivals table.
         String[][] tableAllArrivals = output.getTableAllArrivals();
 
@@ -59,6 +68,25 @@ public class OutputPageController {
 
             Globals.arrivalsTree.put(Integer.parseInt(timeStamp), list);
             //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
+
+            //Runway table part.
+            RunwayRow runwayRow = new RunwayRow(tableAllArrivals[i][1], "Arrival", tableAllArrivals[i][2], tableAllArrivals[i][3],tableAllArrivals[i][4]);
+            int runwayNumIndex = Integer.parseInt(tableAllArrivals[i][0]);
+            TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
+            if(runwayData == null)
+            {
+                runwayData = new TreeMap<>();
+            }
+            Globals.RunwayTree.put(runwayNumIndex, runwayData);
+
+            List<RunwayRow> runwayList = runwayData.get( Integer.parseInt(timeStamp));
+            if(runwayList == null)
+            {
+                runwayList = new ArrayList<>();
+            }
+            runwayList.add(runwayRow);
+            runwayData.put(Integer.parseInt(timeStamp), runwayList);
+            
             
             
         }
@@ -80,6 +108,26 @@ public class OutputPageController {
 
             Globals.departuresTree.put(Integer.parseInt(timeStamp), list);
             //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
+
+
+
+            //Runway table part.
+            RunwayRow runwayRow = new RunwayRow(tableAllDepartures[i][1], "Departure", tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4]);
+            int runwayNumIndex = Integer.parseInt(tableAllDepartures[i][0]);
+            TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
+            if(runwayData == null)
+            {
+                runwayData = new TreeMap<>();
+            }
+            Globals.RunwayTree.put(runwayNumIndex, runwayData);
+
+            List<RunwayRow> runwayList = runwayData.get( Integer.parseInt(timeStamp));
+            if(runwayList == null)
+            {
+                runwayList = new ArrayList<>();
+            }
+            runwayList.add(runwayRow);
+            runwayData.put(Integer.parseInt(timeStamp), runwayList);
             
             
         }
@@ -130,6 +178,9 @@ public class OutputPageController {
             
             
         }
+
+        
+
 
     }
 
