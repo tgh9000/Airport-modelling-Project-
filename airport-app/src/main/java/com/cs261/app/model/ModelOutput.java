@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.cs261.app.model.AirCraft.FlightType;
+import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperationStatus;
 
 // collates data that must be outputted to view
@@ -58,6 +59,12 @@ public class ModelOutput implements IModelOutput {
     private String[][] tableHoldingQueue;
     private String[][] tableTakeOffQueue;
     private String[][] tableRunways;
+
+    // cancellatns and diversions
+    private int numDiversions = 0; // number of planes diverted
+    private int numCancels = 0; // number of planes cancelled
+    private int maxDiversionWait = 0; //  the maximum wait time of a plane that was diverted
+    private int maxCancelWait = 0; // the maximum wait time of a plane that was cancelled 
 
     public ModelOutput(AirCraftMap aircraftmap, DepartureModel departureModel, ArrivalModel arrivalModel, RunWayMap runways) {
         this.departureModel = departureModel;
@@ -117,6 +124,35 @@ public class ModelOutput implements IModelOutput {
     public double getAverageTakeOffWaitTime() {
         return avgDepartWait;
     }
+
+    /**
+     * @return the number of diverted planes
+     */
+    public int getNumDiversions() {
+        return numDiversions;
+    }
+
+    /**
+     * @return the number of cancelled planes
+     */
+    public int getNumCancels() {
+        return numCancels;
+    }
+
+    /**
+     * @return maximum wait time of a diverted plane 
+     */
+    public int getMaxDiversionWait() {
+        return maxDiversionWait;
+    }
+
+    /**
+     * @return maximum wait time of a cancelled plane
+     */
+    public int getMaxCancelWait() {
+        return maxCancelWait;
+    }
+
     // graphs
     /**
      * @return table that plots scheduled time against actual exit time of takeoffs
@@ -309,6 +345,12 @@ public class ModelOutput implements IModelOutput {
      * Method to update: maximum arrival delay, maximum departured delay, sum of arrival delays, sum of departure delays, sum of wait time for arrival and sum of wait time
      * for departure.
      * Avoid processing same array multiple times 
+     * 
+     * DELAY is the difference between the time it was scheduled to leave/land and the time it does. You want to check delays only for planes that leave after they were scheduled to.
+     * WAIT TIME is the time it waits in the queue, so exit time and entry time difference. 
+     * this may include being delayed or being early, as long as it was in the queue
+     * you want to check the wait time for all planes.
+     * Will assume that the model will set queue entry = queue exit if it does not wait in any queues.
      * @param exits planes that have exitted the simulation in the current iteration
      */
     private void updateSumsAndMaxs(ArrayList<String> exits){
@@ -317,45 +359,45 @@ public class ModelOutput implements IModelOutput {
             String e = null;
             while (iterator.hasNext()){
                 e = iterator.next();
-                System.out.printf("Plane exitting %s \n", e);
                 AirCraft plane = aircrafts.get(e);
-                /**
-                 * DELAY is the difference between the time it was scheduled to leave/land and the time it does. You want to check delays only for planes that leave after they were scheduled to.
-                 * WAIT TIME is the time it waits in the queue, so exit time and entry time difference. 
-                 * this may include being delayed or being early, as long as it was in the queue
-                 * you want to check the wait time for all planes.
-                 * Will assume that the model will set queue entry = queue exit if it does not wait in any queues.
-                 */
+                int waitTime = (int) Duration.between(plane.getEntryTime(), plane.getExitTime()).toMinutes(); // all planes have some wait time >=0
+
+                // first check if it is a diversion or cancellation
+                if (plane.getZoneStatus() == ZoneStatus.DIVERT){
+                    numDiversions++;
+                    maxDiversionWait = ((waitTime > maxDiversionWait) ? waitTime : maxDiversionWait);
+                    continue; // skip over
+                }
+
+                if (plane.getZoneStatus() == ZoneStatus.CANCEL){
+                    numCancels++;
+                    maxCancelWait = ((waitTime > maxCancelWait) ? waitTime : maxCancelWait);
+                    continue; 
+                }
+
                 int delay = 0;
                 if (plane.getExitTime().isAfter(plane.getScheduled())){ // only check this if it was delayed
                     delay = (int) Duration.between(plane.getScheduled(), plane.getExitTime()).toMinutes();
                 } 
-                System.out.printf("calc delay %d \n", delay);
-                int waitTime = (int) Duration.between(plane.getEntryTime(), plane.getExitTime()).toMinutes();
-                if (plane.getFlightType() == FlightType.ARRIVAL){
-                    System.out.printf("arrival waittime\n");
 
+                if (plane.getFlightType() == FlightType.ARRIVAL){
                     maxArriveDelay = ((delay > maxArriveDelay) ? delay : maxArriveDelay);
+
                     sumArriveDelay += delay;
                     sumArriveWait += waitTime;
 
-                    if (waitTime > 0){// this means it did go into a queue
-                        planesInHQueue.add(plane);
-                    }
+                    if (waitTime > 0) planesInHQueue.add(plane); // this means it did go into a queue
 
                     exitedArrivals.add(plane);
                     allExits.add(e);
                 } else {
-                    System.out.printf("depart waittime\n");
-
                     maxDepartDelay = ((delay > maxDepartDelay) ? delay : maxDepartDelay);
+
                     sumDepartDelay += delay;
                     sumDepartWait += waitTime;
 
-                    if (waitTime > 0){// this means it did go into a queue
-                        planesInTQueue.add(plane);
-                    }
-
+                    if (waitTime > 0) planesInTQueue.add(plane); // this means it did go into a queue
+                    
                     exitedDepartures.add(plane);
                     allExits.add(e);
                 }

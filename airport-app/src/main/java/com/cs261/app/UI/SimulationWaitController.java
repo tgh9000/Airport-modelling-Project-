@@ -45,6 +45,7 @@ public class SimulationWaitController {
                 ModelOutput output = myService.getValue();
 
                 try {
+                    System.out.println("success");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/outputPage.fxml"));
                     Parent p = loader.load();
                     Stage stage = (Stage) simProgressWait.getScene().getWindow();

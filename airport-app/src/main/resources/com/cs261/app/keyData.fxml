@@ -49,15 +49,19 @@
 
         <Label style="-fx-font-size: 20px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 700;-fx-text-fill: #1a3a5c;" text="Key performance indicators" />
         <Label fx:id="kpiMaxDelayTakeoff" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum delay for take-off: — Minutes" />
-        <Label fx:id="kpiAvgDelayTakeoff" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Average delay for take off: — Minutes" />
+        <Label fx:id="kpiAvgDelayTakeoff" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Average delay for take-off: — Minutes" />
+        <Label fx:id="kpiAvgWaitTakeOff" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Average take-off queue wait time:  — Minutes" />
         <Label fx:id="kpiMaxDelayArrival" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum delay for arrival: — Minutes" />
         <Label fx:id="kpiAvgDelayArrival" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Average delay for arrival: — Minutes" />
+        <Label fx:id="kpiAvgWaitArrival" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Average holding queue wait time:  — Minutes" />
         <Label fx:id="kpiIncomingCancelled" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Number of incoming planes cancelled: —" />
         <Label fx:id="kpiOutgoingDiverted" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Number of outgoing planes diverted: —" />
         <Label fx:id="kpiRunways" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Number of Runways: — (— incoming, — outgoing, — mixed)" />
-        <Label fx:id="kpiMaxWaitCancellation" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum wait time (for cancellation): — Minutes" />
-        <Label fx:id="kpiMaxWaitDiversion" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum wait time (for diversion): — Minutes" />
-        <Label fx:id="kpiDuration" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Duration of simulation: —" />
+        <Label fx:id="kpiHPLength" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum holding queue length: —" />
+        <Label fx:id="kpiTQLength" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum take-off queue length: —" />        
+        <Label fx:id="kpiMaxWaitCancellation" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum wait time for cancellation: — Minutes" />
+        <Label fx:id="kpiMaxWaitDiversion" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum wait time for diversion: — Minutes" />
+        <Label fx:id="kpiDuration" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Duration of simulation: —" />    
     </VBox>
 
     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

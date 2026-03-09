@@ -62,6 +62,10 @@ public class TableNavController
     @FXML private Label kpiMaxWaitCancellation;
     @FXML private Label kpiMaxWaitDiversion;
     @FXML private Label kpiDuration;
+    @FXML private Label kpiAvgWaitTakeOff;
+    @FXML private Label kpiAvgWaitArrival;
+    @FXML private Label kpiHPLength;
+    @FXML private Label kpiTQLength;
     @FXML private ComboBox<String> timestampComboBox;
     @FXML private Button btnSearch;
     @FXML private VBox detailsPane;
@@ -135,14 +139,18 @@ public class TableNavController
         kpiAvgDelayTakeoff.setText("Average delay for take off: " + String.format("%.1f", out.getAvgDepartDelay()) + " Minutes");
         kpiMaxDelayArrival.setText("Maximum delay for arrival: " + out.getMaxArriveDelay() + " Minutes");
         kpiAvgDelayArrival.setText("Average delay for arrival: " + String.format("%.1f", out.getAvgArriveDelay()) + " Minutes");
-        kpiIncomingCancelled.setText("Number of incoming planes cancelled: " + "—");
-        kpiOutgoingDiverted.setText("Number of outgoing planes diverted: " + "—");
+        kpiIncomingCancelled.setText("Number of outgoing planes cancelled: " + out.getNumCancels());
+        kpiOutgoingDiverted.setText("Number of incoming planes diverted: " + out.getNumDiversions());
         int[] modeCounts = Globals.runwayModes; // ResultsContext.getRunwayModeCounts();
         kpiRunways.setText("Number of Runways: " + (modeCounts[0] + modeCounts[1] + modeCounts[2]) + " (" + modeCounts[0] + " incoming, " + modeCounts[1] + " outgoing, " + modeCounts[2] + " mixed)");
-        kpiMaxWaitCancellation.setText("Maximum wait time (for cancellation): " + "— Minutes");
-        kpiMaxWaitDiversion.setText("Maximum wait time (for diversion): " + "— Minutes");
+        kpiMaxWaitCancellation.setText("Maximum wait time for a cancelled plane: " + out.getMaxCancelWait() + " Minutes");
+        kpiMaxWaitDiversion.setText("Maximum wait time for a diverted plane: " + out.getMaxDiversionWait() + " Minutes");
         String duration = Globals.duration; // ResultsContext.getDurationText();
         kpiDuration.setText("Duration of simulation: " + (duration.isEmpty() ? "—" : duration));
+        kpiAvgWaitTakeOff.setText("Average take off wait time: " + out.getAverageTakeOffWaitTime() + "Minutes");
+        kpiAvgWaitArrival.setText("Average holding queue wait time: " + out.getAverageTakeOffWaitTime() + " Minutes");
+        kpiHPLength.setText("Maximum holding queue length: " + out.getMaxHoldingQueueLength());
+        kpiTQLength.setText("Maximum take-off queue length: " + out.getMaxTakeOffQueueLength());
     }
 
     @FXML

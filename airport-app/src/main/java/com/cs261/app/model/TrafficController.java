@@ -1,5 +1,6 @@
 package com.cs261.app.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperatingMode;
@@ -52,14 +53,14 @@ public class TrafficController {
 
 		if (!holdingPattern.isEmpty()){
 			handleArrivals(exitedPlanes, currentTime);
-			System.out.println("handled arrivals");
-			handleDiversions(currentTime); 	
+			//System.out.println("handled arrivals");
+			handleDiversions(exitedPlanes, currentTime); 	
 		}
 		System.out.println("arrivals");
 
 		if (!takeoffQueue.isEmpty()){
 			handleDepartures(exitedPlanes, currentTime);
-			handleCancellations(currentTime); 		// handle cancellations stuff here
+			handleCancellations(exitedPlanes, currentTime); 		// handle cancellations stuff here
 		}
 		System.out.println("departures");
 
@@ -165,34 +166,22 @@ public class TrafficController {
 	* If so, divert them 
 	 * @param currentTime number of ticks elapsed so far
 	 */
-	private void handleDiversions(int currentTime){
-		System.out.println("diversions");
-		ArrayList<AirCraft> emergencies = holdingPattern.getEmergencyPlanes();
-		
-		if (emergencies.isEmpty()){
-			return;
-		}
-
-		for (AirCraft a : emergencies){ 
-			System.out.println("diversion loop");
-			if ((currentTime - a.getEmergencyTime()) >= Utils.emergencyTime){
-				a.setExitTime(Utils.convertTicksToDate(currentTime));
-				a.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
-			}
-		}
-		System.out.println("finish");
+	private void handleDiversions(ArrayList<String> exitedPlanes, int currentTime){
+		holdingPattern.removeDiversions(exitedPlanes, currentTime);
+		//System.out.println("diversions");
 	}
 
 	/** Check if the planes in the takeoff queue have been there longer than the maximum
 	 *  cancellation time. If any have been, then cancel them.
 	 * @param currentTime number of ticks elapsed so far
 	 */
-	private void handleCancellations(int currentTime){
+	private void handleCancellations(ArrayList<String> exitedPlanes, int currentTime){
 		for (int i=0; i < takeoffQueue.size(); i++) {
 			AirCraft a = takeoffQueue.getAircraftAt(i);
 			if ((currentTime - Utils.convertDateToTicks(a.getEntryTime())) >= Utils.cancelTime){
 				a.setExitTime(Utils.convertTicksToDate(currentTime));
 				a.setZoneStatus(AirCraft.ZoneStatus.CANCEL);
+				exitedPlanes.add(a.getCallSign());
 			}
 		}
 	}
