@@ -19,7 +19,9 @@ public class InterruptionInputController
     @FXML
     private TextField durationField;
 
-
+    /**
+     * initializes the statusBox ComboBox with predefined interruption statuses such as "Runway Inspection", "Snow Clearance", and "Equipment Failure". 
+     */
     @FXML
     public void initialize() 
     {
@@ -30,7 +32,10 @@ public class InterruptionInputController
         );
     }
     
-    
+    /**
+     * parses the user input from the text fields and combo box to create an Interruption object. 
+      * @return an Interruption object based on the user input, or null if the input is invalid.
+     */
     public Interruption parse()
     {
         try 
@@ -62,9 +67,6 @@ public class InterruptionInputController
         {
             return null;
         }
-
-
-        //return null;
     }
     
 }
