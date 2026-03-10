@@ -12,7 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import javafx.scene.control.Label;
 
 public class TableHoldingController 
 {
@@ -151,6 +151,7 @@ public class TableHoldingController
     @FXML
     public void initialize() 
     {
+        errorMessage("");
         delayColumn.setCellValueFactory(new PropertyValueFactory<>("delay"));
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
         scheduledColumn.setCellValueFactory(new PropertyValueFactory<>("entryTime"));
@@ -160,6 +161,18 @@ public class TableHoldingController
         
         HoldingTable.setItems(data);
 
+    }
+
+     @FXML
+    private Label errorMessageLabel;
+    /**
+     * displays an error message to the user in the errorMessageLabel Label control.
+     * @param message the error message to be displayed to the user
+     */
+    @FXML
+    private void errorMessage(String message)
+    {
+        errorMessageLabel.setText(message);
     }
 
 

@@ -37,15 +37,7 @@
             <Insets bottom="18" left="20" right="20" top="18" />
         </padding>
 
-        <VBox>
-            <children>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <TextField fx:id="timestampField" prefHeight="36.0" prefWidth="340.0" promptText="Insert Timestamp here" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" />
-                    <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" />
-                    <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="ALWAYS" />
-                </HBox>
-            </children>
-        </VBox>
+        
 
         <Label style="-fx-font-size: 20px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 700;-fx-text-fill: #1a3a5c;" text="Key performance indicators" />
         <Label fx:id="kpiMaxDelayTakeoff" style="-fx-font-size: 14px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;" text="Maximum delay for take-off: — Minutes" />

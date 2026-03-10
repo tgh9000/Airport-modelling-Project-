@@ -8,11 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 public class TableQueueController 
 {
 
@@ -142,11 +142,24 @@ public class TableQueueController
     QueueTable.setItems(data);
     }
 
+
+    @FXML
+    private Label errorMessageLabel;
+    /**
+     * displays an error message to the user in the errorMessageLabel Label control.
+     * @param message the error message to be displayed to the user
+     */
+    @FXML
+    private void errorMessage(String message)
+    {
+        errorMessageLabel.setText(message);
+    }
     
 
     @FXML
     public void initialize() 
     {
+        errorMessage("");
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
         delayColumn.setCellValueFactory(new PropertyValueFactory<>("delay"));
         
