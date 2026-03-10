@@ -29,7 +29,7 @@ public class InvariantTest {
     private static class TestableSimLoop extends SimLoop {
 
         public TestableSimLoop(RunWay[] userRunways, int userRuntime) {
-            super(userRunways, userRuntime);
+            super(userRunways, userRuntime, new SimpleDoubleProperty(0));
         }
 
         public ModelOutput runSync() {
@@ -40,6 +40,12 @@ public class InvariantTest {
             }
         }
     }
+    
+//
+ //   private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
+  //      return new TestableSimLoop(runways, runtimeTicks).runSync();
+ //   }
+
 
     private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
         try {

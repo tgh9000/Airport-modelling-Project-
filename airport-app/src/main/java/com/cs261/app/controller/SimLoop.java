@@ -42,7 +42,7 @@ public class SimLoop extends Task<ModelOutput>{
 		this.currentTime = 0;
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
 		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
-		this.output = new ModelOutput(aircraftMap, departureModel, arrivalModel, runways);
+		this.output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue, aircraftMap);
 	}
 	
 	@Override
