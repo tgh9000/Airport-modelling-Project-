@@ -1,6 +1,11 @@
 package com.cs261.app.model;
 
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
+
+/**
+ * Represents each flight in the simulation. 
+ */
 
 public class AirCraft {
 	
@@ -49,14 +54,14 @@ public class AirCraft {
     private String destination;
     private LocalDateTime scheduled; // SCHEDULED arrival/departure time
     private LocalDateTime entryTime; // ACTUAL arrival/departure time accounting for variance by normal distribution as per spec
-    private LocalDateTime exitTime; // Time it leaves the holding queue or take off queue 
+    private LocalDateTime exitTime = null; // Time it leaves the holding queue or take off queue 
     private double altitude; // metres
     private double fuel; // fuel remaining in litres
     private double speed; // ground speed in knots
     private EmergencyStatus emergencyStatus;
-    private ZoneStatus zoneStatus; 
+    private ZoneStatus zoneStatus = ZoneStatus.QUEUE; 
     private FlightType flightType; 
-    private String assignedRunway;
+    private String assignedRunway = null;
 	private int emergencyTimeAt; // the number of ticks (runtime) at which it went into emergency
 
 
@@ -73,11 +78,6 @@ public class AirCraft {
         this.altitude = alt;
         this.emergencyStatus = status;
 		this.emergencyTimeAt = emergencyTime;
-
-		this.assignedRunway = "";
-
-        this.exitTime = null;
-        this.zoneStatus =  ZoneStatus.QUEUE;
     }
     /**
 	 * @return the entryTime
@@ -94,17 +94,26 @@ public class AirCraft {
 
 	/**
 	 * @param exitTime the exitTime to set
+	 * @param boolean true if it was set, false otherwise
 	 */
-	public void setExitTime(LocalDateTime exitTime) {
+	public boolean setExitTime(LocalDateTime exitTime) {
+		if (exitTime == null){
+			return false; 
+		}
 		this.exitTime = exitTime;
-		System.out.println("exittiem");
+		return true;
 	}
 
 	/**
-	 * @param emergencyTime emergency 'time stamp' as tick
+	 * @param emergencyTime emergency 'time stamp', in tick
+	 * @param boolean true if it was set, false otherwise
 	 */
-	public void setEmergencyTime(int emergencyTime){
+	public boolean setEmergencyTime(int emergencyTime){
+		if (emergencyTime < 0){
+			return false;
+		}
 		this.emergencyTimeAt = emergencyTime;
+		return true;
 	}
 
 	/**
@@ -118,7 +127,12 @@ public class AirCraft {
 	 * @param zoneStatus the zoneStatus to set
 	 */
 	public void setZoneStatus(ZoneStatus zoneStatus) {
-		this.zoneStatus = zoneStatus;
+		try {
+			this.zoneStatus = zoneStatus;
+		} catch (InvalidParameterException e){
+			e.printStackTrace();
+			// incase zoneStatus not set 
+		}
 	}
 
 	/**
@@ -201,10 +215,12 @@ public class AirCraft {
 	/**
      * Decrease fuel by constant amount according to time t
      * @param t fuel decrease in t minutes
+	 * @param boolean if fuel not updated, false. otherwise true.
      */
-    public void updateFuel(int t){
+    public boolean updateFuel(int t){
         this.fuel = this.fuel - (((this.speed * 1.852) * (t/60) * Utils.fuelBurn) / Utils.fuelDensity);
-    }
+		return true;
+	}
     
     /**
      * @return the number of hours of fuel remaining 
@@ -217,8 +233,25 @@ public class AirCraft {
     /**
      * TODO: FIX UPDATE METHOD FOR ALTITUDE
      */
-    public void updateAltitude(){
-		this.altitude -= 1000;
+    public void updateAltitude(AirCraft parent){
+		// get its parents altitude 
+		if (parent == null){
+			if (this.altitude >= 2000){
+				this.altitude -= 1000;
+				return;
+			} else {
+				return; // dont go any lower
+			}
+		}
+
+		double parentAlt = parent.getAltitude();
+		double absDiff = Math.abs((this.altitude - 1000) - parentAlt);
+		if (absDiff < 1000){
+			this.altitude -= absDiff; 
+		} else {
+			this.altitude -= 1000;
+		}
+		return;
     }
     /**
      * Updates emergency status if there is a fuel emergency.
@@ -240,9 +273,13 @@ public class AirCraft {
 	 * @param t current time in ticks
      * @return true if there is a fuel emergency, false otherwise.
      */
-    public boolean updateHoldingFlight(int t) {
+    public boolean updateHoldingFlight(int t, AirCraft parent) {
+		if (t < 0 || flightType != FlightType.ARRIVAL){
+			return false;
+		}
+
 		updateFuel(Utils.timeInc);
-		updateAltitude();
+		updateAltitude(parent);
 		return updateFuelEmergency(t); 
     }
     
@@ -255,11 +292,7 @@ public class AirCraft {
 	 * @return true if the plane has been assigned to a runway otherwise false
 	 */
 	public boolean isOnRunway(){
-		if (this.assignedRunway != ""){
-			return true;
-		} else {
-			return false;
-		}
+		return this.assignedRunway != "";
 	}
 
 	/**

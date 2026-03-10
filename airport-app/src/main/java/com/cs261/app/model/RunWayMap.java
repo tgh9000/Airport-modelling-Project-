@@ -11,14 +11,26 @@ import com.cs261.app.model.RunWay.OperationStatus;
  */
 public class RunWayMap {
 	private RunWay[] runways;
-	
-	// details 
 	private int numArrivalRunways;	
 	private int numDepartureRunways;
 	private int numMixedRunways;
 
 	public RunWayMap(RunWay[] runwayList) {
 		this.runways = runwayList;
+
+		for (int i = 0; i < runways.length; i++){
+			switch (runways[i].getMode()){
+				case OperatingMode.LANDING:
+					numArrivalRunways++;
+					break;
+				case OperatingMode.TAKEOFF:
+					numDepartureRunways++;
+					break;
+				case OperatingMode.MIXED:
+					numMixedRunways++;
+					break;
+			}
+		}
 	}
 		
 	/**

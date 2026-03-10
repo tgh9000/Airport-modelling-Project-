@@ -2,6 +2,10 @@ package com.cs261.app.model;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Hashmap of all flights in the simulation. 
+ */
+
 public class AirCraftMap extends ConcurrentHashMap<String, AirCraft>{
 
 	/**

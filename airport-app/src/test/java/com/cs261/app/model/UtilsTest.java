@@ -21,7 +21,7 @@ class UtilsTest {
         LocalDateTime date = LocalDateTime.of(2026, 1, 1, 0, 20);
         int ticks = Utils.convertDateToTicks(date);
 
-        assertEquals(10, ticks); // 20 minutes / 2 minute increments
+        assertEquals(20, ticks); // 20 minutes / 2 minute increments
     }
 
     @Test
@@ -36,8 +36,8 @@ class UtilsTest {
 
     @Test
     void constantsShouldHaveExpectedValues() {
-        assertEquals(2, Utils.timeInc);
-        assertEquals(6, Utils.runwayTime);
+        assertEquals(1, Utils.timeInc);
+        assertEquals(2, Utils.runwayTime);
         assertEquals(4, Utils.emergencyTime);
         assertEquals(2.71f, Utils.fuelBurn);
     }

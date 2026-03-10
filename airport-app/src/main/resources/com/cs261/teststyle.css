@@ -1,4 +1,4 @@
-.root {
+    .root {
     -fx-background-color: #FFFCF9;
     -fx-font-family: "Inter";
 }
@@ -44,20 +44,22 @@
 }
 
 .landingBtn1 {
-    -fx-background-color: #014795;
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 24px;
-    -fx-padding: 5px;
+    -fx-background-color: white;
+    -fx-text-fill: #122840;
+    -fx-font-size: 14px;
+    -fx-font-weight: NORMAL;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
     -fx-border-width: 2px;
-    -fx-border-color: #023a7a;
-    -fx-border-radius: 24;
+    -fx-border-color: #122840;
+    -fx-border-radius: 8px;
+    -fx-cursor: hand;
 }
 
 .landingBtn1:hover{
-    -fx-background-color: #62C370;
-    -fx-border-color: #4d9e59;
+    -fx-background-color: #2A5A8C;
+    -fx-border-color: #1A3A5C;
+    -fx-text-fill: white;
 }
 
 .landingBtn2{
@@ -107,18 +109,7 @@
 }
 
 .inputStack {
-    -fx-background-color: radial-gradient(
-        center 50% 0%, 
-        radius 100%, 
-        #014795 20%,
-        #A6BEDA 100%, 
-        #FFFCF9 100%),
-    linear-gradient(
-        from 0% 100% to 100% 0%,
-        #fffcf970 0%,
-        #f2f2f265 53%,
-        #bec7d462 100%
-    );   
+    -fx-background-color: #F0F4F8;
 }
 
 .text-field {
@@ -191,12 +182,12 @@
 }
 
 .scroll-pane {
-    -fx-background-color: #d2d2d2;
+    -fx-background-color: #F0F4F8;
     -fx-background-radius: 5;
 }
 
 .scroll-pane > .viewport {
-    -fx-background-color: #d2d2d2;
+    -fx-background-color: #F0F4F8;
     -fx-background-radius: 5;
 }
 
@@ -261,33 +252,81 @@
 }
 
 .startpageBg{
-    -fx-background-color: radial-gradient(
-        center 50% 0%, 
-        radius 100%, 
-        #014795 20%,
-        #A6BEDA 100%, 
-        #FFFCF9 100%),
-    linear-gradient(
-        from 0% 100% to 100% 0%,
-        #fffcf970 0%,
-        #f2f2f265 53%,
-        #bec7d462 100%
-    );    
+    -fx-background-color: #F0F4F8;
 }
 
 .startpgSq{
     -fx-text-fill: white;
     -fx-background-color: rgba(255, 255, 255, 0.333);
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-padding: 12 24;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 20 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.3, 0, 4);
 }
 
 .landingTitle {
-    -fx-font-size: 32px;
+    -fx-font-size: 48px;
+    -fx-font-weight: BOLD;
+    -fx-text-fill: #122840;
+}
+
+.progress-bar {
+    -fx-accent: #4DA6FF; /* progress color */
+}
+
+.progress-bar .track {
+    -fx-background-color: #F0F4F8; /* background track */
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+#runsListView .list-cell:even { 
+    -fx-background-color: #F0F4F8;
+}
+
+#runsListView .list-cell:odd { 
+    -fx-background-color: #E3EDF9;
+}
+
+#runsListView .list-cell:filled:selected:focused, #runsListView .list-cell:filled:selected {
+    -fx-background-color: #4DA6FF;
+    -fx-text-fill: white;
+}
+
+.split-pane-divider {
+    -fx-padding: 1;
+    -fx-background-color: #ced5df;
+}
+
+.titled-pane{
+    -fx-background-color: white;
+}
+
+.titled-pane>.title {
+    -fx-background-color: #ced5df;
+}
+
+.titled-pane>.title>.text {
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
+.menuBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #a8c8e8;
+    -fx-font-size: 13px;
+    -fx-font-family: 'Segoe UI' sans-serif;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-border-color: transparent transparent #1e4a72 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0 0 0 20;
+}
 
-
+.menuBtn:hover {
+    -fx-background-color: #1A3A5C;
+    -fx-text-fill: white;
+}
