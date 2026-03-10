@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.cs261.app.model.HandleOutput;
 
-import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

@@ -1,4 +1,4 @@
-.root {
+    .root {
     -fx-background-color: #FFFCF9;
     -fx-font-family: "Inter";
 }
@@ -48,11 +48,12 @@
     -fx-text-fill: #122840;
     -fx-font-size: 14px;
     -fx-font-weight: NORMAL;
-    -fx-background-radius: 16px;
+    -fx-background-radius: 8px;
     -fx-padding: 10px;
     -fx-border-width: 2px;
     -fx-border-color: #122840;
-    -fx-border-radius:16px;
+    -fx-border-radius: 8px;
+    -fx-cursor: hand;
 }
 
 .landingBtn1:hover{
@@ -282,3 +283,50 @@
     -fx-padding: 10;
 }
 
+#runsListView .list-cell:even { 
+    -fx-background-color: #F0F4F8;
+}
+
+#runsListView .list-cell:odd { 
+    -fx-background-color: #E3EDF9;
+}
+
+#runsListView .list-cell:filled:selected:focused, #runsListView .list-cell:filled:selected {
+    -fx-background-color: #4DA6FF;
+    -fx-text-fill: white;
+}
+
+.split-pane-divider {
+    -fx-padding: 1;
+    -fx-background-color: #ced5df;
+}
+
+.titled-pane{
+    -fx-background-color: white;
+}
+
+.titled-pane>.title {
+    -fx-background-color: #ced5df;
+}
+
+.titled-pane>.title>.text {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.menuBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #a8c8e8;
+    -fx-font-size: 13px;
+    -fx-font-family: 'Segoe UI' sans-serif;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-border-color: transparent transparent #1e4a72 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0 0 0 20;
+}
+
+.menuBtn:hover {
+    -fx-background-color: #1A3A5C;
+    -fx-text-fill: white;
+}

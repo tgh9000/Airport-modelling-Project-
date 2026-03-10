@@ -406,28 +406,48 @@ public class ModelOutput implements IModelOutput {
      * @return the average delay of planes that landed at the airport
      */
     public double calcAvgArriveDelay(){
-        return (sumArriveDelay / arrivalModel.getLanded());
+        int landed = arrivalModel.getLanded(); // it gets instantiated whehter runtime is 0 or not / theres no min runtime
+        if (landed == 0){
+            return 0; 
+        } else {
+            return (sumArriveDelay / landed);
+        }
     }
 
     /**
      * @return the average delay of planes that took off at the airport
      */
     public double calcAvgDepartDelay(){
-        return (sumDepartDelay / departureModel.getTakenOff());
+        int departed = departureModel.getTakenOff();
+        if (departed == 0){
+            return 0;
+        } else {
+            return (sumDepartDelay / departed);
+        }
     }
 
     /**
      * @return the average wait time of planes that landed at the airport 
      */
-    public double calcAverageHoldingWaitTime() {
-        return (sumArriveWait / arrivalModel.getLanded());
+    public double calcAverageHoldingWaitTime() {    
+        int landed = arrivalModel.getLanded();
+        if (landed == 0){
+            return 0;
+        } else {
+            return (sumArriveWait / landed);
+        }
     }
 
     /**
      * @return the average wait time of planes that took off at the airport
      */
     public double calcAverageTakeOffWaitTime(){
-        return (sumDepartWait / departureModel.getTakenOff());
+        int departed = departureModel.getTakenOff();
+        if (departed == 0){
+            return 0;
+        } else {
+            return (sumDepartWait / departed);
+        }
     }
 
     /**

@@ -59,7 +59,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="failureProbField" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS">
+                              <TextField fx:id="failureProbField" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS" text="0.01">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
@@ -73,7 +73,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="cancellationTimeField" prefHeight="33.0" prefWidth="149.0" promptText="Minutes" HBox.hgrow="ALWAYS">
+                              <TextField fx:id="cancellationTimeField" prefHeight="33.0" prefWidth="149.0" promptText="Minutes" HBox.hgrow="ALWAYS" text="30">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
@@ -101,9 +101,9 @@
             </ScrollPane>
             <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" spacing="15">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="65.0" text="Back"  styleClass = "roundButtonFill" />
+                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="65.0" text="Back"  styleClass = "landingBtn1" />
                   <Label fx:id="errorMessageLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Example error message" textFill="RED" HBox.hgrow="ALWAYS" />
-               <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" prefWidth="65.0" text="Start"  styleClass = "roundButtonFill" />
+               <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" prefWidth="65.0" text="Start"  styleClass = "landingBtn1" />
                </children></HBox>
          </children>
       </AnchorPane>

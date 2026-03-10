@@ -26,8 +26,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 
@@ -89,7 +91,11 @@ public class TableNavController
         setupDetailsPanel();
     }
 
-    private void setupDetailsPanel() {
+    private void setupDetailsPanel() { 
+        Tooltip detailsTip = new Tooltip("Show airplane scheudle and runway configurations");
+        detailsTip.setShowDelay(Duration.millis(300));
+        btnDetailsToggle.setTooltip(detailsTip);
+        
         if (planesIdColumn != null) {
             planesIdColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getId()));
         }
