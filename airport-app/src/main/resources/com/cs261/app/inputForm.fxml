@@ -15,9 +15,9 @@
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" StackPane.alignment="CENTER">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: transparent; -fx-padding: 5; -fx-effect: dropshadow(gaussian, #647484, 30, 0, 1, 2);">
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: transparent; -fx-padding: 5;">
                <content>
-                  <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #d2d2d2; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0;" spacing="5">
+                  <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #F0F4F8; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0;" spacing="5">
                      <children>
                         <Label text="General:">
                            <font>

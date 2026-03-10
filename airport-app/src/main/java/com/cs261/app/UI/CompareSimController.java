@@ -2,10 +2,12 @@ package com.cs261.app.UI;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.cs261.app.model.HandleOutput;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -48,21 +50,32 @@ public class CompareSimController {
         runsListView.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<String>() {
             @Override
             public void onChanged(Change<? extends String> event) {
-                event.next();
-                if (event.wasRemoved()){
-                    List<String> removed = new ArrayList<>(event.getRemoved());
-                    ObservableList<Node> children = comparableView.getChildren();
-                    for (int i = 0; i < children.size(); i++){
-                        if (removed.contains(children.get(i).getId())){
-                            children.remove(i);
+                while (event.next()){
+                    if (event.wasRemoved()){
+                        List<String> removed = new ArrayList<>(event.getRemoved());
+                        Iterator<Node> children = comparableView.getChildren().iterator();
+                        while (children.hasNext()){
+                            Node child = children.next();
+                            if (removed.contains(child.getId())){
+                                children.remove();
+                            }
+                        }
+                    }   
+                    if (event.wasAdded()){
+                        // focus on it
+                        List<String> added = new ArrayList<>(event.getAddedSubList());
+                        List<String> ids = comparableView.getChildren().stream().map(Node::getId).toList();
+                        Iterator<String> items = added.iterator();
+
+                        while (items.hasNext()){
+                            String curr = items.next();
+                            if (!ids.contains(curr)){
+                                String[] metrics = HandleOutput.loadMetrics(curr);
+                                ComparePane newPane = new ComparePane(curr, metrics);
+                                comparableView.getChildren().add(newPane);
+                            }
                         }
                     }
-                }   
-                if (event.wasAdded()){
-                    String last = runsListView.getSelectionModel().getSelectedItem();
-                    String[] metrics = HandleOutput.loadMetrics(last);
-                    ComparePane newPane = new ComparePane(last, metrics);
-                    comparableView.getChildren().add(newPane);
                 }
             }
         });;

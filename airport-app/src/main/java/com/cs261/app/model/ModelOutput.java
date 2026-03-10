@@ -267,22 +267,16 @@ public class ModelOutput implements IModelOutput {
      * Method called in simloop at the end of the iteration to update output statistics 
      */
     public void updateOutput(ArrayList<String> exitedPlanes, int holdingSz, int takeOffSz, int time){
-		if (exitedPlanes.isEmpty()){
-            //System.out.println("exits");
-            return;
-        }
         // sort the planes. this list will have max 10 planes on it in one iteration of the simulations as it has planes that are just off the runways. 
-        exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
-        //System.out.println("sorting");
         updateMaxHolding(holdingSz);
-        //System.out.println("holding");
         updateMaxTQueue(takeOffSz);
-        //System.out.println("rkaeofft");
-        updateSumsAndMaxs(exitedPlanes);
-        //System.out.println("finished model output");
-        updateGraph(exitedPlanes, time);
-        //System.out.println("update graph");
 
+        
+        if (!exitedPlanes.isEmpty()){
+            exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
+            updateSumsAndMaxs(exitedPlanes);
+            updateGraph(exitedPlanes, time);
+        }
     }
 
     private void updateGraph(ArrayList<String> exitedPlanes, int time){
