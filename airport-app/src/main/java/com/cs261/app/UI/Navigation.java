@@ -11,7 +11,13 @@ import javafx.stage.Stage;
 
 public class Navigation 
 {
-    public void goBack(ActionEvent event) throws IOException {
+    /**
+    * navigates back to the start page of the application.
+    * @param event the action event that triggered the navigation
+    * @throws IOException if an error occurs while loading the FXML file
+    */
+    public void goBack(ActionEvent event) throws IOException 
+    {
 
         Parent root = FXMLLoader.load(
         getClass().getResource("start.fxml"));
@@ -21,6 +27,11 @@ public class Navigation
         stage.getScene().setRoot(root);
     }   
 
+    /**
+     * navigates to the second page of the application.
+     * @param event the action event that triggered the navigation
+     * @throws IOException if an error occurs while loading the FXML file
+     */
     @FXML
     public void goToSecondPage(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -33,6 +44,11 @@ public class Navigation
         stage.getScene().setRoot(root);  
     }
 
+    /**
+     * navigates to the compare simulation page of the application.
+     * @param event the action event that triggered the navigation
+     * @throws IOException if an error occurs while loading the FXML file
+     */
     @FXML
     public void goToCompare(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -46,7 +62,11 @@ public class Navigation
         controller.init();
         stage.getScene().setRoot(root);  
     }
-
+    /**
+     * closes the application when the user clicks the close button.
+     * @param event the action event that triggered the close operation
+     * @throws IOException if an error occurs while closing the application
+     */
     public void closeApp(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource())
                 .getScene().getWindow();

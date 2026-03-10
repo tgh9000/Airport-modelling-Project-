@@ -17,6 +17,11 @@ import javafx.stage.Stage;
 public class OutputPageController {
     public ModelOutput output;
     
+    /**
+     * initialises all the data structures and graphs for the output page, and then loads the key data page after this.
+     * @param output object representing the output from the simulation
+     * 
+     */
     public void init(ModelOutput output){
         this.output = output;
         Globals.output = output; 
@@ -38,7 +43,9 @@ public class OutputPageController {
         }
 
     }
-
+    /**
+     * loads the data from the output object into the various tree maps stored in Global that will be used to populate the tables in the output page.
+     */
     @FXML
     private void loadTables()
     {
@@ -102,7 +109,7 @@ public class OutputPageController {
         {   //Runway,callsign,actual
  
 
-            ArrivalRow row = new ArrivalRow(tableAllDepartures[i][1], tableAllDepartures[i][0], tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4]);
+            ArrivalRow row = new ArrivalRow(tableAllDepartures[i][1], tableAllDepartures[i][0], tableAllDepartures[i][3], tableAllDepartures[i][2],tableAllDepartures[i][4]);
             String timeStamp = tableAllDepartures[i][5];
             List<ArrivalRow> list = Globals.departuresTree.get( Integer.parseInt(timeStamp));
             if(list == null)
@@ -118,7 +125,7 @@ public class OutputPageController {
             if(tableAllDepartures[i][0] != null)
             {
                 //Runway table part.
-                RunwayRow runwayRow = new RunwayRow(tableAllDepartures[i][1], "Departure", tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4],tableAllDepartures[i][0]);
+                RunwayRow runwayRow = new RunwayRow(tableAllDepartures[i][1], "Departure", tableAllDepartures[i][3], tableAllDepartures[i][2],tableAllDepartures[i][4],tableAllDepartures[i][0]);
                 int runwayNumIndex = Integer.parseInt(tableAllDepartures[i][0]);
                 TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
                 if(runwayData == null)
@@ -191,7 +198,9 @@ public class OutputPageController {
 
     }
 
-
+    /**
+     * loads the data for the arrival and departure graphs from the output object, and stores them in the global variables for the graphs to use.   
+     */
     @FXML
     private void initializeCoords() 
     {
@@ -222,7 +231,9 @@ public class OutputPageController {
 
     @FXML
     private StackPane outputPageStackPane;
-
+    /**
+     * switches the scene to the key data page after the output page has been initialised and all the data has been loaded into the global variables.
+     */
     private void switchScene() throws Exception 
     {
 

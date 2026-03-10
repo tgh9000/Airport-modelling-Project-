@@ -12,7 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import javafx.scene.control.Label;
 public class TableRunwayController 
 {
     int currentTimeStamp = 0;
@@ -52,29 +52,41 @@ public class TableRunwayController
     @FXML
     private javafx.scene.control.Button btnSearch;
 
+    /**
+     * function that runs when user presses the Search Button and searches based on the values put in the input
+     */
     @FXML
     public void searchByTimestamp()
     {
+        errorMessage("");
         boolean validInput1 = true;
+        boolean emptyInput1 = false;
         boolean validInput2 = true;
+        boolean emptyInput2 = false;
         boolean validInput3 = true;
+        boolean emptyInput3 = false;
         int startTimeStamp = 0;
         int endTimeStamp = 0;
         int runway = 0;
-        try{
-            startTimeStamp = Integer.parseInt(timestampField.getText());
-            //endTimeStamp = Integer.parseInt(timestampField1.getText());
-            
+        try
+        {
+            if(timestampField.getText().equals(""))
+            {
+                emptyInput1 = true;
+            }
+            startTimeStamp = Integer.parseInt(timestampField.getText());  
         }
         catch(Exception e)
         {
             validInput1 = false;
-            //e.printStackTrace();
         }
-        try{
+        try
+        {
+            if(timestampField1.getText().equals(""))
+            {
+                emptyInput2 = true;
+            }
             endTimeStamp = Integer.parseInt(timestampField1.getText());
-            //ObservableList<ArrivalRow> data = Globals.getArrivalsTableData(startTimeStamp);
-            //arrivalsTable.setItems(data);
         }
         catch(Exception e)
         {
@@ -82,18 +94,18 @@ public class TableRunwayController
             //e.printStackTrace();
         }
         try{
+            if(RunwayField.getText().equals(""))
+            {
+                emptyInput3 = true;
+            }
             runway = Integer.parseInt(RunwayField.getText());
-            //ObservableList<ArrivalRow> data = Globals.getArrivalsTableData(startTimeStamp);
-            //arrivalsTable.setItems(data);
+
         }
         catch(Exception e)
         {
             validInput3 = false;
-            //e.printStackTrace();
         }
-        System.out.println("start: " + startTimeStamp);
-        System.out.println("end: " + endTimeStamp);
-        System.out.println("runway: " + runway);
+
         ObservableList<RunwayRow> data = null;
         if(validInput1 && validInput2 && validInput3)
         {
@@ -104,25 +116,66 @@ public class TableRunwayController
             RunwayTable.setItems(data);
             
         }
-        else
+        else if(emptyInput1 && emptyInput2 && validInput3)// the user just wants to see the arrivals and departures for a specific runway
         {
-            data = Globals.getRunwayTableDataRange(currentTimeStamp,currentEndStamp, currentRunway);
+            data = Globals.getSingleRunwayTableData( runway);
+            currentEndStamp = 30;
+            currentTimeStamp = 0;
+            RunwayTable.setItems(data);
+
+        }
+        else if((emptyInput1 && emptyInput2 && emptyInput3))// just put every value into a list.
+        {
+            data = Globals.getRunwayTableData();
             RunwayTable.setItems(data);
             currentEndStamp = 30;
             currentTimeStamp = 0;
             currentRunway = 0;
             
         }
+        else // an error has occured and an error message is Displayed.
+        {
+            if(!validInput1)
+            {
+                errorMessage("Please enter a valid number for the start timestamp");
+                return;
+            }
+            if(!validInput2)
+            {
+                errorMessage("Please enter a valid number for the end timestamp");
+                return;
+            }
+            if (!validInput3)
+            {
+                errorMessage("Please enter a valid number for the Runway");
+                return;
+            }
+        }
+
     
         
 
     }
 
     @FXML
+    private Label errorMessageLabel;
+    /**
+     * displays an error message to the user in the errorMessageLabel Label control.
+     * @param message the error message to be displayed to the user
+     */
+    @FXML
+    private void errorMessage(String message)
+    {
+        errorMessageLabel.setText(message);
+    }
+
+    @FXML
     private Button btnPrev;
     @FXML
     private Button btnNext;
-
+    /**
+     * Given the current value of the timestamp values will cycle through the next 30 ticks and searches the tree for the corresponding values.
+     */
     @FXML
     public void next()
     {
@@ -139,6 +192,9 @@ public class TableRunwayController
         
     }
 
+    /**
+     * Given the current value of the timestamp values will cycle through the previous 30 ticks and searches the tree for the corresponding values.
+     */
     @FXML
     public void prev()
     {
@@ -155,12 +211,14 @@ public class TableRunwayController
 
     
 
-
+    /**
+     * resets the data in table
+     */
     @FXML
     public void resetTable()
     {
-    ObservableList<RunwayRow> data = Globals.getRunwayTableData();
-    RunwayTable.setItems(data);
+        ObservableList<RunwayRow> data = Globals.getRunwayTableData();
+        RunwayTable.setItems(data);
     }
 
     
@@ -169,6 +227,7 @@ public class TableRunwayController
     public void initialize() 
     {
         //arrivalsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        errorMessage("");
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
         scheduledColumn.setCellValueFactory(new PropertyValueFactory<>("entryTime"));

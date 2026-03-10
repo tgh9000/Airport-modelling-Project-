@@ -9,7 +9,9 @@ public class RunwayRow
     private String scheduled;
     private String exitTime;
 
-
+    /**
+     * Constructor for the Runway class
+     */
     public RunwayRow(String callsign, String type, String actual, String scheduled,String exitTime, String runway)
     {
         this.callsign = callsign;
