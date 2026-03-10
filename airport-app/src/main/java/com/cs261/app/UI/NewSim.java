@@ -5,19 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cs261.app.controller.ResultsContext;
-import com.cs261.app.controller.SimService;
-import com.cs261.app.model.ModelOutput;
 import com.cs261.app.model.RunWay;
-import com.cs261.app.model.Utils;
 
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,9 +30,6 @@ public class NewSim
     int minuteNum;
     float failureProb;
     int cancellationTime;
-
-    /** Tracks the runway section nodes so we remove the correct one. */
-    private final List<VBox> runwaySectionNodes = new ArrayList<>();
 
     @FXML
     private Label errorMessageLabel;
@@ -62,17 +53,14 @@ public class NewSim
     @FXML
     private TextField cancellationTimeField;
 
-    private final List<RunwayInputController> runwaysList = new ArrayList<>();
+    @FXML
+    private List<RunwayInputController> runwaysList = new ArrayList<>();
 
     @FXML
-    private void  checkSim()
+    private void  checkSim(ActionEvent event) throws IOException
     {
 
         errorMessage("loading...");
-        if (runwaysList.isEmpty()) {
-            errorMessage("Add at least one runway.");
-            return;
-        }
         String days = simDaysField.getText();
         String hours = simHoursField.getText();
         String minutes = simMinutesField.getText();
@@ -163,7 +151,7 @@ public class NewSim
             errorMessage("Invalid cancellation time");
             return;
         }
-
+        int[] modeCounts = new int[3]; // 0 = landing, 1 = takeoff, 2 = mixed
         //parse each runway information
         runwayArray = new RunWay[runways];
         for(int i = 0 ; i < runwaysList.size(); i ++)
@@ -175,66 +163,75 @@ public class NewSim
                 errorMessage("Invalid input for runway " + (i + 1));
                 return;
             }
+            switch (r.getMode()) {
+                case LANDING:
+                    modeCounts[0]++;
+                    break;
+                case TAKEOFF:
+                    modeCounts[1]++;
+                    break;
+                case MIXED:
+                    modeCounts[2]++;
+                    break;
+                default:
+                    break;
+                    
+            }
+
             runwayArray[i] = r;
 
         }
+        Globals.runwayModes = modeCounts;
+        errorMessage("All inputs valid! Ready to run simulation.");
+        Globals.duration = dayNum + " days, " + hourNum + " hours, " + minuteNum + " minutes";
+        Globals.totalTicks = String.valueOf((dayNum * 24 * 60 + hourNum * 60 + minuteNum));
 
-        long totalMinutes = (long) dayNum * 24 * 60 + hourNum * 60 + minuteNum;
-        int runtimeTicks = (int) (totalMinutes / Utils.timeInc);
-        errorMessage("Starting simulation...");
-        SimService simService = new SimService();
-        simService.setOnSucceeded((WorkerStateEvent e) -> {
-            ModelOutput output = simService.getValue();
-            if (output != null) {
-                String durationText = dayNum + " day(s) " + hourNum + " hour(s) " + minuteNum + " minute(s)";
-                if (dayNum >= 14) {
-                    durationText = (dayNum / 7) + " week(s)";
-                }
-                ResultsContext.setLastResult(output, durationText);
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/com/cs261/app/kpiHome.fxml"));
-                    Stage stage = (Stage) (errorMessageLabel.getScene().getWindow());
-                    stage.getScene().setRoot(root);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    String msg = "Simulation complete.\nLanded: " + output.getTotalAircraftLanded()
-                        + "  Taken off: " + output.getTotalAircraftTakenOff()
-                        + "\nMax holding queue: " + output.getMaxHoldingQueueLength()
-                        + "  Max take-off queue: " + output.getMaxTakeOffQueueLength();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Simulation complete");
-                    alert.setHeaderText(null);
-                    alert.setContentText(msg);
-                    alert.showAndWait();
-                }
-            } else {
-                errorMessage("Simulation finished (no output).");
-            }
-        });
-        simService.setOnFailed((WorkerStateEvent e) -> {
-            errorMessage("Simulation failed: " + (simService.getException() != null ? simService.getException().getMessage() : "unknown"));
-        });
-        simService.start(runwayArray, runtimeTicks, cancellationTime, (double) failureProb);
+        // load waiting screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/simulationWait.fxml"));
+        Parent root = loader.load();
+
+        SimulationWaitController controller = loader.getController();
+        controller.startSim(runwayArray, dayNum, hourNum, minuteNum, failureProb, cancellationTime);
+        
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(root);
     }
 
     
 
+    @FXML
     private ComboBox<String> statusBox;
 
 
     @FXML
     public void initialize() {
-        if (errorMessageLabel != null) errorMessageLabel.setText("");
-        // Don't add a runway here — let user click "Add Runway" (avoids load error)
+        /*statusBox.getItems().addAll(
+            "Available",
+            "Runway Inspection",
+            "Snow Clearance",
+            "Equipment Failure"
+        );
+        modeBox.getItems().addAll(
+            "Landing",
+            "Takeoff",
+            "Mixed"
+        );*/
+        errorMessage("");
+        addSection();
+
     }
     
-    public void goBack(ActionEvent event) throws IOException
+    public void goBack(ActionEvent event) throws IOException 
     {
+
         Parent root = FXMLLoader.load(
         getClass().getResource("/com/cs261/app/start.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
         stage.getScene().setRoot(root);
-    }
+    }   
 
     @FXML
     private VBox runwayBox;
@@ -242,46 +239,43 @@ public class NewSim
     @FXML
     private void addSection() 
     {
-        if (runwayBox == null) {
-            if (errorMessageLabel != null) errorMessageLabel.setText("Form not ready.");
-            return;
-        }
-        if (runways >= 10) {
-            if (errorMessageLabel != null) errorMessageLabel.setText("Maximum 10 runways.");
-            return;
-        }
-        runways++;
-        try 
+        if (runways < 10) 
         {
-            java.net.URL url = getClass().getResource("/com/cs261/app/RunwayInput.fxml");
-            if (url == null) {
-                errorMessage("RunwayInput.fxml not found.");
-                runways--;
-                return;
-            }
-            FXMLLoader loader = new FXMLLoader(url);
-            VBox newSection = loader.load();
+            runways++;
+            try 
+            {
+                FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/cs261/app/RunwayInput.fxml")
+                );
 
-            RunwayInputController controller = loader.getController();
-            if (controller != null) {
+                VBox newSection = loader.load();
+
+
+                // Get the controller
+                RunwayInputController controller = loader.getController();
                 runwaysList.add(controller);
+                //  Modify something inside the FXML
                 controller.setRunwayTitle("Runway " + runways);
-            }
 
-            runwaySectionNodes.add(newSection);
-            int insertIndex = runwayBox.getChildren().size() - 1;
-            if (insertIndex < 0) insertIndex = 0;
-            runwayBox.getChildren().add(insertIndex, newSection);
-            if (errorMessageLabel != null) errorMessageLabel.setText("");
-        } catch (Exception e) {
-            e.printStackTrace();
-            runways--;
-            String msg = e.getMessage();
-            if (msg == null) msg = e.getClass().getSimpleName();
-            Throwable cause = e.getCause();
-            if (cause != null) msg += " — " + cause.getClass().getSimpleName() + ": " + cause.getMessage();
-            errorMessage("Add runway failed: " + msg);
+                int size = runwayBox.getChildren().size();
+
+                if (size >= 1) 
+                {
+                    runwayBox.getChildren().add(size - 1, newSection);
+                } 
+                else 
+                {
+                    runwayBox.getChildren().add(newSection);
+                }
+
+            } 
+
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+             
         }
+       
     }
 
     
@@ -289,11 +283,13 @@ public class NewSim
     @FXML
     private void removeSection() 
     {
-        if (runwaySectionNodes.isEmpty()) return;
-        VBox lastSection = runwaySectionNodes.remove(runwaySectionNodes.size() - 1);
-        runwayBox.getChildren().remove(lastSection);
-        if (!runwaysList.isEmpty()) runwaysList.remove(runwaysList.size() - 1);
-        runways--;
+        if (runways > 1) 
+        {
+            runways--;
+            int size = runwayBox.getChildren().size();
+            runwayBox.getChildren().remove(size - 2);
+            runwaysList.remove((runwaysList.size() - 1));
+        }
     }
 
 

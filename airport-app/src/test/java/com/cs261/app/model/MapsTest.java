@@ -3,11 +3,12 @@ package com.cs261.app.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RunWayMapTest {
+class MapsTest {
 
     private RunWayMap map;
     private RunWay arrivalRunway;
@@ -79,6 +80,8 @@ class RunWayMapTest {
                 map.getFreeRunways(RunWay.OperatingMode.LANDING);
 
         assertNotNull(free);
+        assertEquals(RunWay.OperatingMode.MIXED, free.get(1).getMode());
+        assertEquals(RunWay.OperatingMode.LANDING, free.get(0).getMode());
     }
 
     @Test
@@ -93,4 +96,36 @@ class RunWayMapTest {
     void getRunwayShouldReturnNullIfIdDoesNotExist() {
         assertNull(map.getRunway("99"));
     }
+
+    @Test
+    void getBusyRunwaysShouldReturnBusyRunways() {
+        AirCraft arrivingPlane = new AirCraft(
+                AirCraft.FlightType.ARRIVAL,
+                "A1",
+                "Airline",
+                "AAA",
+                "BBB",
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                400f,
+                8000f,
+                30000f,
+                AirCraft.EmergencyStatus.NONE,
+                -1
+        );
+        arrivalRunway.addPlane(arrivingPlane);
+        ArrayList<RunWay> busy =
+                map.getBusyRunways(RunWay.OperatingMode.LANDING);
+
+        assertEquals("09", busy.get(0).getRunwayNumber());
+    }
+
+    @Test
+    void getRunwaysShouldReturnAllRunways() {
+
+        // TODO
+
+        assertTrue(false);
+    }
+
 }

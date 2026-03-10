@@ -13,6 +13,8 @@ import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.DataGen;
 import com.cs261.app.model.DepartureModel;
 
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import java.util.List;
 import java.util.ArrayList;
@@ -28,8 +30,7 @@ public class SimLoop extends Task<ModelOutput>{
 	protected int runtime;
 	protected int currentTime;
 	protected DataGen dataGen;
-	protected ModelOutput output = new ModelOutput(departureModel, arrivalModel, runways, holdingPattern, takeOffQueue);
-	
+	protected ModelOutput output;
 
 	/**
 	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
@@ -38,28 +39,37 @@ public class SimLoop extends Task<ModelOutput>{
 		this.runways = new RunWayMap(userRunways);
 		this.runtime = userRuntime;
 		this.currentTime = 0;
-
 		this.trafficModel = new TrafficController(aircraftMap, runways, holdingPattern, takeOffQueue, arrivalModel, departureModel);
 		this.dataGen = new DataGen(userRuntime, Utils.flow, Utils.flow); // init with runtime and default flow rate per hour.
+		this.output = new ModelOutput(aircraftMap, departureModel, arrivalModel, runways);
 	}
 	
 	@Override
 	protected ModelOutput call() throws Exception {
 		while (currentTime != runtime) {
-			// get flights for this tick
-			List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
-			List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
-			// arrivals update, add flights 
-			arrivalModel.updateArrivals(newArrivals, currentTime);
-			// departures update, add flights
-			departureModel.updateDepartures(newDepartures, currentTime);
-			// traffic controller update, check runways and stuff
-			ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
-			currentTime += Utils.timeInc;
-			output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size());
-		}
-		output.setAircraftMap(aircraftMap);
+			try {
+				System.out.printf("current %d \n", currentTime);
+				// get flights for this tick
+				List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
+				List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
+				// arrivals update, add flights 
+				arrivalModel.updateArrivals(newArrivals, currentTime);
+				// departures update, add flights
+				departureModel.updateDepartures(newDepartures, currentTime);
+				// traffic controller update, check runways and stuff
+				ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
+				System.out.println("returned traffic");
+				currentTime += Utils.timeInc;
+				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), currentTime);
+				System.out.println("returned output");
+				updateProgress((double) currentTime, (double) runtime);	
+			} catch (Exception e){
+				e.printStackTrace();
+				continue; // need to retry the iteration
+			}
+		}	
 		output.finishCalculations();
+		System.out.println("finished everything");
 		return output;
 	}
 }

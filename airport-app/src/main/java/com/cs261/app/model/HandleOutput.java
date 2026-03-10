@@ -27,7 +27,7 @@ public class HandleOutput {
      * Runs are idenified by the date and time when calling storeMetrics(). 
      * @param output the ModelOutput containing our metrics.
      */
-    public void storeMetrics(ModelOutput output) {
+    public static void storeMetrics(ModelOutput output) {
         File file = new File(filePath);
         boolean needsHeader = !file.exists() || file.length() == 0;
 
@@ -67,7 +67,7 @@ public class HandleOutput {
      * Load all simulation runs that have been saved in the CSV file.
      * @return list of String arrays, one per run. 
      */
-    public List<String[]> loadAllMetrics() {
+    public static List<String[]> loadAllMetrics() {
         List<String[]> results = new ArrayList<>();
         File file = new File(filePath);
 
@@ -100,7 +100,7 @@ public class HandleOutput {
      * @param simName the date and time when the run was saved.
      * @return String array of the metrics.
      */
-    public String[] loadMetrics(String simName) {
+    public static String[] loadMetrics(String simName) {
         List<String[]> all = loadAllMetrics();
 
         /** Search for the matching runName. */
@@ -126,7 +126,7 @@ public class HandleOutput {
      * Return list of all simulation runs by their simName (date and time).
      * @return list of simulation run names.
      */
-    public List<String> listStoredRuns() {
+    public static List<String> listStoredRuns() {
         List<String> names = new ArrayList<>();
         List<String[]> all = loadAllMetrics();
 

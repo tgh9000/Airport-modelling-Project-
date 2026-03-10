@@ -39,9 +39,11 @@ public class RunwayInputController
     @FXML
     public void initialize() 
     {
-        if (modeBox != null) {
-            modeBox.getItems().addAll("Landing", "Takeoff", "Mixed");
-        }
+        modeBox.getItems().addAll(
+            "Landing",
+            "Takeoff",
+            "Mixed"
+        );
     }
 
     
@@ -153,37 +155,55 @@ public class RunwayInputController
      @FXML
     private void addInterruption() 
     {
-        if (interruptionBox == null) return;
-        if (interruption >= 3) return;
-        interruption++;
-        try 
+        if (interruption < 3) 
         {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/InterruptionInput.fxml"));
-            VBox newSection = loader.load();
-            InterruptionInputController controller = loader.getController();
-            if (controller != null) {
+            interruption++;
+            try 
+            {
+                FXMLLoader loader = new FXMLLoader
+                (
+                    getClass().getResource("/com/cs261/app/InterruptionInput.fxml")
+                );
+
+                VBox newSection = loader.load();
+
+
+                InterruptionInputController controller = loader.getController();
                 interruptionList.add(controller);
+
+                //controller.setRunwayTitle("Runway " + interruption);
+
+                int size = interruptionBox.getChildren().size();
+
+                interruptionBox.getChildren().add(newSection);
+                /*if (size >= 1) 
+                {
+                    interruptionBox.getChildren().add(size - 1, newSection);
+                } 
+                else 
+                {
+                    interruptionBox.getChildren().add(newSection);
+                }*/
+
+            } 
+
+            catch (IOException e) {
+                e.printStackTrace();
             }
-            interruptionBox.getChildren().add(newSection);
-        } 
-        catch (IOException e) {
-            interruption--;
-            e.printStackTrace();
+             
         }
+       
     }
 
     @FXML
     private void removeSection() 
     {
-        if (interruptionBox == null) return;
-        if (interruption <= 0 || interruptionList.isEmpty()) return;
-        interruption--;
-        int last = interruptionBox.getChildren().size() - 1;
-        if (last >= 0) {
-            interruptionBox.getChildren().remove(last);
-        }
-        if (!interruptionList.isEmpty()) {
-            interruptionList.remove(interruptionList.size() - 1);
+        if (interruption > 0) 
+        {
+            interruption--;
+            int size = interruptionBox.getChildren().size();
+            interruptionBox.getChildren().remove(size - 1);
+            interruptionList.remove(interruption);
         }
     }
 

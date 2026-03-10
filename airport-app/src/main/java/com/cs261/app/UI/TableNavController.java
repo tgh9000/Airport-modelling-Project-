@@ -1,7 +1,10 @@
 package com.cs261.app.UI;
 
-import com.cs261.app.controller.ResultsContext;
+import java.util.Optional;
+
+//import com.cs261.app.controller.ResultsContext;
 import com.cs261.app.model.AirCraft;
+import com.cs261.app.model.HandleOutput;
 import com.cs261.app.model.ModelOutput;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -15,17 +18,24 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class TableNavController {
+
+
+public class TableNavController 
+{
+
+
+
 
     /** Simple row for popup tables: id (callsign/runway id) and details line. */
     private static class IdDetail {
@@ -54,8 +64,10 @@ public class TableNavController {
     @FXML private Label kpiDuration;
     @FXML private ComboBox<String> timestampComboBox;
     @FXML private Button btnSearch;
+    @FXML private TextField timestampField;
     @FXML private VBox detailsPane;
     @FXML private Button btnDetailsToggle;
+    @FXML private PopupMenuController popupMenuController;
     @FXML private TextField planesSearchField;
     @FXML private TableView<IdDetail> planesTable;
     @FXML private TableColumn<IdDetail, String> planesIdColumn;
@@ -70,6 +82,9 @@ public class TableNavController {
     public void initialize() {
         if (kpiMaxDelayTakeoff != null) {
             updateKpiFromLastOutput();
+        }
+        if (popupMenuController != null) {
+            popupMenuController.setOnClose(() -> closeDetailsPane(null));
         }
         setupDetailsPanel();
     }
@@ -114,7 +129,7 @@ public class TableNavController {
     }
 
     private void updateKpiFromLastOutput() {
-        ModelOutput out = ResultsContext.getLastOutput();
+        ModelOutput out = Globals.output;
         if (out == null) {
             return;
         }
@@ -122,14 +137,55 @@ public class TableNavController {
         kpiAvgDelayTakeoff.setText("Average delay for take off: " + String.format("%.1f", out.getAvgDepartDelay()) + " Minutes");
         kpiMaxDelayArrival.setText("Maximum delay for arrival: " + out.getMaxArriveDelay() + " Minutes");
         kpiAvgDelayArrival.setText("Average delay for arrival: " + String.format("%.1f", out.getAvgArriveDelay()) + " Minutes");
-        kpiIncomingCancelled.setText("Number of incoming planes cancelled: " + "—");
-        kpiOutgoingDiverted.setText("Number of outgoing planes diverted: " + "—");
-        int[] modeCounts = out.getRunwayCountByMode();
-        kpiRunways.setText("Number of Runways: " + (modeCounts[0] + modeCounts[1] + modeCounts[2]) + " (" + modeCounts[0] + " incoming, " + modeCounts[1] + " outgoing, " + modeCounts[2] + " mixed)");
-        kpiMaxWaitCancellation.setText("Maximum wait time (for cancellation): " + "— Minutes");
-        kpiMaxWaitDiversion.setText("Maximum wait time (for diversion): " + "— Minutes");
-        String duration = ResultsContext.getDurationText();
+        kpiIncomingCancelled.setText("Number of incoming planes cancelled: —");
+        kpiOutgoingDiverted.setText("Number of outgoing planes diverted: —");
+        int[] modeCounts = Globals.runwayModes;
+        if (modeCounts != null && modeCounts.length >= 3) {
+            kpiRunways.setText("Number of Runways: " + (modeCounts[0] + modeCounts[1] + modeCounts[2]) + " (" + modeCounts[0] + " incoming, " + modeCounts[1] + " outgoing, " + modeCounts[2] + " mixed)");
+        } else {
+            kpiRunways.setText("Number of Runways: —");
+        }
+        kpiMaxWaitCancellation.setText("Maximum wait time (for cancellation): — Minutes");
+        kpiMaxWaitDiversion.setText("Maximum wait time (for diversion): — Minutes");
+        String duration = Globals.duration != null ? Globals.duration : "";
         kpiDuration.setText("Duration of simulation: " + (duration.isEmpty() ? "—" : duration));
+    }
+
+    @FXML
+    private void onTimestampSearch(ActionEvent event) {
+        if (timestampField == null) return;
+        String raw = timestampField.getText();
+        if (raw == null) raw = "";
+        String trimmed = raw.trim();
+        if (trimmed.isEmpty()) {
+            Alert alert = new Alert(AlertType.WARNING, "Please enter a timestamp.");
+            alert.setHeaderText("Invalid input");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            int ts = Integer.parseInt(trimmed);
+            if (ts < 0) {
+                Alert alert = new Alert(AlertType.WARNING, "Timestamp must be 0 or greater.");
+                alert.setHeaderText("Invalid input");
+                alert.showAndWait();
+                return;
+            }
+            if (Globals.totalTicks != null) {
+                int max = Integer.parseInt(Globals.totalTicks);
+                if (ts > max) {
+                    Alert alert = new Alert(AlertType.WARNING, "Timestamp " + ts + " is beyond simulation end (" + max + ").");
+                    alert.setHeaderText("Out of range");
+                    alert.showAndWait();
+                    return;
+                }
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(AlertType.WARNING, "Please enter a valid number for the timestamp.");
+            alert.setHeaderText("Invalid input");
+            alert.showAndWait();
+            return;
+        }
     }
 
     @FXML
@@ -139,7 +195,9 @@ public class TableNavController {
         }
     }
 
+
     private void loadPage(ActionEvent event, String fxml) {
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -148,6 +206,10 @@ public class TableNavController {
             e.printStackTrace();
         }
     }
+
+
+    // make a page that asks the user if they want to close the page and save their run.
+
 
     @FXML
     private void goHome(ActionEvent event) {
@@ -159,10 +221,12 @@ public class TableNavController {
         loadPage(event, "/com/cs261/app/tables(Departures).fxml");
     }
 
+
     @FXML
     private void goToArrivals(ActionEvent event) {
         loadPage(event, "/com/cs261/app/tables(Arrivals).fxml");
     }
+
 
     @FXML
     private void goToQueue(ActionEvent event) {
@@ -179,10 +243,28 @@ public class TableNavController {
         loadPage(event, "/com/cs261/app/tables(Runway).fxml");
     }
 
+
     @FXML
     private void goToGraphs(ActionEvent event) {
         loadPage(event, "/com/cs261/app/graphs(arrivals).fxml");
     }
+
+    @FXML 
+    private void gotoLanding(ActionEvent event){
+        Alert saveAlert = new Alert(AlertType.NONE, "Do you want to save the simulation statistics before exitting?");
+        saveAlert.getButtonTypes().add(ButtonType.YES);
+        saveAlert.getButtonTypes().add(ButtonType.NO);
+
+        saveAlert.showAndWait().ifPresent( response -> {
+            if (response == ButtonType.YES){
+                HandleOutput.storeMetrics(Globals.output);
+            } 
+            loadPage(event, "/com/cs261/app/start.fxml");
+        }
+        );
+    }
+
+
 
     @FXML
     private void toggleDetailsPane(ActionEvent event) {
@@ -194,7 +276,20 @@ public class TableNavController {
         detailsPane.setManaged(show);
         btnDetailsToggle.setText(show ? "▶" : "◀");
         if (show) {
-            refreshDetailsTables();
+            if (popupMenuController != null) {
+                if (Globals.output == null) {
+                    Alert alert = new Alert(AlertType.INFORMATION, "No simulation results available yet. Run a simulation first.");
+                    alert.setHeaderText("No data");
+                    alert.showAndWait();
+                    detailsPane.setVisible(false);
+                    detailsPane.setManaged(false);
+                    btnDetailsToggle.setText("◀");
+                    return;
+                }
+                popupMenuController.refreshFromLastOutput();
+            } else {
+                refreshDetailsTables();
+            }
         }
     }
 
@@ -211,7 +306,7 @@ public class TableNavController {
 
     /** Populate Planes and Runways tables from last simulation output. */
     private void refreshDetailsTables() {
-        ModelOutput out = ResultsContext.getLastOutput();
+        ModelOutput out = Globals.output;
         planesList.clear();
         runwaysList.clear();
         if (out == null) {
@@ -255,7 +350,7 @@ public class TableNavController {
      */
     @FXML
     private void openRunwayDetails(ActionEvent event) {
-        ModelOutput out = ResultsContext.getLastOutput();
+        ModelOutput out = Globals.output;
         if (out == null) {
             Alert alert = new Alert(AlertType.INFORMATION, "No simulation results available yet.");
             alert.setHeaderText("Runway details");
@@ -319,7 +414,7 @@ public class TableNavController {
      */
     @FXML
     private void openAircraftDetails(ActionEvent event) {
-        ModelOutput out = ResultsContext.getLastOutput();
+        ModelOutput out = Globals.output;
         if (out == null) {
             Alert alert = new Alert(AlertType.INFORMATION, "No simulation results available yet.");
             alert.setHeaderText("Aircraft details");
@@ -334,7 +429,7 @@ public class TableNavController {
         dialog.getDialogPane().getScene().getWindow().sizeToScene();
 
         dialog.showAndWait().ifPresent(callsign -> {
-            AirCraft plane = out.getAircraftById(callsign);
+            AirCraft plane = Globals.GetAirplane(callsign);
             if (plane == null) {
                 Alert alert = new Alert(AlertType.INFORMATION, "Aircraft \"" + callsign + "\" was not found in the latest run.");
                 alert.setHeaderText("Aircraft details");

@@ -15,9 +15,9 @@
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" StackPane.alignment="CENTER">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: transparent; -fx-padding: 5;">
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: transparent; -fx-padding: 5; -fx-effect: dropshadow(gaussian, #647484, 30, 0, 1, 2);">
                <content>
-                  <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #d2d2d2; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0; -fx-effect: dropshadow(gaussian, #647484 30, 0, 1, 2);" spacing="5">
+                  <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #d2d2d2; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0;" spacing="5">
                      <children>
                         <Label text="General:">
                            <font>
@@ -37,16 +37,14 @@
                            <children>
                               <TextField fx:id="simDaysField" promptText="Days">
                                  <font>
-                                    <Font size="18.0" />
+                                    <Font size="20.0" />
                                  </font>
                               </TextField>
-                              <Label text=":" />
                               <TextField fx:id="simHoursField" promptText="Hours">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </TextField>
-                              <Label text=":" />
                               <TextField fx:id="simMinutesField" promptText="Minutes">
                                  <font>
                                     <Font size="20.0" />
@@ -93,8 +91,8 @@
                         </HBox>
                         <HBox prefHeight="30.0" prefWidth="560.0" spacing="15" style="-fx-padding: 5;">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#addSection" text="Add Runway" styleClass="roundButtonOutline" minWidth="120" />
-                              <Button mnemonicParsing="false" onAction="#removeSection" text="Remove This runway" styleClass="roundButtonOutline" minWidth="140" />
+                              <Button mnemonicParsing="false" onAction="#addSection" text="Add Runway" styleClass = "roundButtonOutline" />
+                              <Button mnemonicParsing="false" onAction="#removeSection" text="Remove This runway" styleClass = "roundButtonOutline" />
                            </children>
                         </HBox>
                      </children>
@@ -103,11 +101,10 @@
             </ScrollPane>
             <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" spacing="15">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" minWidth="70" text="Back" styleClass="roundButtonFill" />
-                  <Label fx:id="errorMessageLabel" alignment="CENTER_LEFT" contentDisplay="LEFT" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="" textFill="RED" wrapText="true" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" minWidth="70" text="Start" styleClass="roundButtonFill" />
-               </children>
-            </HBox>
+                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="65.0" text="Back"  styleClass = "roundButtonFill" />
+                  <Label fx:id="errorMessageLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Example error message" textFill="RED" HBox.hgrow="ALWAYS" />
+               <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" prefWidth="65.0" text="Start"  styleClass = "roundButtonFill" />
+               </children></HBox>
          </children>
       </AnchorPane>
    </children>
