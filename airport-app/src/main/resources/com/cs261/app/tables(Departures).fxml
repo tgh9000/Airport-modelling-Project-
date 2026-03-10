@@ -70,6 +70,7 @@
             
                               <!-- Search Button -->
                         <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#searchByTimestamp" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" />
+                        <Button fx:id="reset" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#resetTable" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="reset" />
             
                               <!-- Spacer -->
                         <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="NEVER" />

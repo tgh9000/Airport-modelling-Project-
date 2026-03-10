@@ -109,7 +109,7 @@ public class OutputPageController {
         {   //Runway,callsign,actual
  
 
-            ArrivalRow row = new ArrivalRow(tableAllDepartures[i][1], tableAllDepartures[i][0], tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4]);
+            ArrivalRow row = new ArrivalRow(tableAllDepartures[i][1], tableAllDepartures[i][0], tableAllDepartures[i][3], tableAllDepartures[i][2],tableAllDepartures[i][4]);
             String timeStamp = tableAllDepartures[i][5];
             List<ArrivalRow> list = Globals.departuresTree.get( Integer.parseInt(timeStamp));
             if(list == null)
@@ -125,7 +125,7 @@ public class OutputPageController {
             if(tableAllDepartures[i][0] != null)
             {
                 //Runway table part.
-                RunwayRow runwayRow = new RunwayRow(tableAllDepartures[i][1], "Departure", tableAllDepartures[i][2], tableAllDepartures[i][3],tableAllDepartures[i][4],tableAllDepartures[i][0]);
+                RunwayRow runwayRow = new RunwayRow(tableAllDepartures[i][1], "Departure", tableAllDepartures[i][3], tableAllDepartures[i][2],tableAllDepartures[i][4],tableAllDepartures[i][0]);
                 int runwayNumIndex = Integer.parseInt(tableAllDepartures[i][0]);
                 TreeMap<Integer, List<RunwayRow>> runwayData =  Globals.RunwayTree.get(runwayNumIndex);
                 if(runwayData == null)

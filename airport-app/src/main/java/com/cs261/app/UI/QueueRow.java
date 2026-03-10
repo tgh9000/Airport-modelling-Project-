@@ -7,7 +7,9 @@ public class QueueRow {
     private String delay;
     private String waitTime;
 
-
+    /**
+     * Constructor for the QueueRow class
+     */
     public QueueRow(String callsign, String scheduled, String actual, String delay,String waitTime)
     {
         this.callsign = callsign;
