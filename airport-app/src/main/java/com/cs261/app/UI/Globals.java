@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
@@ -35,6 +36,8 @@ public class Globals
     public static TreeMap<Integer, List<QueueRow>> holdingTree = new TreeMap<>();
 
     public static HashMap<Integer,TreeMap<Integer, List<RunwayRow>>> RunwayTree = new HashMap<>();
+
+    public static ObservableList<RunwayDetail> runwayDetails = FXCollections.observableArrayList();
 
     /**
      * returns a subset of the arrivals tree whose arrival time is within the given range.

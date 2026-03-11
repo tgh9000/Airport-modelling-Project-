@@ -193,6 +193,15 @@ public class OutputPageController {
             
         }
 
+        // Gets The data needed for the runway mini table.
+        String[][] runwayDetails = output.getTableRunways();
+        for(int i = 0 ; i < runwayDetails.length; i ++)
+        {
+            RunwayDetail row = new RunwayDetail(runwayDetails[i][0], runwayDetails[i][1], runwayDetails[i][2], runwayDetails[i][3], runwayDetails[i][4], runwayDetails[i][5],runwayDetails[i][6]);
+            Globals.runwayDetails.add(row);
+        }
+         
+
         
 
 
