@@ -1,6 +1,5 @@
     .root {
     -fx-background-color: #FFFCF9;
-    -fx-font-family: "Inter";
 }
 
 /* Default button style */
@@ -41,6 +40,41 @@
     -fx-font-weight: 500;
     -fx-background-radius: 4px;
     -fx-background-insets: 0;
+}
+
+.startBtn {
+    -fx-background-color: #4DA6FF;
+    -fx-text-fill: #122840;
+    -fx-font-size: 14px;
+    -fx-font-weight: BOLD;
+    -fx-background-radius: 16px;
+    -fx-padding: 10px;
+    -fx-border-width: 2px;
+    -fx-border-color: #4695e4;
+    -fx-border-radius: 16px;
+    -fx-cursor: hand;
+}
+
+.startBtn:hover {
+    -fx-background-color: #30d146;
+    -fx-border-color: #2dbe40;
+}
+
+.backBtnInpPg {
+    -fx-background-color: transparent;
+    -fx-text-fill: #122840;
+    -fx-font-size: 11px;
+    -fx-font-weight: BOLD;
+    -fx-background-radius: 16px;
+    -fx-padding: 20px;
+    -fx-border-width: 2px;
+    -fx-border-color: #122840;
+    -fx-border-radius: 16px;
+    -fx-cursor: hand;
+}
+
+.backBtnInpPg:hover {
+    -fx-border-color: #1e4a79;
 }
 
 .landingBtn1 {
