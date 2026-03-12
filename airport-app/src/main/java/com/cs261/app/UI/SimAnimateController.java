@@ -59,10 +59,12 @@ public class SimAnimateController {
     private SimTimer clock;
 
 
-    public void init(RunWay[] runways, int days, int hours, int mins, float failprob, int cancelTime){
+    public void init(RunWay[] runways, int days, int hours, int mins, float failprob, int cancelTime, int arrivalsFlow, int departureFlow){
         this.runways = new RunWayMap(runways);
         Utils.setCancelTime(cancelTime);
         Utils.setEmergencyProbability((double) failprob);
+        Utils.setArrivalFlow(arrivalsFlow);
+        Utils.setDepartureFlow(departureFlow);
 
         // make the date
         LocalDateTime endtime = LocalDateTime.of(2026, 1, 1, 0,0,0).plusDays((long) days).plusHours((long) hours).plusMinutes((long) mins);
@@ -109,7 +111,7 @@ public class SimAnimateController {
     private class SimTimer extends AnimationTimer{
 
         private long FPS = 60L;
-        private long INTERVAL =  1000000000L / FPS;
+        private long INTERVAL =  10000000000L / FPS;
         private long prevTime = 0;
 
         private int simtime = 0; // 'time passed in simulation' = how many times handle should be called
@@ -123,25 +125,23 @@ public class SimAnimateController {
             if (simtime >= runtime){
                 System.out.printf("DONE DONE DONE \n");
                 stop();
+                output.finishCalculations();
                 successEvent();
             }
 
-            if (currentTime - prevTime > INTERVAL){
-                double elapsed = (currentTime - prevTime) / 1000000000.0;
-                
-                
+            if (currentTime - prevTime > INTERVAL){                
                 List<AirCraft> newArrivals = dataGen.getArrivalsForTick(simtime, simtime + Utils.timeInc);
                 List<AirCraft> newDepartures = dataGen.getDeparturesForTick(simtime, simtime + Utils.timeInc);
                 arrivalModel.updateArrivals(newArrivals, simtime);
                 departureModel.updateDepartures(newDepartures, simtime);
                 ArrayList<String> exits = trafficModel.updateTraffic(simtime); 
-                System.out.println("returned traffic");
                 simtime += Utils.timeInc;
                 output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), simtime);
                 // now do animation stuff????
+                double elapsed = (currentTime - prevTime) / 1000000000.0;
                 AirCraft holdingTop = holdingPattern.top();
                 if (holdingTop == null){
-                    holdingPatternAnim.invisible();
+                        holdingPatternAnim.invisible();
                 } else {
                     if (holdingPatternAnim.getCallSignText().get() != holdingTop.getCallSign()){
                         holdingPatternAnim.updateCallsignProp(holdingTop.getCallSign());
@@ -149,10 +149,8 @@ public class SimAnimateController {
                         holdingPatternAnim.step(elapsed);
                     }                
                 }
-
                 prevTime = currentTime;
-            }
+            }  
         }
-        
     }
 }

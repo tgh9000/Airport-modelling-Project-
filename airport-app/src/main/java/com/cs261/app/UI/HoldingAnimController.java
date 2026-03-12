@@ -21,8 +21,8 @@ public class HoldingAnimController {
     private double holdingCenterX;
     private double holdingCenterY;
     private double radiusX = 100;
-    private double radiusY = 100;
-    private double speed = 2.0;
+    private double radiusY = 70;
+    private double speed = 30.0;
     private double angle = 0;
 
     public HoldingAnimController(ImageView plane, Pane bgPane, Label callsign, Label emergency){    
@@ -34,8 +34,8 @@ public class HoldingAnimController {
         this.callsignLbl.textProperty().bind(callSignText);
         this.emergencyLbl.textProperty().bind(emergencyText);
 
-        holdingCenterX = holdingPane.getLayoutX() / 2;
-        holdingCenterY = holdingPane.getLayoutY() / 2;
+        holdingCenterX = 120;
+        holdingCenterY = 80;
 
         // plane.setLayoutX(holdingCenterX + radiusX);
         // plane.setLayoutY(holdingCenterY);
@@ -44,15 +44,14 @@ public class HoldingAnimController {
 
     public void step(double t){
             angle += speed * t;
+            plane.setOpacity(1);
 
             plane.setLayoutX(holdingCenterX + radiusX * Math.cos(angle));
             plane.setLayoutY(holdingCenterY + radiusY * Math.sin(angle));
-
-            plane.setOpacity(1);
     }
 
     public void invisible(){
-            plane.setOpacity(1);
+            plane.setOpacity(0);
     }
 
     public StringProperty getCallSignText() {
