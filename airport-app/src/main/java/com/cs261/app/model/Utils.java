@@ -14,9 +14,14 @@ public class Utils {
 	public static final LocalDateTime simulationStart = LocalDateTime.of(2026, 1, 1, 0, 0);
 	public static final int flow = 15; // might make this configurable later 
 
+	public static int arrivalFlow = 15;
+	public static int departureFlow = 15;
+
+
 	public static int cancelTime = 30; // maximum takeoff queue wait time
 	public static int dangerOfCancel = 20; // time at which planes are considered close to being cancelled
-	public static double emergencyProbability = 0.01;
+	public static double emergencyProbability = 0.01; // Default: 1/100 Chance of an Emergency occuring.
+    public static String ourAirport = "LHR"; // Default: London Heathrow.
 
 	// Setters
 	// for readability
@@ -37,6 +42,13 @@ public class Utils {
 		timeInc = t;
 	}
 
+	public static void setArrivalFlow(int flow){
+		arrivalFlow = flow;
+	}
+
+	public static void setDepartureFlow(int flow){
+		departureFlow = flow;
+	}
 
 	/**
 	 * Convert from ticks to LocalDateTime

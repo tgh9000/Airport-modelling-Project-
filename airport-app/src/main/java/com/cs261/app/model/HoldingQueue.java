@@ -7,6 +7,7 @@ import com.cs261.app.model.AirCraft.FlightType;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -121,7 +122,7 @@ public class HoldingQueue {
 	 * @return root of heap or null if the queue is empty
 	 */
 	public AirCraft dequeue() {
-		System.out.println("try dequeue");
+		//System.out.println("try dequeue");
 		if (isEmpty()){
 			return null;
 		} 
@@ -130,7 +131,7 @@ public class HoldingQueue {
 		heap[size - 1] = null; // no duplicate planes
 		size--;
 		downheap(0);
-		System.out.println("dequeue");
+		//System.out.println("dequeue");
 		return result;
 	}
 	/**
@@ -209,7 +210,13 @@ public class HoldingQueue {
 	 */
 	public void updateHolding(int t) {
 		for (int i = 0; i < size(); i++) {
-			if (heap[i].getAircraft().updateHoldingFlight(t)) { // update holding flight returns true if there is a fuel emergency 
+			AirCraft p;
+			if (getParent(i) == null){
+				p = null;
+			} else {
+				p = getParent(i).getAircraft();
+			}
+			if (heap[i].getAircraft().updateHoldingFlight(t, p)) { // update holding flight returns true if there is a fuel emergency 
 				upHeap(i); // might need to move it up the heap
 			} else { // no fuel emergency for now
 				continue;
@@ -250,8 +257,8 @@ public class HoldingQueue {
 	 * Detect and remove all diversions, given the plane has passed the emergency wait time. O(nlogn) in worst if all planes in HP are in 
 	 * emergency.
 	 */
-	public void removeDiversions(int t){
-		try {
+	public void removeDiversions(ArrayList<String> exitedPlanes, int t){
+try {
 			if (isEmpty()){
 				return;
 			}
@@ -263,7 +270,6 @@ public class HoldingQueue {
 			boolean keepGoing = true;
 
 			while (keepGoing){
-				System.out.println("diversions loop");
 				if (this.top().getEmergencyStatus() == EmergencyStatus.NONE){
 					keepGoing = false;
 				} else {
@@ -271,17 +277,16 @@ public class HoldingQueue {
 						AirCraft front = this.dequeue();
 						front.setExitTime(Utils.convertTicksToDate(t));
 						front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
+						exitedPlanes.add(front.getCallSign());
 						keepGoing = true; // just in case next planes are also in emergency
 					} else {
-						keepGoing = false;
+						keepGoing = false;  // otherwise, because the root is the plane that has been in HP longest (in emergency), then don't keep going as the rest are not over EmergencyTime too 
 					}
 				}
 			}
 		} catch (Exception e){
 			e.printStackTrace();
-			return;
 		}
-
 	}
 
 	/**

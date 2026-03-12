@@ -4,6 +4,8 @@ import com.cs261.app.controller.SimLoop;
 import com.cs261.app.model.ModelOutput;
 import com.cs261.app.model.RunWay;
 
+import javafx.beans.property.SimpleDoubleProperty;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assumptions;
 
@@ -25,24 +27,19 @@ public class InvariantTest {
      * This avoids needing JavaFX Task execution + avoids sim.get().
      */
     private static class TestableSimLoop extends SimLoop {
+
         public TestableSimLoop(RunWay[] userRunways, int userRuntime) {
             super(userRunways, userRuntime);
         }
 
         public ModelOutput runSync() {
             try {
-                return super.call(); // protected in Task, accessible here
+                return super.call();
             } catch (Exception e) {
                 throw new RuntimeException("Simulation threw an exception", e);
             }
         }
     }
-
-    /* calls holdingqueue dequeue even when empty causing simulation to crash due to error
-        private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
-            return new TestableSimLoop(runways, runtimeTicks).runSync();
-        }
-    */
 
     private static ModelOutput runSimulation(RunWay[] runways, int runtimeTicks) {
         try {
@@ -54,17 +51,17 @@ public class InvariantTest {
             return null; // unreachable
         }
     }
-    
+
     private static RunWay landing(int bearing) {
-        return new RunWay(3000, bearing, RunWay.OperatingMode.LANDING, null, null);
+        return new RunWay(3000, bearing, RunWay.OperatingMode.LANDING, new RunWay.OperationStatus[0], new int[0][0]);
     }
 
     private static RunWay takeoff(int bearing) {
-        return new RunWay(3000, bearing, RunWay.OperatingMode.TAKEOFF, null, null);
+        return new RunWay(3000, bearing, RunWay.OperatingMode.TAKEOFF, new RunWay.OperationStatus[0], new int[0][0]);
     }
 
     private static RunWay mixed(int bearing) {
-        return new RunWay(3000, bearing, RunWay.OperatingMode.MIXED, null, null);
+        return new RunWay(3000, bearing, RunWay.OperatingMode.MIXED, new RunWay.OperationStatus[0], new int[0][0]);
     }
 
     // Invariants: basic non-null outputs

@@ -105,7 +105,7 @@ public class RunWay {
 				}
 			}
 		}
-		System.out.println("added plane");
+		//System.out.println("added plane");
 		return true;
 	}
 

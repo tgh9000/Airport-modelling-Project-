@@ -33,9 +33,9 @@ public class TakeOffQueue {
      *
      * @return the aircraft at the front of the queue, or null if the queue is empty
      */
-    public AirCraft dequeue() throws InvalidParameterException {
+    public AirCraft dequeue() {
         if (queue.isEmpty()) {
-            throw new InvalidParameterException();
+            return null;
         }
         return queue.removeFirst();
     }

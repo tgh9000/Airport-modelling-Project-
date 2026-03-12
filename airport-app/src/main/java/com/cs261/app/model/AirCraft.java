@@ -233,8 +233,25 @@ public class AirCraft {
     /**
      * TODO: FIX UPDATE METHOD FOR ALTITUDE
      */
-    public void updateAltitude(){
-		this.altitude -= 1000;
+    public void updateAltitude(AirCraft parent){
+		// get its parents altitude 
+		if (parent == null){
+			if (this.altitude >= 2000){
+				this.altitude -= 1000;
+				return;
+			} else {
+				return; // dont go any lower
+			}
+		}
+
+		double parentAlt = parent.getAltitude();
+		double absDiff = Math.abs((this.altitude - 1000) - parentAlt);
+		if (absDiff < 1000){
+			this.altitude -= absDiff; 
+		} else {
+			this.altitude -= 1000;
+		}
+		return;
     }
     /**
      * Updates emergency status if there is a fuel emergency.
@@ -256,13 +273,13 @@ public class AirCraft {
 	 * @param t current time in ticks
      * @return true if there is a fuel emergency, false otherwise.
      */
-    public boolean updateHoldingFlight(int t) {
+    public boolean updateHoldingFlight(int t, AirCraft parent) {
 		if (t < 0 || flightType != FlightType.ARRIVAL){
 			return false;
 		}
 
 		updateFuel(Utils.timeInc);
-		updateAltitude();
+		updateAltitude(parent);
 		return updateFuelEmergency(t); 
     }
     
