@@ -31,9 +31,9 @@ public class SimulationWaitController {
      * @param failprob the probability of a mechanical or health failure happening
      * @param cancelTime the maximum wait time until departure cancellation
      */
-    public void startSim(RunWay[] runways, int days, int hours, int mins, float failprob, int cancelTime){
+    public void startSim(RunWay[] runways, int days, int hours, int mins, float failprob, int cancelTime, int arrivalFlow, int departureFlow){
         myService = new SimService();
-        myService.setParams(runways, days, hours, mins, failprob, cancelTime);
+        myService.setParams(runways, days, hours, mins, failprob, cancelTime, arrivalFlow, departureFlow);
         simProgressWait.progressProperty().bind(myService.getTaskProgress());
 
         // start the simulation once scene is rendered

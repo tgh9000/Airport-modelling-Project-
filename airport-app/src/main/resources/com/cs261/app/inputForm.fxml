@@ -54,6 +54,34 @@
                         </HBox>
                         <HBox prefHeight="20.0" prefWidth="200.0">
                            <children>
+                              <Label text="Arrival Planes Flow Rate">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="arrivalFlowInput" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS" text="15">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Departure Planes Flow Rate">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="departureFlowInput" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS" text="15">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="200.0">
+                           <children>
                               <Label text="Probability of Failure">
                                  <font>
                                     <Font size="18.0" />
