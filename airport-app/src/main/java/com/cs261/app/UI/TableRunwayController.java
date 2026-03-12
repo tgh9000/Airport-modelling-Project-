@@ -7,12 +7,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 public class TableRunwayController 
 {
     int currentTimeStamp = 0;
@@ -51,6 +54,13 @@ public class TableRunwayController
 
     @FXML
     private javafx.scene.control.Button btnSearch;
+
+    @FXML
+    private VBox detailsPane;
+    @FXML
+    private Button btnDetailsToggle;
+    @FXML
+    private PopupMenuController popupMenuController;
 
     /**
      * function that runs when user presses the Search Button and searches based on the values put in the input
@@ -137,17 +147,25 @@ public class TableRunwayController
         {
             if(!validInput1)
             {
-                errorMessage("Please enter a valid number for the start timestamp");
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the start timestamp");
+                alert.showAndWait();
                 return;
             }
             if(!validInput2)
             {
-                errorMessage("Please enter a valid number for the end timestamp");
+
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the end timestamp");
+                alert.showAndWait();
+                
                 return;
             }
             if (!validInput3)
             {
-                errorMessage("Please enter a valid number for the Runway");
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the Runway");
+                alert.showAndWait();
                 return;
             }
         }
@@ -155,6 +173,34 @@ public class TableRunwayController
     
         
 
+    }
+    @FXML
+    private void toggleDetailsPane(ActionEvent event) {
+        if (detailsPane == null || btnDetailsToggle == null) return;
+        boolean show = !detailsPane.isVisible();
+        detailsPane.setVisible(show);
+        detailsPane.setManaged(show);
+        btnDetailsToggle.setText(show ? "▶" : "◀");
+        if (show && popupMenuController != null) {
+            if (Globals.output == null) {
+                Alert alert = new Alert(AlertType.INFORMATION, "No simulation results available yet. Run a simulation first.");
+                alert.setHeaderText("No data");
+                alert.showAndWait();
+                detailsPane.setVisible(false);
+                detailsPane.setManaged(false);
+                btnDetailsToggle.setText("◀");
+                return;
+            }
+            popupMenuController.refreshFromLastOutput();
+        }
+    }
+
+    @FXML
+    private void closeDetailsPane(ActionEvent event) {
+        if (detailsPane == null || btnDetailsToggle == null) return;
+        detailsPane.setVisible(false);
+        detailsPane.setManaged(false);
+        btnDetailsToggle.setText("◀");
     }
 
     @FXML
@@ -226,6 +272,10 @@ public class TableRunwayController
     @FXML
     public void initialize() 
     {
+        if (popupMenuController != null) 
+        {
+            popupMenuController.setOnClose(() -> closeDetailsPane(null));
+        }
         //arrivalsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         errorMessage("");
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));

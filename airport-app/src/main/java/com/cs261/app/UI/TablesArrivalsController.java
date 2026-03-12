@@ -8,12 +8,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 
 public class TablesArrivalsController 
 {
@@ -47,6 +50,14 @@ public class TablesArrivalsController
     @FXML
     private javafx.scene.control.Button btnSearch;
 
+    @FXML
+    private VBox detailsPane;
+    @FXML
+    private Button btnDetailsToggle;
+    @FXML
+    private PopupMenuController popupMenuController;
+
+
     /**
      * function that runs when user presses the Search Button and searches based on the values put in the input
      */
@@ -54,18 +65,26 @@ public class TablesArrivalsController
     public void searchByTimestamp()
     {
         boolean validInput1 = true;
+        boolean emptyInput1 = false;
         boolean validInput2 = true;
+        boolean emptyInput2 = false;
         int startTimeStamp = 0;
         int endTimeStamp = 0;
-        try{
+
+        try
+        {
             startTimeStamp = Integer.parseInt(timestampField.getText());
             //endTimeStamp = Integer.parseInt(timestampField1.getText());
             
         }
         catch(Exception e)
         {
+            if (timestampField.getText() == null) 
+            {
+                emptyInput1 = true;
+            }
             validInput1 = false;
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         try{
             endTimeStamp = Integer.parseInt(timestampField1.getText());
@@ -74,8 +93,12 @@ public class TablesArrivalsController
         }
         catch(Exception e)
         {
+            if (timestampField1.getText() == null) 
+            {
+                emptyInput2 = true;
+            }
             validInput2 = false;
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         System.out.println("start: " + startTimeStamp);
         System.out.println("end: " + endTimeStamp);
@@ -88,7 +111,7 @@ public class TablesArrivalsController
             arrivalsTable.setItems(data);
             
         }
-        else
+        else if(emptyInput1 && emptyInput2)
         {
             data = Globals.getArrivalsTableData();
             arrivalsTable.setItems(data);
@@ -96,9 +119,60 @@ public class TablesArrivalsController
             currentTimeStamp = 0;
             
         }
+        else
+        {
+            if(!validInput1)
+            {
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the start timestamp");
+                alert.showAndWait();
+                
+            }
+            else
+            {
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the start timestamp");
+                alert.showAndWait();
+                
+            }
+        }
+        
         
 
     }
+
+
+    @FXML
+    private void toggleDetailsPane(ActionEvent event) {
+        if (detailsPane == null || btnDetailsToggle == null) return;
+        boolean show = !detailsPane.isVisible();
+        detailsPane.setVisible(show);
+        detailsPane.setManaged(show);
+        btnDetailsToggle.setText(show ? "▶" : "◀");
+        if (show && popupMenuController != null) {
+            if (Globals.output == null) {
+                Alert alert = new Alert(AlertType.INFORMATION, "No simulation results available yet. Run a simulation first.");
+                alert.setHeaderText("No data");
+                alert.showAndWait();
+                detailsPane.setVisible(false);
+                detailsPane.setManaged(false);
+                btnDetailsToggle.setText("◀");
+                return;
+            }
+            popupMenuController.refreshFromLastOutput();
+        }
+    }
+
+    @FXML
+    private void closeDetailsPane(ActionEvent event) {
+        if (detailsPane == null || btnDetailsToggle == null) return;
+        detailsPane.setVisible(false);
+        detailsPane.setManaged(false);
+        btnDetailsToggle.setText("◀");
+    }
+
+
+
 
     @FXML
     private Button btnPrev;
@@ -162,6 +236,10 @@ public class TablesArrivalsController
     @FXML
     public void initialize() 
     {
+        if (popupMenuController != null) 
+        {
+            popupMenuController.setOnClose(() -> closeDetailsPane(null));
+        }
         errorMessage("");
         //arrivalsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         runwayColumn.setCellValueFactory(new PropertyValueFactory<>("runway"));
