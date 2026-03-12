@@ -16,7 +16,8 @@ public class Utils {
 
 	public static int cancelTime = 30; // maximum takeoff queue wait time
 	public static int dangerOfCancel = 20; // time at which planes are considered close to being cancelled
-	public static double emergencyProbability = 0.01;
+	public static double emergencyProbability = 0.01; // Default: 1/100 Chance of an Emergency occuring.
+    public static String ourAirport = "LHR"; // Default: London Heathrow.
 
 	// Setters
 	// for readability

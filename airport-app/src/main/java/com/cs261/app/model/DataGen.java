@@ -22,9 +22,6 @@ public class DataGen {
     /* Data required for aircraft attributes in the simulation. */
     private List<OperatorData> operators;
     private List<AirportData> airports;
-    private String ourAirport = "LHR"; // Default: London Heathrow.
-
-    private double emergencyProbability = 0.01; // Default: 1/100 Chance of an Emergency occuring.
 
 
     public DataGen(int runtime, int arrivalFlowRate, int departureFlowRate) {
@@ -146,7 +143,7 @@ public class DataGen {
         /* Generate origin and destination. */
         AirportData originAirport = airports.get(random.nextInt(airports.size()));
         String origin = originAirport.iata;
-        String destination = ourAirport;
+        String destination = Utils.ourAirport;
 
         float altitude = Utils.baseArrivalAltitudeMetres; // Base altitude assuming holding queue is empty.
         
@@ -201,7 +198,7 @@ public class DataGen {
         String callsign = operator.icao + operator.count;
 
         /* Generate origin and destination. */
-        String origin = ourAirport;
+        String origin = Utils.ourAirport;
         AirportData destinationAirport = airports.get(random.nextInt(airports.size()));
         String destination = destinationAirport.iata;
 
@@ -257,7 +254,7 @@ public class DataGen {
             return EmergencyStatus.NONE; // Departures never generate with an emergency. 
         }
 
-        if (random.nextDouble() < emergencyProbability) {
+        if (random.nextDouble() < Utils.emergencyProbability) {
             if (random.nextDouble() < 0.75) {
                 return EmergencyStatus.HEALTH;
             } else {
