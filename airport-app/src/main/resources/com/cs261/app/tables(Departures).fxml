@@ -106,9 +106,9 @@
                               <columns>
                                     <TableColumn fx:id="callsignColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Plane Callsign" /> 
                                     <TableColumn fx:id="runwayColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Runway" />
-                                    <TableColumn fx:id="scheduledColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Scheduled departure time" />
-                                    <TableColumn fx:id="actualColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Actual departure time" />
-                                    <TableColumn fx:id="exitColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Exit time of simulation" />
+                                    <TableColumn fx:id="actualColumn"  maxWidth="1.7976931348623157E308" prefWidth="150" text="scheduled departure time" />
+                                    <TableColumn fx:id="scheduledColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="time cleared for take off" />
+                                    <TableColumn fx:id="exitColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Time of takeoff" />
                               </columns>
          
                            </TableView>
