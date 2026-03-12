@@ -129,4 +129,15 @@
       </children>
    </HBox>
 
+   <HBox alignment="CENTER_RIGHT" prefHeight="480.0" prefWidth="41.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+         <Button fx:id="btnDetailsToggle" onAction="#toggleDetailsPane" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #c8d8e8;-fx-text-fill: #1a3a5c;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="◀" />
+      </children>
+   </HBox>
+   <VBox fx:id="detailsPane" managed="false" prefWidth="280.0" spacing="12.0" style="-fx-background-color: #1a3a5c; -fx-padding: 10;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+         <fx:include fx:id="popupMenu" source="popupMenu.fxml" />
+      </children>
+   </VBox>
+
 </AnchorPane>
