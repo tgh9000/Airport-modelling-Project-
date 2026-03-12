@@ -330,3 +330,12 @@
     -fx-background-color: #1A3A5C;
     -fx-text-fill: white;
 }
+
+#arrivalsGraph .chart-series-line {
+    -fx-stroke: #4DA6FF;   
+}
+
+#arrivalsGraph .chart-line-symbol {
+    -fx-background-color: #4DA6FF;
+    -fx-padding: 3px;
+}

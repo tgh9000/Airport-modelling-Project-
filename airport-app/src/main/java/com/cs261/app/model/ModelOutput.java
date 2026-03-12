@@ -60,6 +60,12 @@ public class ModelOutput implements IModelOutput {
     private String[][] tableTakeOffQueue;
     private String[][] tableRunways;
 
+    // private ArrayList<Double> x_arrivalWaitTime = new ArrayList<>();
+    // private ArrayList<Double> y_arrivalWaitTime = new ArrayList<>();
+
+    // private ArrayList<Double> x_departWaitTime = new ArrayList<>();
+    // private ArrayList<Double> y_departWaitTime = new ArrayList<>();
+
     // cancellatns and diversions
     private int numDiversions = 0; // number of planes diverted
     private int numCancels = 0; // number of planes cancelled
@@ -275,46 +281,35 @@ public class ModelOutput implements IModelOutput {
         if (!exitedPlanes.isEmpty()){
             exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
             updateSumsAndMaxs(exitedPlanes);
-            updateGraph(exitedPlanes, time);
+            updateGraph(time);
         }
     }
 
-    private void updateGraph(ArrayList<String> exitedPlanes, int time){
-        double delayA = 0;
-        double delayD = 0;
-        double numdepart = 0;
-        double numarrive = 0;
-        for (int i = 0; i < exitedPlanes.size(); i++){
-            AirCraft a = aircrafts.get(exitedPlanes.get(i));
-            double delay = 0;
-            if (a.getExitTime().isAfter(a.getScheduled())){
-                delay = (double) Duration.between(a.getScheduled(), a.getExitTime()).toMinutes();
-            }   
+    /**
+     * Do average wait time 
+     */
+    // private void updateGraph(int time){
+    //     this.y_arrivalWaitTime.add(calcAverageHoldingWaitTime()); // avg wait time thus far
+    //     this.x_arrivalWaitTime.add((double) time);
 
-            if (a.getFlightType() == FlightType.ARRIVAL){
-                delayA += delay;
-                numarrive++;
-            } else {
-                delayD += delay;
-                numdepart++;
-            }
+    //     this.y_departWaitTime.add(calcAverageTakeOffWaitTime());
+    //     this.x_departWaitTime.add((double) time);
+    // }
+
+    // private ArrayList<Double[]> calcArrivalWaitTimeGraph(){
+        
+    // }
+
+
+    private void updateGraph(int time){
+        if (time % 10 != 0){
+            return;
         }
 
         Double[] valueA = new Double[2];
         Double[] valueD = new Double[2];
-
-        if (numarrive == 0){
-            valueA[1] = (double) 0.0;
-        } else {
-            valueA[1] = (double) delayA / numarrive;
-        }
-
-        if (numdepart == 0){
-            valueD[1] = (double) 0.0;
-        } else {
-            valueD[1] = (double) delayD / numdepart;
-        }
-
+        valueA[1] = calcAverageHoldingWaitTime();
+        valueD[1] = calcAverageTakeOffWaitTime();
         valueA[0] = (double) time;
         valueD[0] = (double) time;
         this.graphArrivalDifferences.add(valueA);

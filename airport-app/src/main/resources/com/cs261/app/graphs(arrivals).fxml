@@ -22,7 +22,7 @@
 
         <!-- Logo / Home area -->
         <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #122840; -fx-cursor: hand;">
-            <Button alignment="CENTER__LEFT" mnemonicParsing="false" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 0 0;" HBox.hgrow="ALWAYS" onAction="#goHome" text="Statistics">
+            <Button alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 0 0;" HBox.hgrow="ALWAYS" onAction="#goHome" text="Statistics">
             <!-- <graphic>
                <ImageView fitHeight="101.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -61,14 +61,14 @@
                 <Insets bottom="16" left="16" right="16" top="16" />
             </padding>
 
-            <LineChart fx:id="arrivalsGraph" animated="true" createSymbols="true" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;" title="" VBox.vgrow="ALWAYS">
+            <LineChart fx:id="arrivalsGraph" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;" title="" VBox.vgrow="ALWAYS">
 
                 <xAxis>
-                    <NumberAxis label="Timestamp (ticks)" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" fx:id="xAxis" />
+                    <NumberAxis label="Time/Minutes" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" fx:id="xAxis" />
                 </xAxis>
 
                 <yAxis>
-                    <NumberAxis fx:id="yAxis" label=" Expected vs Actual Arrival (seconds)" side="LEFT" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" />
+                    <NumberAxis fx:id="yAxis" label="Avg Holding Queue Wait Time/Minutes" side="LEFT" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" />
                 </yAxis>
             </LineChart>
         </VBox>

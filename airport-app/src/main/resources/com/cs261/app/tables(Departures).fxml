@@ -76,7 +76,7 @@
                     </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Label alignment="CENTER" text="*Example error message*" textFill="#b91313">
+                        <Label fx:id="errorMessageLabel" alignment="CENTER" text="*Example error message*" textFill="#b91313">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Tooltip?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../teststyle.css" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TableNavController">
+<AnchorPane stylesheets="@../teststyle.css" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TableNavController">
 
     <VBox prefHeight="480.0" prefWidth="140.0" spacing="0" style="-fx-background-color: #1a3a5c;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
         <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #122840; -fx-cursor: hand;">
