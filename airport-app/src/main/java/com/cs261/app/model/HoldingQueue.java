@@ -272,6 +272,8 @@ public class HoldingQueue {
 						front.setExitTime(Utils.convertTicksToDate(t));
 						front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
 						keepGoing = true; // just in case next planes are also in emergency
+					} else {
+						keepGoing = false;
 					}
 				}
 			}
