@@ -18,6 +18,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SimLoop extends Task<ModelOutput>{
 	protected AirCraftMap aircraftMap = new AirCraftMap();
@@ -50,8 +51,12 @@ public class SimLoop extends Task<ModelOutput>{
 			try {
 				//System.out.printf("current %d \n", currentTime);
 				// get flights for this tick
+				System.out.println(currentTime);
+				
+
 				List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
 				List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
+
 				// arrivals update, add flights 
 				arrivalModel.updateArrivals(newArrivals, currentTime);
 				// departures update, add flights
@@ -62,6 +67,9 @@ public class SimLoop extends Task<ModelOutput>{
 				currentTime += Utils.timeInc;
 				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), currentTime);
 				//System.out.println("returned output");
+
+				printPlane(exits);
+
 				updateProgress((double) currentTime, (double) runtime);	
 			} catch (Exception e){
 				e.printStackTrace();
@@ -71,5 +79,15 @@ public class SimLoop extends Task<ModelOutput>{
 		output.finishCalculations();
 		System.out.println("finished everything");
 		return output;
+	}
+
+	/** Testing purposes */
+	private void printPlane(List<String> li){
+		Iterator<String> a = li.iterator();
+
+		while (a.hasNext()){
+			AirCraft air = aircraftMap.get(a.next());
+			System.out.printf("callsign: %s type: %s runway: %s scheduled: %s entry: %s exit: %s\n", air.getCallSign(), air.getFlightType().toString(), air.getRunway(), air.getScheduled().toString(), air.getEntryTime().toString(), air.getExitTime().toString());
+		}
 	}
 }

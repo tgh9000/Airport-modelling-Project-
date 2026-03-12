@@ -17,8 +17,6 @@ public class SimService extends Service<ModelOutput>{
     // inputs
     private RunWay[] runwayInput;
     private int runtimeInput; // in ticks
-    private double failrate;
-    private int cancelTime;
     private DoubleProperty taskProgress = new SimpleDoubleProperty(0);
     /**
      * Create background task, the simulation itself
@@ -39,13 +37,12 @@ public class SimService extends Service<ModelOutput>{
      * @param failprob
      * @param cancelTime
      */
-    public void setParams(RunWay[] runways, int days, int hours, int mins, float failprob, int cancelTime){
+    public void setParams(RunWay[] runways, int days, int hours, int mins, float failprob, int cancelTime, int arrivalFlow, int departureFlow){
         this.runwayInput = runways;
-        this.cancelTime = cancelTime;
-        this.failrate = failprob;
         Utils.setCancelTime(cancelTime);
         Utils.setEmergencyProbability((double) failprob);
-
+        Utils.setArrivalFlow(arrivalFlow);
+        Utils.setDepartureFlow(departureFlow);
         // make the date
         LocalDateTime endtime = LocalDateTime.of(2026, 1, 1, 0,0,0).plusDays((long) days).plusHours((long) hours).plusMinutes((long) mins);
         this.runtimeInput = Utils.convertDateToTicks(endtime);

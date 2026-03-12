@@ -253,8 +253,12 @@ public class HoldingQueue {
 	 * Detect and remove all diversions, given the plane has passed the emergency wait time. O(nlogn) in worst if all planes in HP are in 
 	 * emergency.
 	 */
-	public void removeDiversions(int t){
+	public void removeDiversions(ArrayList<String> exitedPlanes, int t){
 		try {
+			if (isEmpty()){
+				return;
+			}
+
 			/**
 			 * The plane at the top, if it is an emergency, has been waiting longer than all other planes in emergency as it has the lowest serial number
 			 * therefore if this plane has not passed emergency wait time no planes below it has
@@ -269,6 +273,7 @@ public class HoldingQueue {
 						AirCraft front = this.dequeue();
 						front.setExitTime(Utils.convertTicksToDate(t));
 						front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
+						exitedPlanes.add(front.getCallSign());
 						keepGoing = true; // just in case next planes are also in emergency
 					} else {
 						keepGoing = false;  // otherwise, because the root is the plane that has been in HP longest (in emergency), then don't keep going as the rest are not over EmergencyTime too 

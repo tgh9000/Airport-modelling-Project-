@@ -30,6 +30,8 @@ public class NewSim
     int minuteNum;
     float failureProb;
     int cancellationTime;
+    int arrivalFlow;
+    int departureFlow;
 
     @FXML
     private Label errorMessageLabel;
@@ -50,6 +52,9 @@ public class NewSim
     @FXML
     private TextField simMinutesField;
 
+    @FXML 
+    private TextField arrivalFlowInput;
+    private TextField departureFlowInput;
 
     @FXML
     private TextField failureProbField;
@@ -116,7 +121,38 @@ public class NewSim
             return;
         }
 
+        // arrival flow rate 
+        try {
+            if (arrivalFlowInput.getText() == null || arrivalFlowInput.getText().trim().isEmpty()){
+                arrivalFlow = 15;
+            } else {
+                arrivalFlow = Integer.parseInt(arrivalFlowInput.getText());
+                if (arrivalFlow > 45 || arrivalFlow < 10){
+                    errorMessage("Arrival flow rate must be between 10 and 45");
+                    return;
+                } 
+            }
+        } catch (NumberFormatException e){
+            errorMessage("Invalid arrival flow rate");
+            return;
+        }
 
+
+        // departure flow rate
+        try {
+            if (departureFlowInput.getText() == null || departureFlowInput.getText().trim().isEmpty()){
+                departureFlow = 15;
+            } else {
+                departureFlow = Integer.parseInt(departureFlowInput.getText());
+                if (departureFlow > 45 || departureFlow < 10){
+                    errorMessage("Arrival flow rate must be between 10 and 45");
+                    return;
+                } 
+            }
+        } catch (NumberFormatException e){
+            errorMessage("Invalid departure flow rate");
+            return;
+        }
 
         // failure probability
         try 
@@ -198,7 +234,7 @@ public class NewSim
         Parent root = loader.load();
 
         SimulationWaitController controller = loader.getController();
-        controller.startSim(runwayArray, dayNum, hourNum, minuteNum, failureProb, cancellationTime);
+        controller.startSim(runwayArray, dayNum, hourNum, minuteNum, failureProb, cancellationTime, arrivalFlow, departureFlow);
         
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(root);
