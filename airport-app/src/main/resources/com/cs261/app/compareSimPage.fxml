@@ -15,14 +15,14 @@
    <children>
       <HBox fx:id="compareHbox" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <VBox prefHeight="480.0" prefWidth="140.0" spacing="0" style="-fx-background-color: #1a3a5c;">
+            <VBox alignment="TOP_CENTER"  prefHeight="480.0" prefWidth="140.0" spacing="0" style="-fx-background-color: #1a3a5c;">
                <ImageView fitHeight="101.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                      <Image url="@logoNoBack.png" />
                   </image>
                </ImageView>
-               <Button alignment="CENTER_LEFT" onAction="#goToInput" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="New Simulation" />
-               <Button alignment="CENTER_LEFT" onAction="#goToLanding" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Go Back" />
+               <Button alignment="CENTER_LEFT" onAction="#goToInput" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="New Simulation"/>
+               <Button alignment="CENTER_LEFT" onAction="#goToLanding" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Go Back" />
             </VBox>
             <SplitPane fx:id="splitPaneCompare" dividerPositions="0.35" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
               <items>

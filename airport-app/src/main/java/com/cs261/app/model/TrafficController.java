@@ -1,5 +1,6 @@
 package com.cs261.app.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperatingMode;
@@ -53,13 +54,13 @@ public class TrafficController {
 		if (!holdingPattern.isEmpty()){
 			handleArrivals(exitedPlanes, currentTime);
 			//System.out.println("handled arrivals");
-			handleDiversions(currentTime); 	
+			handleDiversions(exitedPlanes, currentTime); 	
 		}
 		//System.out.println("arrivals");
 
 		if (!takeoffQueue.isEmpty()){
 			handleDepartures(exitedPlanes, currentTime);
-			handleCancellations(currentTime); 		// handle cancellations stuff here
+			handleCancellations(exitedPlanes, currentTime); 		// handle cancellations stuff here
 		}
 		//System.out.println("departures");
 
@@ -165,8 +166,8 @@ public class TrafficController {
 	* If so, divert them 
 	 * @param currentTime number of ticks elapsed so far
 	 */
-	private void handleDiversions(int currentTime){
-		holdingPattern.removeDiversions(currentTime);
+	private void handleDiversions(ArrayList<String> exitedPlanes, int currentTime){
+		holdingPattern.removeDiversions(exitedPlanes, currentTime);
 		//System.out.println("diversions");
 	}
 
@@ -174,13 +175,14 @@ public class TrafficController {
 	 *  cancellation time. If any have been, then cancel them.
 	 * @param currentTime number of ticks elapsed so far
 	 */
-	private void handleCancellations(int currentTime){
+	private void handleCancellations(ArrayList<String> exitedPlanes, int currentTime){
 		for (int i=0; i < takeoffQueue.size(); i++) {
 			AirCraft a = takeoffQueue.getAircraftAt(i);
 			if ((currentTime - Utils.convertDateToTicks(a.getEntryTime())) >= Utils.cancelTime){
 				takeoffQueue.remove(a); // remove from queue
 				a.setExitTime(Utils.convertTicksToDate(currentTime));
 				a.setZoneStatus(AirCraft.ZoneStatus.CANCEL);
+				exitedPlanes.add(a.getCallSign());
 			}
 		}
 	}

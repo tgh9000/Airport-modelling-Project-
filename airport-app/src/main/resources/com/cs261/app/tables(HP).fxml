@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="480.0" prefWidth="720.0" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TableHoldingController">
+<AnchorPane prefHeight="480.0" prefWidth="720.0" stylesheets="@../teststyle.css" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TableHoldingController">
    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
       
@@ -23,27 +23,27 @@
    
                   <!-- Logo / Home area -->
             <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #122840; -fx-cursor: hand;">
-               <Button fx:id="btnHome" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#goHome" prefHeight="86.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 0 0;" HBox.hgrow="ALWAYS">
-                  <graphic>
+               <Button fx:id="btnHome" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#goHome" prefHeight="86.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 0 0;" HBox.hgrow="ALWAYS" text="Statitsitcs">
+                  <!-- <graphic>
                      <ImageView fitHeight="101.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                            <Image url="@logoNoBack.png" />
                         </image>
                      </ImageView>
-                  </graphic>
+                  </graphic> -->
                </Button>
             </HBox>
    
             <!-- Nav Buttons -->
-            <Button fx:id="btnDepartures" onAction ="#goDeparture" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-font-weight: 600;-fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Departures" />
+            <Button fx:id="btnDepartures" onAction ="#goDeparture" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Departures" />
 
-            <Button fx:id="btnArrivals" onAction ="#goArrival" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent;   -fx-border-width: 0 0 1 0;   -fx-padding: 0 0 0 20;" text="Arrivals" />
+            <Button fx:id="btnArrivals" onAction ="#goArrival" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Arrivals" />
 
-            <Button fx:id="btnQueue" onAction ="#goQueue" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent;-fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand;-fx-border-color: transparent transparent #1e4a72 transparent;-fx-border-width: 0 0 1 0;-fx-padding: 0 0 0 20;" text="Take Off Queue" />
+            <Button fx:id="btnQueue" onAction ="#goQueue" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Take Off Queue" />
 
-            <Button fx:id="btnHolding"  alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: #2a5a8c;-fx-text-fill: white; -fx-font-size: 13px;  -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 700; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 0 20; -fx-border-left-width: 4; -fx-border-color: #4da6ff transparent transparent transparent;" text="Holding Pattern" />
+            <Button fx:id="btnHolding"  alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Holding Pattern" />
 
-            <Button fx:id="btnRunways" onAction ="#goRunway" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent;   -fx-border-width: 0 0 1 0;   -fx-padding: 0 0 0 20;" text="Runways" />
+            <Button fx:id="btnRunways" onAction ="#goRunway" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Runways" />
 
             
    
