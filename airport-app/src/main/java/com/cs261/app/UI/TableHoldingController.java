@@ -117,15 +117,15 @@ public class TableHoldingController
         {
             if(!validInput1)
             {
-                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start timestamp.");
                 alert.setHeaderText("Please enter a valid number for the start timestamp");
                 alert.showAndWait();
                 
             }
             else
             {
-                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
-                alert.setHeaderText("Please enter a valid number for the Runway");
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the end timestamp");
                 alert.showAndWait();
                 
             }

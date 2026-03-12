@@ -63,16 +63,24 @@ public class TableQueueController
     public void searchByTimestamp()
     {
         boolean validInput1 = true;
+        boolean emptyInput1 = false;
         boolean validInput2 = true;
+        boolean emptyInput2 = false;
         int startTimeStamp = 0;
         int endTimeStamp = 0;
-        try{
+
+        try
+        {
             startTimeStamp = Integer.parseInt(timestampField.getText());
             //endTimeStamp = Integer.parseInt(timestampField1.getText());
             
         }
         catch(Exception e)
         {
+            if (timestampField.getText() == null) 
+            {
+                emptyInput1 = true;
+            }
             validInput1 = false;
             //e.printStackTrace();
         }
@@ -83,6 +91,10 @@ public class TableQueueController
         }
         catch(Exception e)
         {
+            if (timestampField1.getText() == null) 
+            {
+                emptyInput2 = true;
+            }
             validInput2 = false;
             //e.printStackTrace();
         }
@@ -97,13 +109,30 @@ public class TableQueueController
             QueueTable.setItems(data);
             
         }
-        else
+        else if(emptyInput1 && emptyInput2)
         {
             data = Globals.getQueueTableData();
             QueueTable.setItems(data);
             currentEndStamp = 30;
             currentTimeStamp = 0;
             
+        }
+        else
+        {
+            if(!validInput1)
+            {
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the start timestamp");
+                alert.showAndWait();
+                
+            }
+            else
+            {
+                Alert alert = new Alert(AlertType.WARNING, "Please enter valid numbers for start and end timestamp.");
+                alert.setHeaderText("Please enter a valid number for the end timestamp");
+                alert.showAndWait();
+                
+            }
         }
         
 

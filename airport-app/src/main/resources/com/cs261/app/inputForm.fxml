@@ -13,20 +13,30 @@
 
 <StackPane prefHeight="1000.0" prefWidth="1000.0" styleClass="inputStack" stylesheets="@../teststyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.NewSim">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" StackPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" StackPane.alignment="CENTER">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: transparent; -fx-padding: 5;">
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: transparent; -fx-padding: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                  <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #F0F4F8; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0;" spacing="5">
+                  <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0" spacing="5" style="-fx-background-color: #F0F4F8; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0;">
                      <children>
                         <Label text="General:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
+                        <Label text=" Interruptions are predetermined times where the runway will become closed.">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label text="* Indicates a required field.">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
                         <HBox prefHeight="20.0" prefWidth="200.0">
                            <children>
-                              <Label text="Enter the simulation runtime">
+                              <Label text="Enter the simulation runtime *">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -59,7 +69,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="arrivalFlowInput" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS" text="15">
+                              <TextField fx:id="arrivalFlowInput" prefHeight="33.0" prefWidth="149.0" text="15" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
@@ -73,7 +83,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="departureFlowInput" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS" text="15">
+                              <TextField fx:id="departureFlowInput" prefHeight="33.0" prefWidth="149.0" text="15" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
@@ -87,7 +97,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="failureProbField" prefHeight="33.0" prefWidth="149.0" HBox.hgrow="ALWAYS" text="0.01">
+                              <TextField fx:id="failureProbField" prefHeight="33.0" prefWidth="149.0" text="0.01" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
@@ -101,7 +111,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="cancellationTimeField" prefHeight="33.0" prefWidth="149.0" promptText="Minutes" HBox.hgrow="ALWAYS" text="30">
+                              <TextField fx:id="cancellationTimeField" prefHeight="33.0" prefWidth="149.0" promptText="Minutes" text="30" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
@@ -119,19 +129,19 @@
                         </HBox>
                         <HBox prefHeight="30.0" prefWidth="560.0" spacing="15" style="-fx-padding: 5;">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#addSection" text="Add Runway" styleClass = "roundButtonOutline" />
-                              <Button mnemonicParsing="false" onAction="#removeSection" text="Remove This runway" styleClass = "roundButtonOutline" />
+                              <Button mnemonicParsing="false" onAction="#addSection" styleClass="roundButtonOutline" text="Add Runway" />
+                              <Button mnemonicParsing="false" onAction="#removeSection" styleClass="roundButtonOutline" text="Remove This runway" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                </content>
             </ScrollPane>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" spacing="15">
+            <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" spacing="15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="65.0" text="Back"  styleClass = "landingBtn1" />
+                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="65.0" styleClass="landingBtn1" text="Back" />
                   <Label fx:id="errorMessageLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Example error message" textFill="RED" HBox.hgrow="ALWAYS" />
-               <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" prefWidth="65.0" text="Start"  styleClass = "landingBtn1" />
+               <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" prefWidth="65.0" styleClass="landingBtn1" text="Start" />
                </children></HBox>
          </children>
       </AnchorPane>
