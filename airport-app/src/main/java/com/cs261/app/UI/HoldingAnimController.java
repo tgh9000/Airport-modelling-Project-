@@ -20,8 +20,8 @@ public class HoldingAnimController {
 
     private double holdingCenterX;
     private double holdingCenterY;
-    private double radiusX = 10;
-    private double radiusY = 10;
+    private double radiusX = 100;
+    private double radiusY = 100;
     private double speed = 2.0;
     private double angle = 0;
 
@@ -36,6 +36,9 @@ public class HoldingAnimController {
 
         holdingCenterX = holdingPane.getLayoutX() / 2;
         holdingCenterY = holdingPane.getLayoutY() / 2;
+
+        // plane.setLayoutX(holdingCenterX + radiusX);
+        // plane.setLayoutY(holdingCenterY);
 
     }
 

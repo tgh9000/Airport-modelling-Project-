@@ -258,7 +258,7 @@ public class HoldingQueue {
 	 * emergency.
 	 */
 	public void removeDiversions(ArrayList<String> exitedPlanes, int t){
-try {
+		try {
 			if (isEmpty()){
 				return;
 			}
