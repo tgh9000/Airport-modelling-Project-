@@ -54,6 +54,7 @@ public class NewSim
 
     @FXML 
     private TextField arrivalFlowInput;
+    @FXML
     private TextField departureFlowInput;
 
     @FXML
