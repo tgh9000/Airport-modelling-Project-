@@ -75,6 +75,6 @@ public class Navigation {
     }
 
     public void openUserGuide(ActionEvent event) throws IOException{
-        userGuide.show(((Node) event.getSource()).getScene().getWindow());
+        userGuide.show((Stage) ((Node) event.getSource()).getScene().getWindow());
     }
 }
