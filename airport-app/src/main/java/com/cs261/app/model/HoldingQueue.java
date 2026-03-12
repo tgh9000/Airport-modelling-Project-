@@ -271,7 +271,7 @@ public class HoldingQueue {
 				} else {
 					if ((t - this.top().getEmergencyTime()) >= Utils.emergencyTime){
 						AirCraft front = this.dequeue();
-						front.setExitTime(Utils.convertTicksToDate(t));
+						front.setExitTime(Utils.convertTicksToDate(t + Utils.timeInc));
 						front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
 						exitedPlanes.add(front.getCallSign());
 						keepGoing = true; // just in case next planes are also in emergency

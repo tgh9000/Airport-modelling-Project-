@@ -94,7 +94,7 @@ public class TrafficController {
 				if (mixed != null){ 
 					AirCraft front = holdingPattern.dequeue(); // airplane exits holding pattern
 					mixed.addPlane(front);
-					front.setExitTime(Utils.convertTicksToDate(currentTime));
+					front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc));
 					arrivalModel.updateLanded();
 					exitedPlanes.add(front.getCallSign());
 				}
@@ -106,7 +106,7 @@ public class TrafficController {
 					RunWay landing = freeArrivals.remove(0); // always pick from front of the list
 					AirCraft front = holdingPattern.dequeue(); 
 					landing.addPlane(front); // assign the front plane to the available runway
-					front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
+					front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc)); // set exit time as the time it exits the queue
 					arrivalModel.updateLanded();
 					exitedPlanes.add(front.getCallSign());
 				}
@@ -140,7 +140,7 @@ public class TrafficController {
 				if (mixed != null) {
 					takeoffQueue.remove(front); 
 					mixed.addPlane(front);     
-					front.setExitTime(Utils.convertTicksToDate(currentTime));
+					front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc));
 					departureModel.updateTakenOff();
 					exitedPlanes.add(front.getCallSign());
 				}
@@ -154,7 +154,7 @@ public class TrafficController {
 				RunWay takeoff = freeDepartures.remove(0); // always pick from front of the list
 				AirCraft front = takeoffQueue.dequeue(); 
 				takeoff.addPlane(front); // assign the front plane to the available runway
-				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
+				front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc)); // set exit time as the time it exits the queue
 				departureModel.updateTakenOff();
 				exitedPlanes.add(front.getCallSign());
 			}
@@ -180,7 +180,7 @@ public class TrafficController {
 			AirCraft a = takeoffQueue.getAircraftAt(i);
 			if ((currentTime - Utils.convertDateToTicks(a.getEntryTime())) >= Utils.cancelTime){
 				takeoffQueue.remove(a); // remove from queue
-				a.setExitTime(Utils.convertTicksToDate(currentTime));
+				a.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc));
 				a.setZoneStatus(AirCraft.ZoneStatus.CANCEL);
 				exitedPlanes.add(a.getCallSign());
 			}
