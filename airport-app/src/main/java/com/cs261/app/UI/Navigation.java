@@ -9,15 +9,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-public class Navigation 
-{
+public class Navigation {
+        private UserGuidePopup userGuide = new UserGuidePopup();
+
     /**
     * navigates back to the start page of the application.
     * @param event the action event that triggered the navigation
     * @throws IOException if an error occurs while loading the FXML file
     */
-    public void goBack(ActionEvent event) throws IOException 
-    {
+    public void goBack(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(
         getClass().getResource("start.fxml"));
@@ -72,5 +72,9 @@ public class Navigation
                 .getScene().getWindow();
 
         stage.close();
+    }
+
+    public void openUserGuide(ActionEvent event) throws IOException{
+        userGuide.show(((Node) event.getSource()).getScene().getWindow());
     }
 }

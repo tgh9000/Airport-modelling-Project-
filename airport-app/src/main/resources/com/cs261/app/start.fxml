@@ -22,7 +22,7 @@
                      </StackPane> -->
                      <Button alignment="BOTTOM_CENTER" onAction="#goToSecondPage" prefHeight="21.0" styleClass="landingBtn1" text="Load New Simulation" />
                      <Button alignment="BOTTOM_CENTER" onAction="#goToCompare" prefHeight="21.0" styleClass="landingBtn1" text="Compare Previous Simulations" />
-                     <Button alignment="BOTTOM_CENTER" prefHeight="21.0" styleClass="landingBtn1" text="Manual" />
+                     <Button alignment="BOTTOM_CENTER" prefHeight="21.0" onAction="#openUserGuide"  styleClass="landingBtn1" text="User Guide" />
                   </children>
                </VBox>
                   <!-- <Button mnemonicParsing="false" onAction="#closeApp" prefWidth="150.0" text="Close application" styleClass="landingBtn2" /> -->
