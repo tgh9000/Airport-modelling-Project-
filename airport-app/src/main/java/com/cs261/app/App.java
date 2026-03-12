@@ -1,4 +1,7 @@
 package com.cs261.app;
+import com.cs261.app.UI.SimAnimateController;
+
+import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,6 +22,7 @@ public class App extends Application {
         Image icon = new Image(
         getClass().getResource("/com/cs261/app/companyLogo.png").toExternalForm()
         );
+        
         Scene scene = new Scene(loader.load());
         stage.setMaximized(true);
         stage.getIcons().add(icon);

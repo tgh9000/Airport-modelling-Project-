@@ -24,7 +24,7 @@ public class DataGen {
     private List<AirportData> airports;
     private String ourAirport = "LHR"; // Default: London Heathrow.
 
-    private double emergencyProbability = 0.01; // Default: 1/100 Chance of an Emergency occuring.
+    private double emergencyProbability = Utils.emergencyProbability; // Default: 1/100 Chance of an Emergency occuring.
 
 
     public DataGen(int runtime, int arrivalFlowRate, int departureFlowRate) {

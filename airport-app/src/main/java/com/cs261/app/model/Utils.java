@@ -59,4 +59,13 @@ public class Utils {
 		return ticks;
 	}
 
+	/**
+	 * Convert runtime to seconds
+	 */
+	public static long convertDateToSecs(LocalDateTime d){
+		LocalDateTime s = LocalDateTime.of(2026, 1, 1, 0, 0);
+		long seconds = Duration.between(s, d).toSeconds();
+		return seconds;
+	}
+
 }

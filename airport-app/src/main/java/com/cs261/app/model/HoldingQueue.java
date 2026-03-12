@@ -1,10 +1,12 @@
 package com.cs261.app.model;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 
 import com.cs261.app.model.AirCraft.EmergencyStatus;
 import com.cs261.app.model.AirCraft.FlightType;
+
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +17,7 @@ public class HoldingQueue {
 	HoldingEntry[] heap; // internally an array
 	int size;
 	int capacity;
-	
+
 	public HoldingQueue(int cap) {
 		this.capacity = cap;
 		heap = new HoldingEntry[cap];
@@ -111,6 +113,7 @@ public class HoldingQueue {
 		HoldingEntry newEntry = new HoldingEntry(k, plane);
 		heap[size] = newEntry;
 		size++;
+
 		upHeap(size - 1);
 	}
 	/**
@@ -136,13 +139,13 @@ public class HoldingQueue {
 	 */
 	private void upHeap(int i) {
 		try {
-			if (i == 0 || size() < 2) {
+			if (isEmpty() || heap[i] == null || i < 0) { // cannot upheap
 				return;
 			}
 
 			HoldingEntry parent = getParent(i);
 			if (parent == null){
-				return;
+				return; // current node is the root. also, the size is 1, so cannot upheap.  
 			}
 			// if the i'th entry is more important, swap
 			if (heap[i].compareTo(parent) > 0){
@@ -150,7 +153,7 @@ public class HoldingQueue {
 				swap(i, j);
 				upHeap(j);
 			} else {
-				return;
+				return; // no more swaps 
 			}
 		} catch (Exception e){
 			e.printStackTrace();
@@ -162,7 +165,7 @@ public class HoldingQueue {
 	 */
 	private void downheap(int i) {
 		try {
-			if (i >= size() || size() < 2) {
+			if (isEmpty() || heap[i] == null || i < 0) {
 				return;
 			}
 
@@ -174,7 +177,7 @@ public class HoldingQueue {
 			//  there has to be at least two nodes for this to run so only check if left or right is null
 
 			if (left == null && right == null){
-				return; 
+				return; // no more swaps
 			} else if (left == null && right != null){
 				check = (2 * i) + 2;
 			} else if (left != null && right == null){
@@ -248,24 +251,35 @@ public class HoldingQueue {
 	 * emergency.
 	 */
 	public void removeDiversions(int t){
-		/**
-		 * The plane at the top, if it is an emergency, has been waiting longer than all other planes in emergency as it has the lowest serial number
-		 * therefore if this plane has not passed emergency wait time no planes below it has
-		 */
-		boolean keepGoing = true;
+		try {
+			if (isEmpty()){
+				return;
+			}
 
-		while (keepGoing){
-			if (this.top().getEmergencyStatus() == EmergencyStatus.NONE){
-				keepGoing = false;
-			} else {
-				if ((t - this.top().getEmergencyTime()) >= Utils.emergencyTime){
-					AirCraft front = this.dequeue();
-					front.setExitTime(Utils.convertTicksToDate(t));
-					front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
-					keepGoing = true; // just in case next planes are also in emergency
+			/**
+			 * The plane at the top, if it is an emergency, has been waiting longer than all other planes in emergency as it has the lowest serial number
+			 * therefore if this plane has not passed emergency wait time no planes below it has
+			 */
+			boolean keepGoing = true;
+
+			while (keepGoing){
+				System.out.println("diversions loop");
+				if (this.top().getEmergencyStatus() == EmergencyStatus.NONE){
+					keepGoing = false;
+				} else {
+					if ((t - this.top().getEmergencyTime()) >= Utils.emergencyTime){
+						AirCraft front = this.dequeue();
+						front.setExitTime(Utils.convertTicksToDate(t));
+						front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
+						keepGoing = true; // just in case next planes are also in emergency
+					}
 				}
 			}
+		} catch (Exception e){
+			e.printStackTrace();
+			return;
 		}
+
 	}
 
 	/**

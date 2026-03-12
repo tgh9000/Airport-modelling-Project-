@@ -187,11 +187,10 @@ public class NewSim
         Globals.totalTicks = String.valueOf((dayNum * 24 * 60 + hourNum * 60 + minuteNum));
 
         // load waiting screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/simulationWait.fxml"));
-        Parent root = loader.load();
-
-        SimulationWaitController controller = loader.getController();
-        controller.startSim(runwayArray, dayNum, hourNum, minuteNum, failureProb, cancellationTime);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/AnimationSet.fxml"));
+        Parent root = loader.load();        
+        SimAnimateController simAniController = loader.getController();
+        simAniController.init(runwayArray, dayNum, hourNum, minuteNum, failureProb, cancellationTime);
         
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(root);
