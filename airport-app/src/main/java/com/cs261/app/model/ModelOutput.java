@@ -1,6 +1,7 @@
 package com.cs261.app.model;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,6 +17,11 @@ public class ModelOutput implements IModelOutput {
     private ArrivalModel arrivalModel;
     private RunWayMap runways;
     private AirCraftMap aircrafts;
+
+    public Collection<AirCraft> getAllAircrafts()
+    {
+        return aircrafts.values();
+    }
 
     // list of planes that have exitted in order of exit time
     ArrayList<AirCraft> exitedArrivals = new ArrayList<>();

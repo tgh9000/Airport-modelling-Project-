@@ -2,8 +2,6 @@
 package com.cs261.app.UI;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
-import com.cs261.app.UI.RunwayDetail;
-import com.cs261.app.UI.Globals;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,26 +15,21 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 public class PopupMenuController {
-    private static class IdDetail 
-    {
-        private final String id;
-        private final String details;
-        IdDetail(String id, String details) {
-            this.id = id;
-            this.details = details;
-        }
-        String getId() { return id; }
-        String getDetails() { return details; }
-    }
     
-    private final ObservableList<IdDetail> planesList = FXCollections.observableArrayList();
+    
+    private final ObservableList<AirCraftDetail> planesList = FXCollections.observableArrayList();
     private final ObservableList<RunwayDetail> runwaysList = FXCollections.observableArrayList();
     private Runnable onClose;
     @FXML private TabPane tabPane;
     @FXML private TextField planesSearchField;
-    @FXML private TableView<IdDetail> planesTable;
-    @FXML private TableColumn<IdDetail, String> planesIdColumn;
-    @FXML private TableColumn<IdDetail, String> planesDetailColumn;
+    @FXML private TableView<AirCraftDetail> planesTable;
+    @FXML private TableColumn<AirCraftDetail, String> planesCallsignColumn;
+    @FXML private TableColumn<AirCraftDetail, String> planesOperatorColumn;
+    @FXML private TableColumn<AirCraftDetail, String> planesOriginColumn;
+    @FXML private TableColumn<AirCraftDetail, String> planesDestinationColumn;
+    @FXML private TableColumn<AirCraftDetail, String> planesFlightTypeColumn;
+    @FXML private TableColumn<AirCraftDetail, String> planesEmergencyStatusColumn;
+    @FXML private TableColumn<AirCraftDetail, String> planesEmergencyStartColumn;
     @FXML private TextField runwaysSearchField;
     @FXML private TableView<RunwayDetail> runwaysTable;
     @FXML private TableColumn<RunwayDetail, String> runwaysIdColumn;
@@ -52,12 +45,31 @@ public class PopupMenuController {
     }
     @FXML
     public void initialize() {
-        if (planesIdColumn != null) {
-            planesIdColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getId()));
+        if (planesCallsignColumn != null) {
+            planesCallsignColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getCallsign()));
         }
-        if (planesDetailColumn != null) {
-            planesDetailColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getDetails()));
+        if (planesOriginColumn != null) {
+            planesOriginColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getOrigin()));
         }
+        if (planesOperatorColumn != null) {
+            planesOperatorColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getOperator()));
+        }
+        if (planesDestinationColumn != null) {
+            planesDestinationColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getDestination()));
+        }
+        if (planesFlightTypeColumn != null) {
+            planesFlightTypeColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getFlightType()));
+        }
+        if (planesEmergencyStatusColumn != null) {
+            planesEmergencyStatusColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getEmergencyStatus()));
+        }
+        if (planesEmergencyStartColumn != null) {
+            planesEmergencyStartColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getEmergencyStart()));
+        }
+
+
+
+
         if (runwaysIdColumn != null) {
             runwaysIdColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getId()));
         }
@@ -80,13 +92,13 @@ public class PopupMenuController {
         if (runwaysInterruptionEndColumn != null) {
             runwaysInterruptionEndColumn.setCellValueFactory(cdf -> new SimpleStringProperty(cdf.getValue().getInterruptionEnd()));
         }
-        FilteredList<IdDetail> filteredPlanes = new FilteredList<>(planesList, p -> true);
+        FilteredList<AirCraftDetail> filteredPlanes = new FilteredList<>(planesList, p -> true);
         FilteredList<RunwayDetail> filteredRunways = new FilteredList<>(runwaysList, p -> true);
         if (planesTable != null) {
             planesTable.setItems(filteredPlanes);
             planesTable.setOnMouseClicked(e -> {
                 if (e.getClickCount() == 2 && planesTable.getSelectionModel().getSelectedItem() != null) {
-                    openAircraftDetails(planesTable.getSelectionModel().getSelectedItem().getId());
+                    openAircraftDetails(planesTable.getSelectionModel().getSelectedItem().getCallsign());
                 }
             });
         }
@@ -102,8 +114,7 @@ public class PopupMenuController {
             planesSearchField.textProperty().addListener((o, oldVal, newVal) -> {
                 String q = (newVal == null ? "" : newVal).trim().toLowerCase();
                 filteredPlanes.setPredicate(row -> q.isEmpty()
-                    || (row.getId() != null && row.getId().toLowerCase().contains(q))
-                    || (row.getDetails() != null && row.getDetails().toLowerCase().contains(q)));
+                    || (row.getCallsign() != null && row.getCallsign().toLowerCase().contains(q)));
             });
             planesSearchField.setOnAction(e -> openAircraftDetails(planesSearchField.getText()));
         }
@@ -116,7 +127,10 @@ public class PopupMenuController {
             runwaysSearchField.setOnAction(e -> openRunwayDetails(runwaysSearchField.getText()));
         }
     }
-    public void refreshFromLastOutput() {
+    public void refreshFromLastOutput() 
+    {
+        planesList.addAll(Globals.airCraftDetails);
+        /*
         ModelOutput out = Globals.output;
         planesList.clear();
         runwaysList.clear();
@@ -140,8 +154,8 @@ public class PopupMenuController {
                     planesList.add(new IdDetail(callsign, details));
                 }
             }
-        }
-        runwaysList = Globals.runwayDetails;
+        }*/
+        runwaysList.addAll(Globals.runwayDetails) ;
         /**String[][] rwy = out.getTableRunways();
         if (rwy != null) {
             for (String[] row : rwy) {

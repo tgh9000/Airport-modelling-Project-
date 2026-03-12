@@ -38,6 +38,7 @@ public class Globals
     public static HashMap<Integer,TreeMap<Integer, List<RunwayRow>>> RunwayTree = new HashMap<>();
 
     public static ObservableList<RunwayDetail> runwayDetails = FXCollections.observableArrayList();
+    public static ObservableList<AirCraftDetail> airCraftDetails = FXCollections.observableArrayList();
 
     /**
      * returns a subset of the arrivals tree whose arrival time is within the given range.

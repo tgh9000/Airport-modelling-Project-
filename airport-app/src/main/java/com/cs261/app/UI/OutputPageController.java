@@ -1,9 +1,11 @@
 package com.cs261.app.UI;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
 
+import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
 
 import javafx.fxml.FXML;
@@ -199,6 +201,13 @@ public class OutputPageController {
         {
             RunwayDetail row = new RunwayDetail(runwayDetails[i][0], runwayDetails[i][1], runwayDetails[i][2], runwayDetails[i][3], runwayDetails[i][4], runwayDetails[i][5],runwayDetails[i][6]);
             Globals.runwayDetails.add(row);
+        }
+
+        // Gets the data needed for the aircraft mini table
+        Collection<AirCraft> allAirCrafts = output.getAllAircrafts();
+        for (AirCraft item :allAirCrafts ) 
+        {
+            Globals.airCraftDetails.add(item.toDetail());
         }
          
 
