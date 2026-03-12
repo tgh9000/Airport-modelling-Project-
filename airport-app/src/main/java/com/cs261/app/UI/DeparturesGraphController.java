@@ -24,7 +24,9 @@ public class DeparturesGraphController
 
     @FXML
     private NumberAxis yAxis;
-
+    /**
+     * Configures the Y-axis to automatically adjust its range based on the data. This ensures that all data points are visible and the graph is appropriately scaled, regardless of the values being plotted.
+     */
     private void configureYAxis() 
     {
 
@@ -32,6 +34,9 @@ public class DeparturesGraphController
         yAxis.setAutoRanging(true);
     }
 
+    /**
+     * Loads sample data into the line chart. It creates a series of (x, y) data points and adds them to the chart. The method also sets up tooltips for each data point, allowing users to see the exact coordinates when hovering over them. Additionally, it provides visual feedback by scaling the data points on mouse hover.
+     */
     private void loadData() {
 
         XYChart.Series<Number, Number> series = Globals.departSeries;
@@ -87,7 +92,9 @@ public class DeparturesGraphController
 
 
 
-
+    /**
+     * Funcation that is called when the page is loaded.
+     */
     @FXML
     public void initialize() {
         // Force tooltips to behave like desktop hover tooltips
@@ -99,11 +106,32 @@ public class DeparturesGraphController
     }
 
 
-
+    /**
+     * Takes user to the Arrivals graph page when the button is clicked.
+     * @param event the event that is triggered when the user clicks the button.
+     * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
+     */
     public void goArrivals(ActionEvent event) throws IOException 
     {
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("/com/cs261/app/graphs(arrivals).fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        stage.getScene().setRoot(root);   
+    }
+
+    /**
+     * Takes the user to the key data page when the button is clicked.
+     * @param event the event that is triggered when the user clicks the button.
+     * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
+     */
+    public void goHome(ActionEvent event) throws IOException 
+    {
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/keyData.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource())

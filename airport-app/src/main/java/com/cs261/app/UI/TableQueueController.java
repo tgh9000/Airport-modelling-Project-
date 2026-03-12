@@ -147,8 +147,9 @@ public class TableQueueController
     @FXML
     public void initialize() 
     {
-        delayColumn.setCellValueFactory(new PropertyValueFactory<>("delay"));
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
+        delayColumn.setCellValueFactory(new PropertyValueFactory<>("delay"));
+        
         scheduledColumn.setCellValueFactory(new PropertyValueFactory<>("entryTime"));
         exitColumn.setCellValueFactory(new PropertyValueFactory<>("waitTime"));
         actualColumn.setCellValueFactory(new PropertyValueFactory<>("actual"));

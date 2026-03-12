@@ -16,13 +16,10 @@ import javafx.stage.Stage;
 
 public class TableHoldingController 
 {
-
     int currentTimeStamp = 0;
     int currentEndStamp = 30;
-
     ObservableList<QueueRow> data;
     //arrivalsTable.setItems(data);
-
     @FXML
     private TableView<QueueRow> HoldingTable;
     ////column1 = call sign, column2 = scheduled departure/arrival time, column3 = actual departure/arrival time, column4 = delay, column5 = wait time
@@ -30,24 +27,21 @@ public class TableHoldingController
     private TableColumn<QueueRow, String> callsignColumn;
     @FXML
     private TableColumn<QueueRow, String> scheduledColumn;
-    
-
     @FXML
     private TableColumn<QueueRow, String> actualColumn;
     @FXML
     private TableColumn<QueueRow, String> delayColumn;
-    
     @FXML
     private TableColumn<QueueRow, String> exitColumn;
-
     @FXML
     private javafx.scene.control.TextField timestampField;
     @FXML
     private javafx.scene.control.TextField timestampField1;
-
     @FXML
     private javafx.scene.control.Button btnSearch;
-
+    /**
+     * function that runs when user presses the Search Button and searches based on the values put in the input
+     */
     @FXML
     public void searchByTimestamp()
     {
@@ -103,7 +97,9 @@ public class TableHoldingController
     private Button btnPrev;
     @FXML
     private Button btnNext;
-
+    /**
+     * Given the current value of the timestamp values will cycle through the next 30 ticks and searches the tree for the corresponding values.
+     */
     @FXML
     public void next()
     {
@@ -119,7 +115,9 @@ public class TableHoldingController
         HoldingTable.setItems(data);
         
     }
-
+    /**
+     * Given the current value of the timestamp values will cycle through the previous 30 ticks and searches the tree for the corresponding values.
+     */
     @FXML
     public void prev()
     {
@@ -136,16 +134,20 @@ public class TableHoldingController
 
     
 
-
+    /**
+     * Prints all the data the table can hold
+     */
     @FXML
     public void resetTable()
     {
-    ObservableList<QueueRow> data = Globals.getHoldingTableData();
-    HoldingTable.setItems(data);
+        ObservableList<QueueRow> data = Globals.getHoldingTableData();
+        HoldingTable.setItems(data);
     }
 
     
-
+    /**
+     * Function that is run when the page is loaded and correctly sets up the table.
+     */
     @FXML
     public void initialize() 
     {
@@ -164,7 +166,9 @@ public class TableHoldingController
 
     //Navigation functions.
 
-    
+    /**
+     * Function to send the user back to the key data page
+     */
     @FXML
     public void goHome(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -178,7 +182,9 @@ public class TableHoldingController
     }
 
 
-
+    /**
+     * Function to send the user back to the key data page
+     */
     @FXML
     public void goDeparture(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -190,7 +196,9 @@ public class TableHoldingController
 
         stage.getScene().setRoot(root);  
     }
-
+    /**
+     * Function to send the user to the Arrivals table page
+     */
     @FXML
     public void goArrival(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -203,7 +211,9 @@ public class TableHoldingController
         stage.getScene().setRoot(root); 
     }
 
-
+     /**
+     * Function to send the user to the take off queue page
+     */
     @FXML
     public void goQueue(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -216,7 +226,9 @@ public class TableHoldingController
         stage.getScene().setRoot(root);  
     }
 
-
+    /**
+     * Function to send the user to the holding pattern queue page
+     */
     @FXML
     public void goHolding(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -228,7 +240,9 @@ public class TableHoldingController
 
         stage.getScene().setRoot(root);  
     }
-
+    /**
+     * Function to send the user to the Runway Table page.
+     */
     @FXML
     public void goRunway(ActionEvent event) throws IOException {
         FXMLLoader loader =

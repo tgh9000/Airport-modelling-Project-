@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cs261.app.model.RunWay;
+import com.cs261.app.model.Utils;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +36,9 @@ public class RunwayInputController
 
     @FXML 
     private ComboBox<String> modeBox;
-
+    /**
+     * Loads the correct values into the Combo Box.
+     */
     @FXML
     public void initialize() 
     {
@@ -47,7 +50,9 @@ public class RunwayInputController
     }
 
     
-
+    /**
+     * Parses all the correct data for a given runway input.
+     */
     public RunWay parse(int[] end)
     {
         int duration = getTick(end);
@@ -143,16 +148,21 @@ public class RunwayInputController
 
         // new Runway(interruptions);
     }
+    /**
+     * turns the number of days, minutes 
+     */
     public int getTick( int[] end)
     {
 
-        return (end[0] * 24 * 60 + end[1] * 60 + end[2])/2;
+        return (end[0] * 24 * 60 + end[1] * 60 + end[2])/Utils.timeInc;
     }
 
     @FXML
     private VBox interruptionBox;
-
-     @FXML
+    /**
+     * loads an extra Interuption input to the form when the user presses a button 
+     */
+    @FXML
     private void addInterruption() 
     {
         if (interruption < 3) 
@@ -171,19 +181,12 @@ public class RunwayInputController
                 InterruptionInputController controller = loader.getController();
                 interruptionList.add(controller);
 
-                //controller.setRunwayTitle("Runway " + interruption);
+                
 
                 int size = interruptionBox.getChildren().size();
 
                 interruptionBox.getChildren().add(newSection);
-                /*if (size >= 1) 
-                {
-                    interruptionBox.getChildren().add(size - 1, newSection);
-                } 
-                else 
-                {
-                    interruptionBox.getChildren().add(newSection);
-                }*/
+                
 
             } 
 
@@ -196,6 +199,9 @@ public class RunwayInputController
     }
 
     @FXML
+    /**
+     * removes the last interuption input from the Runway.
+     */
     private void removeSection() 
     {
         if (interruption > 0) 

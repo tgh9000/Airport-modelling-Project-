@@ -33,7 +33,10 @@ public class NewSim
 
     @FXML
     private Label errorMessageLabel;
-
+    /**
+     * displays an error message to the user in the errorMessageLabel Label control.
+     * @param message the error message to be displayed to the user
+     */
     @FXML
     private void errorMessage(String message)
     {
@@ -55,7 +58,11 @@ public class NewSim
 
     @FXML
     private List<RunwayInputController> runwaysList = new ArrayList<>();
-
+    /**
+     * validates the user input for the simulation parameters and runway configurations, and if all inputs are valid, it loads the simulation waiting screen and starts the simulation with the specified parameters.
+      * @param event the action event that triggered the validation and simulation start process
+      * @throws IOException if an error occurs while loading the FXML file for the simulation waiting screen
+     */
     @FXML
     private void  checkSim(ActionEvent event) throws IOException
     {
@@ -202,25 +209,21 @@ public class NewSim
     @FXML
     private ComboBox<String> statusBox;
 
-
+    /**
+     * initializes the statusBox ComboBox with predefined interruption statuses such as "Runway Inspection", "Snow Clearance", and "Equipment Failure".
+     */
     @FXML
     public void initialize() {
-        /*statusBox.getItems().addAll(
-            "Available",
-            "Runway Inspection",
-            "Snow Clearance",
-            "Equipment Failure"
-        );
-        modeBox.getItems().addAll(
-            "Landing",
-            "Takeoff",
-            "Mixed"
-        );*/
         errorMessage("");
         addSection();
 
     }
     
+    /**
+     *  navigates back to the start page of the application.
+     * @param event the action event that triggered the navigation
+     * @throws IOException if an error occurs while loading the FXML file for the start page
+     */
     public void goBack(ActionEvent event) throws IOException 
     {
 
@@ -236,6 +239,9 @@ public class NewSim
     @FXML
     private VBox runwayBox;
 
+    /**
+     * adds a new runway configuration section to the UI, allowing the user to input information for an additional runway, up to a maximum of 10 runways. 
+     */
     @FXML
     private void addSection() 
     {
@@ -279,7 +285,9 @@ public class NewSim
     }
 
     
-
+    /**
+     * removes the most recently added runway configuration section from the UI, allowing the user to reduce the number of runways for the simulation, but ensuring that at least one runway configuration remains.
+     */
     @FXML
     private void removeSection() 
     {
