@@ -95,10 +95,9 @@
                               <columns>
                                     <TableColumn fx:id = "callsignColumn" prefWidth="150.0" text="Plane Callsign" />
                                     <TableColumn fx:id="actualColumn"  maxWidth="1.7976931348623157E308" prefWidth="150" text="Scheduled departure time" />
-                                    <TableColumn fx:id="scheduledColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="time cleared for take off" />
-                                    
-                                    <TableColumn  fx:id = "delayColumn" prefWidth="150.0" text="Delay" />
-                                    <TableColumn  fx:id = "exitColumn" prefWidth="150.5" text="Time of takeoff" />
+                                    <TableColumn fx:id="scheduledColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Holding Pattern Arrival Time" />     
+                                    <TableColumn  fx:id = "delayColumn" prefWidth="150.0" text="Delay/mins" />
+                                    <TableColumn  fx:id = "exitColumn" prefWidth="150.5" text="Wait time/mins" />
                               </columns>
          
                            </TableView>
