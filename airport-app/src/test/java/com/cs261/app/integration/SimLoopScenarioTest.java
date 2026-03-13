@@ -150,13 +150,9 @@ public class SimLoopScenarioTest {
         // This scenario just checks ModelOutput still returns maps without nulls.
         RunWay[] runways = {
                 runway(RunWay.OperatingMode.LANDING, 100),
-                runway(RunWay.OperatingMode.TAKEOFF, 101) // may round to same ID
+                runway(RunWay.OperatingMode.TAKEOFF, 100) // may round to same ID
         };
-        ModelOutput out = runSim(runways, 0);
-
-        assertNotNull(out);
-        assertNotNull(out.getRunwayModes());
-        assertNotNull(out.getRunwayOccupancy());
+    assertThrows(IllegalArgumentException.class, () -> runSim(runways, 0));
     }
 
  
