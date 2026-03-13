@@ -30,8 +30,7 @@
 
         <Button fx:id="btnArrivals" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Arrivals" onAction="#goArrivals" />
 
-        
-        <Button fx:id="btnArrivals" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Holding Pattern"/>
+    
 
         <Button fx:id="btnHP" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Holding Pattern"  onAction="#goHP" />
 

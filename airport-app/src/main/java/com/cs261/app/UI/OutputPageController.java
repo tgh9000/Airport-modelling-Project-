@@ -230,6 +230,8 @@ public class OutputPageController {
         ArrayList<Integer[]> holding = output.getGraphHPNumber();
         System.out.println("Depart size: " + depart.size());
         System.out.println("Arrive size: " + arrive.size());
+        System.out.println("TQ size: " + takeOff.size());
+        System.out.println("HP size: " + holding.size());
         XYChart.Series<Number, Number> departSeries = new XYChart.Series<>();
         XYChart.Series<Number, Number> arriveSeries = new XYChart.Series<>();
         XYChart.Series<Number, Number> tQSeries = new XYChart.Series<>();

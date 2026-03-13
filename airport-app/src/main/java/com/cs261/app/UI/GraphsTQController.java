@@ -42,6 +42,7 @@ public class GraphsTQController
     private void loadData() {
 
         XYChart.Series<Number, Number> series = Globals.tQSeries;
+        
         /**
         series.getData().add(new XYChart.Data<>(2, 10));
         series.getData().add(new XYChart.Data<>(4, 25));
