@@ -280,18 +280,22 @@ public class ModelOutput implements IModelOutput {
         updateMaxHolding(holdingSz);
         updateMaxTQueue(takeOffSz);
 
-        if (takeOffSz != graphTQ.getLast()[1]){
-            Integer[] graphV = new Integer[2];
-            graphV[0] = time;
-            graphV[1] = takeOffSz;
-            graphTQ.add(graphV);
-        } 
 
-        if (holdingSz != graphHP.getLast()[1]){
-            Integer[] graphVH = new Integer[2];
-            graphVH[0] = time;
-            graphVH[1] = holdingSz;
-            graphHP.add(graphVH);
+        if (!graphTQ.isEmpty()){
+            if (takeOffSz != graphTQ.getLast()[1]){
+                Integer[] graphV = new Integer[2];
+                graphV[0] = time;
+                graphV[1] = takeOffSz;
+                graphTQ.add(graphV);
+            } 
+        }
+        if (!graphHP.isEmpty()){
+            if (holdingSz != graphHP.getLast()[1]){
+                Integer[] graphVH = new Integer[2];
+                graphVH[0] = time;
+                graphVH[1] = holdingSz;
+                graphHP.add(graphVH);
+            }
         }
 
         if (!exitedPlanes.isEmpty()){
