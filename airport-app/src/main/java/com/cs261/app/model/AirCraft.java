@@ -145,6 +145,11 @@ public class AirCraft {
 			return false; 
 		}
 		this.exitTime = exitTime;
+
+		if (this.exitTime.isBefore(this.entryTime)){
+			this.exitTime = this.entryTime;
+		}
+
 		return true;
 	}
 
@@ -274,9 +279,6 @@ public class AirCraft {
 		return hrs;
     }
     
-    /**
-     * TODO: FIX UPDATE METHOD FOR ALTITUDE
-     */
     public void updateAltitude(AirCraft parent){
 		// get its parents altitude 
 		if (parent == null){

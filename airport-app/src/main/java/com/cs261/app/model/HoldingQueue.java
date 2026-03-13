@@ -122,6 +122,10 @@ public class HoldingQueue {
 		if (isEmpty()){
 			return null;
 		} 
+
+		//System.out.printf("size %d time 1 %s s1 %d\n", size(), 
+		//heap[0].getAircraft().getEntryTime(), heap[0].getSerial());
+
 		AirCraft result = heap[0].getAircraft();
 		heap[0] = heap[size - 1]; // move the lowest rightmost node on tree to here
 		heap[size - 1] = null; // no duplicate planes

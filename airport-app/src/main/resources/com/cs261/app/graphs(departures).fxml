@@ -69,11 +69,11 @@
             <LineChart fx:id="arrivalsGraph" animated="true" createSymbols="true" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;" title="" VBox.vgrow="ALWAYS">
 
                 <xAxis>
-                    <NumberAxis label="Timestamp (ticks)" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" fx:id="xAxis" />
+                    <NumberAxis label="Time /Minutes" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" fx:id="xAxis" />
                 </xAxis>
 
                 <yAxis>
-                    <NumberAxis fx:id="yAxis" label="Δ Expected vs Actual Departure (seconds)" side="LEFT" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" tickLabelFill="#4b4846" />
+                    <NumberAxis fx:id="yAxis" label="Average Take Off Queue Wait Time /Minutes" side="LEFT" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" tickLabelFill="#4b4846" />
                 </yAxis>
             </LineChart>
         </VBox>

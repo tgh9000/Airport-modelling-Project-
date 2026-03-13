@@ -32,15 +32,6 @@ public class ModelOutput implements IModelOutput {
     ArrayList<AirCraft> planesInTQueue = new ArrayList<>();
     ArrayList<AirCraft> planesInHQueue = new ArrayList<>();
 
-    /**
-     * Returns the aircraft object associated with a given callsign.
-     * @param callsign the callsign of the plane you want to get
-     * @return the plane object associated with the callsign, or null if no such plane exists
-     */
-    public AirCraft getPlaneByCallsign(String callsign){
-        return aircrafts.get(callsign);
-    }
-
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
     private int maxTQueuePlanes = 0;
@@ -66,7 +57,10 @@ public class ModelOutput implements IModelOutput {
     private String[][] tableTakeOffQueue;
     private String[][] tableRunways;
 
-    // cancellatns and diversions
+    private ArrayList<Integer[]> graphTQ =  new ArrayList<>();
+    private ArrayList<Integer[]> graphHP =  new ArrayList<>();
+
+    // cancellations and diversions
     private int numDiversions = 0; // number of planes diverted
     private int numCancels = 0; // number of planes cancelled
     private int maxDiversionWait = 0; //  the maximum wait time of a plane that was diverted
@@ -77,6 +71,15 @@ public class ModelOutput implements IModelOutput {
         this.arrivalModel = arrivalModel;
         this.runways = runways;
         this.aircrafts = aircraftmap;
+    }
+
+    /**
+     * Returns the aircraft object associated with a given callsign.
+     * @param callsign the callsign of the plane you want to get
+     * @return the plane object associated with the callsign, or null if no such plane exists
+     */
+    public AirCraft getPlaneByCallsign(String callsign){
+        return aircrafts.get(callsign);
     }
 
     // == GETTERS AND SETTERS FOR KEY STATS, TABLES AND GRAPHS ==       
@@ -172,6 +175,15 @@ public class ModelOutput implements IModelOutput {
     public ArrayList<Double[]> getGraphArrivalDifferences() {
         return this.graphArrivalDifferences;
     }
+
+    public ArrayList<Integer[]> getGraphHPNumber(){
+        return this.graphHP;
+    }
+
+    public ArrayList<Integer[]> getGraphTQNumber(){
+        return this.graphTQ;
+    }
+
     // tables
     /**
      * @return table of every plane that actually departed from the airport
@@ -248,25 +260,16 @@ public class ModelOutput implements IModelOutput {
     public void finishCalculations(){
         // averages
         avgArriveDelay = calcAvgArriveDelay();
-        //System.out.println("calcAvgArriveDelay");
         avgDepartDelay = calcAvgDepartDelay();
-        //System.out.println("calcAvgDepartDelay");
         avgArriveWait = calcAverageHoldingWaitTime();
-        //System.out.println("calcAverageHoldingWaitTime");
         avgDepartWait = calcAverageTakeOffWaitTime();
-        //System.out.println("calcAverageTakeOffWaitTime");
 
         // tables and graphs
         tableAllDepartures = departuresTable();
-        //System.out.println("departuresTable");
         tableAllArrivals = arrivalsTable();
-        //System.out.println("arrivalsTable");
         tableHoldingQueue = holdingQueueTable();
-        //System.out.println("holdingQueueTable");
         tableTakeOffQueue = takeOffQueueTable();
-        //System.out.println("takeOffQueueTable");
         tableRunways = runwayTable();
-        //System.out.println("runwayTable");
     }
 
     /**
@@ -277,50 +280,36 @@ public class ModelOutput implements IModelOutput {
         updateMaxHolding(holdingSz);
         updateMaxTQueue(takeOffSz);
 
-        
+        if (takeOffSz != graphTQ.getLast()[1]){
+            Integer[] graphV = new Integer[2];
+            graphV[0] = time;
+            graphV[1] = takeOffSz;
+            graphTQ.add(graphV);
+        } 
+
+        if (holdingSz != graphHP.getLast()[1]){
+            Integer[] graphVH = new Integer[2];
+            graphVH[0] = time;
+            graphVH[1] = holdingSz;
+            graphHP.add(graphVH);
+        }
+
         if (!exitedPlanes.isEmpty()){
             exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
             updateSumsAndMaxs(exitedPlanes);
-            updateGraph(exitedPlanes, time);
+            updateGraph(time);
         }
     }
 
-    private void updateGraph(ArrayList<String> exitedPlanes, int time){
-        double delayA = 0;
-        double delayD = 0;
-        double numdepart = 0;
-        double numarrive = 0;
-        for (int i = 0; i < exitedPlanes.size(); i++){
-            AirCraft a = aircrafts.get(exitedPlanes.get(i));
-            double delay = 0;
-            if (a.getExitTime().isAfter(a.getScheduled())){
-                delay = (double) Duration.between(a.getScheduled(), a.getExitTime()).toMinutes();
-            }   
-
-            if (a.getFlightType() == FlightType.ARRIVAL){
-                delayA += delay;
-                numarrive++;
-            } else {
-                delayD += delay;
-                numdepart++;
-            }
-        }
-
+    /**
+     * Update graphs for avg wait time against time iteratively 
+     * @param time
+     */
+    private void updateGraph(int time){
         Double[] valueA = new Double[2];
         Double[] valueD = new Double[2];
-
-        if (numarrive == 0){
-            valueA[1] = (double) 0.0;
-        } else {
-            valueA[1] = (double) delayA / numarrive;
-        }
-
-        if (numdepart == 0){
-            valueD[1] = (double) 0.0;
-        } else {
-            valueD[1] = (double) delayD / numdepart;
-        }
-
+        valueA[1] = calcAverageHoldingWaitTime();
+        valueD[1] = calcAverageTakeOffWaitTime();
         valueA[0] = (double) time;
         valueD[0] = (double) time;
         this.graphArrivalDifferences.add(valueA);
@@ -366,12 +355,14 @@ public class ModelOutput implements IModelOutput {
                 if (plane.getZoneStatus() == ZoneStatus.DIVERT){
                     numDiversions++;
                     maxDiversionWait = ((waitTime > maxDiversionWait) ? waitTime : maxDiversionWait);
+                    iterator.remove();
                     continue; // skip over
                 }
 
                 if (plane.getZoneStatus() == ZoneStatus.CANCEL){
                     numCancels++;
                     maxCancelWait = ((waitTime > maxCancelWait) ? waitTime : maxCancelWait);
+                    iterator.remove();
                     continue; 
                 }
 

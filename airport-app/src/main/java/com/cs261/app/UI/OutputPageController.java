@@ -52,7 +52,6 @@ public class OutputPageController {
     private void loadTables()
     {
         int runwayNum =  Globals.runwayModes.length;
-        //idk if i need this 
         TreeMap<Integer, List<RunwayRow>> [] runwayTree = new TreeMap[runwayNum];
         for(int i = 0; i < runwayNum; i++)
         {
@@ -64,7 +63,6 @@ public class OutputPageController {
 
         for(int i = 0; i < tableAllArrivals.length; i++)
         {   //Runway,callsign,actual
- 
 
             ArrivalRow row = new ArrivalRow(tableAllArrivals[i][1], tableAllArrivals[i][0], tableAllArrivals[i][2], tableAllArrivals[i][3],tableAllArrivals[i][4]);
             String timeStamp = tableAllArrivals[i][5];
@@ -98,18 +96,12 @@ public class OutputPageController {
                 }
                 runwayList.add(runwayRow);
                 runwayData.put(Integer.parseInt(timeStamp), runwayList);
-             
             }
-            
-            
-            
         }
-       // System.out.println("Arrivals tree size: " + Globals.arrivalsTree.size());
         //departures table.
         String[][] tableAllDepartures = output.getTableAllDepartures();
         for(int i = 0; i < tableAllDepartures.length; i++)
         {   //Runway,callsign,actual
- 
 
             ArrivalRow row = new ArrivalRow(tableAllDepartures[i][1], tableAllDepartures[i][0], tableAllDepartures[i][3], tableAllDepartures[i][2],tableAllDepartures[i][4]);
             String timeStamp = tableAllDepartures[i][5];
@@ -147,14 +139,11 @@ public class OutputPageController {
             
             
         }
-        //System.out.println("test2");
-
 
         //queue table
         String[][] tableAllqueue = output.getTableTakeOffQueue();
         for(int i = 0; i < tableAllqueue.length; i++)
         {   //Runway,callsign,actual
- 
 
             QueueRow row = new QueueRow(tableAllqueue[i][0],tableAllqueue[i][1],  tableAllqueue[i][2], tableAllqueue[i][3],tableAllqueue[i][4]);
             String timeStamp = tableAllqueue[i][5];
@@ -178,7 +167,6 @@ public class OutputPageController {
         String[][] tableAllHolding = output.holdingQueueTable();
         for(int i = 0; i < tableAllHolding.length; i++)
         {   //Runway,callsign,actual
- 
 
             QueueRow row = new QueueRow(tableAllHolding[i][0],tableAllHolding[i][1],  tableAllHolding[i][2], tableAllHolding[i][3],tableAllHolding[i][4]);
             String timeStamp = tableAllHolding[i][5];
@@ -209,7 +197,6 @@ public class OutputPageController {
         {
             Globals.airCraftDetails.add(item.toDetail());
         }
-         
 
         
 
