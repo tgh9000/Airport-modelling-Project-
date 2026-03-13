@@ -5,7 +5,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 import javafx.stage.Window;
 
 public class UserGuidePopup {
@@ -48,7 +47,8 @@ public class UserGuidePopup {
                                 + "Diversion reduction: The simulation will attempt to reduce diversions by placing any planes in emergency on an available mixed runway immediately if no exclusive runways are available, regardless of mixed runway turn. \n"
                                 + "Cancellation reduction: The simulation will attempt to reduce cancellations by place any planes which are 10 minutes away from being cancelled onto an available mixed runway immediately, regardless of mixed runway turn.\n"
                                 + "Emergency wait time: Even if it does not land immediately, an emergency plane will remain in the simulation for 4 minutes in an attempt to reduce diversions. \n"
-                                + "Fuel emergencies are decided during runtime. Health and mechanical emergencies are pre-determined based on probability. \n";
+                                + "Fuel emergencies are decided during runtime. Fuel emergencies will be triggered if an aircraft in the holding queue only has 15 minutes of fuel left. Health and mechanical emergencies are pre-determined based on probability. \n"
+                                + "All emergencies are treated with equal priority. Emergency planes that arrived earlier have higher priority than those that arrived later. \n";
 
     private Text stepsSectionText = new Text(stepsT);
     private VBox stepsSection = new VBox(10);    
@@ -73,9 +73,10 @@ public class UserGuidePopup {
         //popupWindow.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_LEFT);        
 
         layoutScroll.setContent(layoutGuide);
-        layoutScroll.setPrefSize(500, 500);
-        layoutGuide.setMinWidth(500);
-        layoutGuide.setMinWidth(500);
+        layoutScroll.setMaxHeight(400);
+        layoutGuide.setMinHeight(700);
+
+        layoutScroll.getScene().getStylesheets().add("");
 
         stepsSectionText.setWrappingWidth(450);
         stepsSection.getChildren().addAll(stepsSectionTitle, stepsSectionText);
@@ -96,6 +97,25 @@ public class UserGuidePopup {
 
         popupWindow.getContent().add(layoutScroll);
         popupWindow.setAutoHide(true);
+
+        layoutScroll.setStyle("-fx-background-color: #E3EDF9; -fx-padding: 10;");
+        layoutGuide.setStyle("-fx-background-color: #E3EDF9; -fx-padding: 10;");
+        stepsSection.setStyle("-fx-background-color: #F0F4F8; -fx-background-radius: 16px; -fx-padding: 10;");
+        inputSection.setStyle("-fx-background-color: #F0F4F8; -fx-background-radius: 16px; -fx-padding: 10;");
+        outputSection.setStyle("-fx-background-color: #F0F4F8; -fx-background-radius: 16px; -fx-padding: 10;");
+        compareSection.setStyle("-fx-background-color: #F0F4F8; -fx-background-radius: 16px; -fx-padding: 10;");
+        restrictionSection.setStyle("-fx-background-color: #F0F4F8; -fx-background-radius: 16px; -fx-padding: 10;");
+
+        stepsSectionTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: BOLD;");
+        stepsSectionText.setStyle("-fx-font-size: 14px;");
+        inputSectionTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: BOLD;");
+        inputSectionText.setStyle("-fx-font-size: 14px;");
+        outputSectionTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: BOLD;");
+        outputSectionText.setStyle("-fx-font-size: 14px;");
+        compareSimGuide.setStyle("-fx-font-size: 16px; -fx-font-weight: BOLD;");
+        compareSectionText.setStyle("-fx-font-size: 14px;");
+        restrictionsGuide.setStyle("-fx-font-size: 16px; -fx-font-weight: BOLD;");
+        restrictionText.setStyle("-fx-font-size: 14px;");
     }
 
     public void show(Window w){
