@@ -63,10 +63,10 @@
 .backBtnInpPg {
     -fx-background-color: transparent;
     -fx-text-fill: #122840;
-    -fx-font-size: 11px;
+    -fx-font-size: 144px;
     -fx-font-weight: BOLD;
     -fx-background-radius: 16px;
-    -fx-padding: 20px;
+    -fx-padding: 10px;
     -fx-border-width: 2px;
     -fx-border-color: #122840;
     -fx-border-radius: 16px;

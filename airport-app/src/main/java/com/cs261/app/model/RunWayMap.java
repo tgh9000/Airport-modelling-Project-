@@ -15,11 +15,16 @@ public class RunWayMap {
 	private int numDepartureRunways;
 	private int numMixedRunways;
 
-	public RunWayMap(RunWay[] runwayList) {
-		this.runways = runwayList;
+	public RunWayMap(RunWay[] runwayList) throws IllegalArgumentException {
+		ArrayList<String> newBearings = new ArrayList<>();
 
-		for (int i = 0; i < runways.length; i++){
-			switch (runways[i].getMode()){
+		for (int i = 0; i < runwayList.length; i++){
+			if (newBearings.contains(runwayList[i].getRunwayNumber())){
+				throw new IllegalArgumentException("Two runways may not have the same bearing or runway number.");
+			} else {
+				newBearings.add(runwayList[i].getRunwayNumber());
+				runways[i]  = runwayList[i];
+				switch (runwayList[i].getMode()){
 				case OperatingMode.LANDING:
 					numArrivalRunways++;
 					break;
@@ -29,6 +34,7 @@ public class RunWayMap {
 				case OperatingMode.MIXED:
 					numMixedRunways++;
 					break;
+			}
 			}
 		}
 	}
