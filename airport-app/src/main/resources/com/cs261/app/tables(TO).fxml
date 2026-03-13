@@ -106,11 +106,11 @@
          
                               <columns>
                                     <TableColumn fx:id = "callsignColumn" prefWidth="150.0" text="Plane Callsign" />
-                                    <TableColumn fx:id = "scheduledColumn" prefWidth="150.5" text="Scheduled Departure Time" />
-                                    <TableColumn  fx:id = "actualColumn" prefWidth="150.0" text="Actual Departing Time" />
-                                    
+                                    <TableColumn fx:id = "scheduledColumn" prefWidth="150.5" text="Scheduled arrival Time" />
+                                    <TableColumn  fx:id = "actualColumn" prefWidth="150.0" text="Airspace arrival time" />
+                                    <TableColumn  fx:id = "exitColumn" prefWidth="150.5" text="Time of landing" />
                                     <TableColumn  fx:id = "delayColumn" prefWidth="150.0" text="Delay" />
-                                    <TableColumn  fx:id = "exitColumn" prefWidth="150.5" text="Exit Time" />
+                                    
                               </columns>
          
                            </TableView>

@@ -1,11 +1,8 @@
 package com.cs261.app.model;
 
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperatingMode;
-
 
 public class TrafficController {
 	private AirCraftMap aircraftMap;
@@ -61,7 +58,7 @@ public class TrafficController {
 
 		if (!takeoffQueue.isEmpty()){
 			handleDepartures(exitedPlanes, currentTime);
-			handleCancellations(exitedPlanes, currentTime); 		// handle cancellations stuff here
+			handleCancellations(exitedPlanes, currentTime); 	
 		}
 		//System.out.println("departures");
 

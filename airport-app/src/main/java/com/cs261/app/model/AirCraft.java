@@ -279,9 +279,6 @@ public class AirCraft {
 		return hrs;
     }
     
-    /**
-     * TODO: FIX UPDATE METHOD FOR ALTITUDE
-     */
     public void updateAltitude(AirCraft parent){
 		// get its parents altitude 
 		if (parent == null){
