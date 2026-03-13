@@ -103,9 +103,6 @@ public class RunwayInputController
             modeEnum = RunWay.OperatingMode.MIXED;
         }
 
-
-        
-        
         //Interruption[] interruptions = new Interruption[interruptionList.size()];
         RunWay.OperationStatus[] changeStatusTo = new RunWay.OperationStatus[interruptionList.size()];
         int[][] changeStatusTimes = new int[interruptionList.size()][2];
@@ -132,7 +129,7 @@ public class RunwayInputController
                     break;
             }
             changeStatusTimes[i][0] = getTick( temp.getTime());
-            changeStatusTimes[i][1] = changeStatusTimes[i][0] + temp.getDuration()/2;
+            changeStatusTimes[i][1] = changeStatusTimes[i][0] + temp.getDuration();
             if (changeStatusTimes[i][1] > duration)
             {
                 System.out.println("Interruption " + (i+1) + " ends after the simulation ends. Please adjust the duration or the interruption time/duration.");
@@ -142,12 +139,52 @@ public class RunwayInputController
             //returning.addInterruption(interruptions[i]);
             //interruptions[i].print();
         }
+        boolean overlapVar = false;
+        if(changeStatusTimes.length == 2 )
+        {
+            overlapVar = overlap(changeStatusTimes[0][0],changeStatusTimes[0][1],changeStatusTimes[1][0],changeStatusTimes[1][1]);
+        }
+        /*
+        boolean overlap12 = overlap(start1, end1, start2, end2);
+        boolean overlap13 = overlap(start1, end1, start3, end3);
+        boolean overlap23 = overlap(start2, end2, start3, end3);
+        */
+
+        if(changeStatusTimes.length == 3)
+        {
+            overlapVar = overlap(changeStatusTimes[0][0],changeStatusTimes[0][1],changeStatusTimes[1][0],changeStatusTimes[1][1])
+            ||           overlap(changeStatusTimes[0][0],changeStatusTimes[0][1],changeStatusTimes[2][0],changeStatusTimes[2][1])
+            ||           overlap(changeStatusTimes[1][0],changeStatusTimes[1][1],changeStatusTimes[2][0],changeStatusTimes[2][1]);
+        }
+        if(overlapVar)
+        {
+            return null;
+        }
+
+
+
+
         RunWay returning = new RunWay(length, bearing, modeEnum, changeStatusTo, changeStatusTimes);
         return returning;
 
 
         // new Runway(interruptions);
     }
+
+    /**
+     * tests wether two intervals interlap.
+     * @param start1
+     * @param end1
+     * @param start2
+     * @param end1
+     * @return whether or not the two intervals overlap.
+     */
+    public boolean overlap(int start1, int end1, int start2, int end2) 
+    {
+        return start1 <= end2 && start2 <= end1;
+    }
+
+
     /**
      * turns the number of days, minutes 
      */

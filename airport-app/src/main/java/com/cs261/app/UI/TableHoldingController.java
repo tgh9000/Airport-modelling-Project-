@@ -223,6 +223,10 @@ public class TableHoldingController
     @FXML
     public void initialize() 
     {
+        if (popupMenuController != null) 
+        {
+            popupMenuController.setOnClose(() -> closeDetailsPane(null));
+        }
         errorMessage("");
         delayColumn.setCellValueFactory(new PropertyValueFactory<>("delay"));
         callsignColumn.setCellValueFactory(new PropertyValueFactory<>("callsign"));
