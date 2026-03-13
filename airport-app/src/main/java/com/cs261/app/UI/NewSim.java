@@ -86,7 +86,7 @@ public class NewSim
         {
             dayNum = Integer.parseInt(days);
             //System.out.println("Parsed value: " + days);
-            if (dayNum < 0 || hourNum >= 20) 
+            if (dayNum < 0 || dayNum >= 20) 
             {
                 Alert alert = new Alert(AlertType.WARNING, "Days must be between 0 and 20");
                 alert.setHeaderText("Invalid Input detected");
