@@ -104,10 +104,10 @@
                                  <TableColumn fx:id="callsignColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Plane Callsign" />
                                  <TableColumn fx:id="typeColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Type of Flight" /> 
                                  <TableColumn fx:id="runwayColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Runway" /> 
-                                 <TableColumn fx:id="actualColumn"  maxWidth="1.7976931348623157E308" prefWidth="150" text="Scheduled arrival/ departure time" />
-                                 <TableColumn fx:id="scheduledColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Airspace/ Runway arrival time" />
+                                 <TableColumn fx:id="actualColumn"  maxWidth="1.7976931348623157E308" prefWidth="150" text="Scheduled arrival/departure time" />
+                                 <TableColumn fx:id="scheduledColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Airspace/Runway arrival time" />
                                     
-                                 <TableColumn fx:id="exitColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Time of takeoff/ arrival" />
+                                 <TableColumn fx:id="exitColumn" maxWidth="1.7976931348623157E308" prefWidth="150" text="Time of takeoff/arrival" />
                               
                               </columns>
          

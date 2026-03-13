@@ -87,7 +87,7 @@
             
                               <VBox spacing="15" HBox.hgrow="ALWAYS">
             
-                                    <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Arrival Data" />
+                                    <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Arrivals Data" />
             
                                     <TableView fx:id="arrivalsTable" prefHeight="400" style="-fx-background-radius: 10; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
       
