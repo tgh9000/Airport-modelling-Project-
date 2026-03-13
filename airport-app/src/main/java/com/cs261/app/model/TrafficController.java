@@ -61,7 +61,7 @@ public class TrafficController {
 
 		if (!takeoffQueue.isEmpty()){
 			handleDepartures(exitedPlanes, currentTime);
-			handleCancellations(exitedPlanes, currentTime); 		// handle cancellations stuff here
+			handleCancellations(exitedPlanes, currentTime); 	
 		}
 		//System.out.println("departures");
 
