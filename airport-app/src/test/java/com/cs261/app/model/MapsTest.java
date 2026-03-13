@@ -123,9 +123,10 @@ class MapsTest {
     @Test
     void getRunwaysShouldReturnAllRunways() {
 
-        // TODO
-
-        assertTrue(false);
+        RunWay[] runwayList = map.getRunways();
+        assertEquals("09", runwayList[0].getRunwayNumber());
+        assertEquals("18", runwayList[1].getRunwayNumber());
+        assertEquals("27", runwayList[2].getRunwayNumber());
     }
 
 }
