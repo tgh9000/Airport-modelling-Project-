@@ -2,12 +2,14 @@ package com.cs261.app.UI;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -51,6 +53,17 @@ public class OutputPageController {
     @FXML
     private void loadTables()
     {
+
+        Globals.arrivalsTree = new TreeMap<>();
+        Globals.departuresTree = new TreeMap<>();
+        Globals.queueTree = new TreeMap<>();
+        Globals.holdingTree = new TreeMap<>();
+
+        Globals.RunwayTree = new HashMap<>();
+
+        Globals.runwayDetails = FXCollections.observableArrayList();
+        Globals.airCraftDetails = FXCollections.observableArrayList();
+
         int runwayNum =  Globals.runwayModes.length;
         TreeMap<Integer, List<RunwayRow>> [] runwayTree = new TreeMap[runwayNum];
         for(int i = 0; i < runwayNum; i++)
