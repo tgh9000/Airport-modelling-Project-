@@ -15,125 +15,139 @@
    <children>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" alignment="CENTER" spacing="100">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: transparent; -fx-padding: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <content>
-                  <VBox fx:id="runwayBox" prefHeight="200.0" prefWidth="100.0" spacing="5" style="-fx-background-color: #F0F4F8; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0;">
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="749.0" prefWidth="800.0" style="-fx-background-color: transparent; -fx-padding: 5;" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox fx:id="runwayBox" prefHeight="639.0" prefWidth="778.0" spacing="5" style="-fx-background-color: #F0F4F8; -fx-padding: 10px; -fx-background-radius: 24; -fx-border-radius: 24; -fx-background-insets: 0;">
+                           <children>
+                              <Label text="General:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label text=" Interruptions are predetermined times where the runway will become closed.">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="* Indicates a required field.">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="20.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Enter the simulation runtime *">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="52.0" prefWidth="580.0" spacing="15" style="-fx-background-radius: 16 16 16 16; -fx-padding: 10px">
+                                 <children>
+                                    <TextField fx:id="simDaysField" promptText="Days">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="simHoursField" promptText="Hours">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="simMinutesField" promptText="Minutes">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="20.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Arrival Planes Flow Rate">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="arrivalFlowInput" prefHeight="33.0" prefWidth="149.0" text="15" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="20.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Departure Planes Flow Rate">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="departureFlowInput" prefHeight="33.0" prefWidth="149.0" text="15" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="20.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Probability of Failure">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="failureProbField" prefHeight="33.0" prefWidth="149.0" text="0.01" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="20.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Time that can pass before plane cancellation">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="cancellationTimeField" prefHeight="33.0" prefWidth="149.0" promptText="Minutes" text="30" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="20.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Runway configuration">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="30.0" prefWidth="560.0" spacing="15" style="-fx-padding: 5;">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#addSection" styleClass="roundButtonOutline" text="Add Runway" />
+                                    <Button mnemonicParsing="false" onAction="#removeSection" styleClass="roundButtonOutline" text="Remove This runway" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" spacing="15">
                      <children>
-                        <Label text="General:">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <Label text=" Interruptions are predetermined times where the runway will become closed.">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="* Indicates a required field.">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <HBox prefHeight="20.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Enter the simulation runtime *">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="52.0" prefWidth="580.0" spacing="15" style="-fx-background-radius: 16 16 16 16; -fx-padding: 10px">
-                           <children>
-                              <TextField fx:id="simDaysField" promptText="Days">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </TextField>
-                              <TextField fx:id="simHoursField" promptText="Hours">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </TextField>
-                              <TextField fx:id="simMinutesField" promptText="Minutes">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="20.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Arrival Planes Flow Rate">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="arrivalFlowInput" prefHeight="33.0" prefWidth="149.0" text="15" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="20.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Departure Planes Flow Rate">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="departureFlowInput" prefHeight="33.0" prefWidth="149.0" text="15" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="20.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Probability of Failure">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="failureProbField" prefHeight="33.0" prefWidth="149.0" text="0.01" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="20.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Time that can pass before plane cancellation">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="cancellationTimeField" prefHeight="33.0" prefWidth="149.0" promptText="Minutes" text="30" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="20.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Runway configuration">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="30.0" prefWidth="560.0" spacing="15" style="-fx-padding: 5;">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#addSection" styleClass="roundButtonOutline" text="Add Runway" />
-                              <Button mnemonicParsing="false" onAction="#removeSection" styleClass="roundButtonOutline" text="Remove This runway" />
-                           </children>
-                        </HBox>
+                        <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="65.0" styleClass="landingBtn1" text="Back" />
+                        <Label fx:id="errorMessageLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Example error message" textFill="RED" HBox.hgrow="ALWAYS" />
+                     <Button mnemonicParsing="false" onAction="#checkSim" prefHeight="30.0" prefWidth="65.0" styleClass="landingBtn1" text="Start" />
                      </children>
+                  </HBox>
+               </children>
+            </VBox>
                   </VBox>
                </content>
             </ScrollPane>
