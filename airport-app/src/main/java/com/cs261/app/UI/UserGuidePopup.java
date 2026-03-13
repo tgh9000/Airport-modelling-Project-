@@ -76,7 +76,7 @@ public class UserGuidePopup {
         layoutScroll.setMaxHeight(400);
         layoutGuide.setMinHeight(700);
 
-        layoutScroll.getScene().getStylesheets().add("");
+        //layoutScroll.getScene().getStylesheets().add("");
 
         stepsSectionText.setWrappingWidth(450);
         stepsSection.getChildren().addAll(stepsSectionTitle, stepsSectionText);
