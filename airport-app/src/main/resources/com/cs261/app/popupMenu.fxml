@@ -18,12 +18,12 @@
                         <TableView fx:id="planesTable" prefHeight="220.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
                             <columns>
                                 <TableColumn fx:id="planesCallsignColumn" prefWidth="100.0" text="Callsign" />
-                                <TableColumn fx:id="planesOperatorColumn" prefWidth="125.0" text="operator" />
-                                <TableColumn fx:id="planesOriginColumn" prefWidth="99.0" text="origin" />
-                                <TableColumn fx:id="planesDestinationColumn" prefWidth="181.0" text="destination" />
-                                <TableColumn fx:id="planesFlightTypeColumn" prefWidth="235.0" text="flight type" />
-                                <TableColumn fx:id="planesEmergencyStatusColumn" prefWidth="160.0" text="emergency status" />
-                                <TableColumn fx:id="planesEmergencyStartColumn" prefWidth="160.0" text="emergency start" />
+                                <TableColumn fx:id="planesOperatorColumn" prefWidth="125.0" text="Operator" />
+                                <TableColumn fx:id="planesOriginColumn" prefWidth="99.0" text="Origin" />
+                                <TableColumn fx:id="planesDestinationColumn" prefWidth="181.0" text="Destination" />
+                                <TableColumn fx:id="planesFlightTypeColumn" prefWidth="235.0" text="Flight type" />
+                                <TableColumn fx:id="planesEmergencyStatusColumn" prefWidth="160.0" text="Emergency status" />
+                                <TableColumn fx:id="planesEmergencyStartColumn" prefWidth="160.0" text="Emergency start" />
                             </columns>
                         </TableView>
                     </VBox>
@@ -38,9 +38,9 @@
                                 <TableColumn fx:id="runwaysIdColumn" prefWidth="100.0" text="Runway ID" />
                                 <TableColumn fx:id="runwaysOperationModeColumn" prefWidth="120.0" text="Operational mode" />
                                 <TableColumn fx:id="runwaysStatusColumn" prefWidth="95.0" text="Runway Status" />
-                                <TableColumn fx:id="runwaysHasInterruptionColumn" prefWidth="116.5" text="Has inerruption" />
+                                <TableColumn fx:id="runwaysHasInterruptionColumn" prefWidth="116.5" text="Has interruption" />
                                 <TableColumn fx:id="runwaysStatusChangeTo" prefWidth="95.5" text="Status change" />
-                                <TableColumn fx:id="runwaysInterruptionStartColumn" prefWidth="145.5" text="Inerruption start" />
+                                <TableColumn fx:id="runwaysInterruptionStartColumn" prefWidth="145.5" text="Interruption start" />
                                 <TableColumn fx:id="runwaysInterruptionEndColumn" prefWidth="146.5" text="Interruption End" />
                             </columns>
                         </TableView>

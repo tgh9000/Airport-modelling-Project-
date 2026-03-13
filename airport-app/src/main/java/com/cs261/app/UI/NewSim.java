@@ -86,7 +86,7 @@ public class NewSim
         {
             dayNum = Integer.parseInt(days);
             //System.out.println("Parsed value: " + days);
-            if (dayNum < 0 || hourNum >= 20) 
+            if (dayNum < 0 || dayNum >= 20) 
             {
                 Alert alert = new Alert(AlertType.WARNING, "Days must be between 0 and 20");
                 alert.setHeaderText("Invalid Input detected");
@@ -274,6 +274,38 @@ public class NewSim
 
             runwayArray[i] = r;
 
+        }
+        boolean hasLanding = false;
+        boolean hasArriving = false;
+        boolean hasBoth =false;
+        for(int i = 0; i <runwayArray.length; i ++ )
+        {
+            RunWay temp = runwayArray[i];
+            if (temp.getMode().getCode() == 3) // mixed
+            {
+                hasBoth = true;
+            }
+            if (temp.getMode().getCode() == 2) // takeoff
+            {
+                hasLanding = true;
+            }
+            if (temp.getMode().getCode() == 1) // landing
+            {
+                hasArriving = true;
+            }
+            if(hasLanding && hasArriving)
+            {
+                hasBoth = true;
+            }
+
+                
+        }
+        if(!hasBoth)
+        {
+            Alert alert = new Alert(AlertType.WARNING, "Must have at least one mixed runway or a landing and takeoff runway.");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
+            return;
         }
         Globals.runwayModes = modeCounts;
         //errorMessage("All inputs valid! Ready to run simulation.");
