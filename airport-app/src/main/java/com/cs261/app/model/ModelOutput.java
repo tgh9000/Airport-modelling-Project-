@@ -308,10 +308,6 @@ public class ModelOutput implements IModelOutput {
 
 
     private void updateGraph(int time){
-        if (time % 10 != 0){
-            return;
-        }
-
         Double[] valueA = new Double[2];
         Double[] valueD = new Double[2];
         valueA[1] = calcAverageHoldingWaitTime();
@@ -361,12 +357,14 @@ public class ModelOutput implements IModelOutput {
                 if (plane.getZoneStatus() == ZoneStatus.DIVERT){
                     numDiversions++;
                     maxDiversionWait = ((waitTime > maxDiversionWait) ? waitTime : maxDiversionWait);
+                    iterator.remove();
                     continue; // skip over
                 }
 
                 if (plane.getZoneStatus() == ZoneStatus.CANCEL){
                     numCancels++;
                     maxCancelWait = ((waitTime > maxCancelWait) ? waitTime : maxCancelWait);
+                    iterator.remove();
                     continue; 
                 }
 

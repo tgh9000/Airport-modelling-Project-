@@ -145,6 +145,11 @@ public class AirCraft {
 			return false; 
 		}
 		this.exitTime = exitTime;
+
+		if (this.exitTime.isBefore(this.entryTime)){
+			this.exitTime = this.entryTime;
+		}
+
 		return true;
 	}
 

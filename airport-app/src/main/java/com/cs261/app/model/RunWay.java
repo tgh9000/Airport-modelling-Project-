@@ -89,10 +89,12 @@ public class RunWay {
 		}
 
 		if (plane.getFlightType().getCode() == mixedModeTurn.getCode()){ // check the plane is of the correct type for the runway
+			//System.out.println(mixedModeTurn.getCode());
 			this.currentPlane = plane.getCallSign();
 			plane.addToRunway(runwayNumber); // update plane with the runway it is occupying
 
 			if (this.mode == OperatingMode.MIXED) {
+				//System.out.println("switching runways");
 				switch (this.mixedModeTurn){
 					case OperatingMode.LANDING:
 						this.mixedModeTurn = OperatingMode.TAKEOFF;

@@ -50,9 +50,7 @@ public class SimLoop extends Task<ModelOutput>{
 		while (currentTime != runtime) {
 			try {
 				//System.out.printf("current %d \n", currentTime);
-				// get flights for this tick
-				System.out.println(currentTime);
-				
+				// get flights for this tick				
 
 				List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
 				List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
@@ -68,7 +66,7 @@ public class SimLoop extends Task<ModelOutput>{
 				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), currentTime);
 				//System.out.println("returned output");
 
-				printPlane(exits);
+				//printPlane(exits);
 
 				updateProgress((double) currentTime, (double) runtime);	
 			} catch (Exception e){

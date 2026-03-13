@@ -367,6 +367,7 @@
 
 #arrivalsGraph .chart-series-line {
     -fx-stroke: #4DA6FF;   
+    -fx-stroke-width: 5px;
 }
 
 #arrivalsGraph .chart-line-symbol {

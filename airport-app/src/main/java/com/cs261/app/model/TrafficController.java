@@ -1,6 +1,7 @@
 package com.cs261.app.model;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperatingMode;
@@ -94,7 +95,7 @@ public class TrafficController {
 				if (mixed != null){ 
 					AirCraft front = holdingPattern.dequeue(); // airplane exits holding pattern
 					mixed.addPlane(front);
-					front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc));
+					front.setExitTime(Utils.convertTicksToDate(currentTime));
 					arrivalModel.updateLanded();
 					exitedPlanes.add(front.getCallSign());
 				}
@@ -106,7 +107,14 @@ public class TrafficController {
 					RunWay landing = freeArrivals.remove(0); // always pick from front of the list
 					AirCraft front = holdingPattern.dequeue(); 
 					landing.addPlane(front); // assign the front plane to the available runway
-					front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc)); // set exit time as the time it exits the queue
+					//System.out.println(front.getEntryTime());
+					//System.out.println(LocalDateTime.of(2026, 1, 1, 0, 0).plusMinutes((currentTime+Utils.timeInc) * Utils.timeInc));
+					//System.out.println(Utils.convertTicksToDate(currentTime));
+					//System.out.println(Utils.convertTicksToDate(currentTime + Utils.timeInc));
+					//System.out.println(Utils.convertTicksToDate(currentTime).plusMinutes(Utils.timeInc));
+					front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
+					//System.out.println(front.getExitTime());
+					//System.out.println(front.getCallSign() + " " + front.getEntryTime() + "\n");
 					arrivalModel.updateLanded();
 					exitedPlanes.add(front.getCallSign());
 				}
@@ -140,7 +148,7 @@ public class TrafficController {
 				if (mixed != null) {
 					takeoffQueue.remove(front); 
 					mixed.addPlane(front);     
-					front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc));
+					front.setExitTime(Utils.convertTicksToDate(currentTime));
 					departureModel.updateTakenOff();
 					exitedPlanes.add(front.getCallSign());
 				}
@@ -154,7 +162,7 @@ public class TrafficController {
 				RunWay takeoff = freeDepartures.remove(0); // always pick from front of the list
 				AirCraft front = takeoffQueue.dequeue(); 
 				takeoff.addPlane(front); // assign the front plane to the available runway
-				front.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc)); // set exit time as the time it exits the queue
+				front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
 				departureModel.updateTakenOff();
 				exitedPlanes.add(front.getCallSign());
 			}
@@ -180,7 +188,7 @@ public class TrafficController {
 			AirCraft a = takeoffQueue.getAircraftAt(i);
 			if ((currentTime - Utils.convertDateToTicks(a.getEntryTime())) >= Utils.cancelTime){
 				takeoffQueue.remove(a); // remove from queue
-				a.setExitTime(Utils.convertTicksToDate(currentTime + Utils.timeInc));
+				a.setExitTime(Utils.convertTicksToDate(currentTime));
 				a.setZoneStatus(AirCraft.ZoneStatus.CANCEL);
 				exitedPlanes.add(a.getCallSign());
 			}
@@ -198,8 +206,11 @@ public class TrafficController {
 		AirCraft curr = null;
 		for (RunWay r : busy) {
 			curr = aircraftMap.get(r.getCurrentPlane());
+			//System.out.println(curr.getFlightType().toString() + "\n");
 			// either we could do t - exit time or check t - exit time >= runway time || t + timeinc >= runwaytime idk, for now we keep it like this
+			//System.out.printf("%d callsign: %s type: %s runway: %s scheduled: %s entry: %s exit: %s \n",t, curr.getCallSign(), curr.getFlightType().toString(), curr.getRunway(), curr.getScheduled().toString(), curr.getEntryTime().toString(), curr.getExitTime().toString());
 			if (((t + Utils.timeInc) - Utils.convertDateToTicks(curr.getExitTime())) >= Utils.runwayTime){ // its finished
+			//	System.out.printf("%s leaves\n", curr.getCallSign());
 				r.removePlane();
 				curr.setZoneStatus(ZoneStatus.EXIT);
 			}
