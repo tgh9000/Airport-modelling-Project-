@@ -17,6 +17,7 @@ public class RunWayMap {
 
 	public RunWayMap(RunWay[] runwayList) throws IllegalArgumentException {
 		ArrayList<String> newBearings = new ArrayList<>();
+		runways = new RunWay[runwayList.length];
 
 		for (int i = 0; i < runwayList.length; i++){
 			if (newBearings.contains(runwayList[i].getRunwayNumber())){
