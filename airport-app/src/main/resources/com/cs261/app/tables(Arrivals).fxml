@@ -22,17 +22,7 @@
           <VBox prefHeight="480.0" prefWidth="140.0" spacing="0" style="-fx-background-color: #1a3a5c;">
       
                     <!-- Logo / Home area -->
-              <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #122840; -fx-cursor: hand;">
-                  <Button fx:id="btnHome" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#goHome" prefHeight="52.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-text-fill: #a8c8e8; -fx-font-size: 13px; -fx-font-family: 'Segoe UI', sans-serif; -fx-font-weight: 600; -fx-cursor: hand; -fx-border-color: transparent transparent #1e4a72 transparent; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 0 0;" HBox.hgrow="ALWAYS" text="Statistics">
-                  <!-- <graphic>
-                     <ImageView fitHeight="101.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@logoNoBack.png" />
-                        </image>
-                     </ImageView>
-                  </graphic> -->
-               </Button>
-              </HBox>
+                  <Button fx:id="btnHome" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#goHome" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" HBox.hgrow="ALWAYS" text="Statistics"/>
       
                     <!-- Nav Buttons -->
                   <Button fx:id="btnDepartures" alignment="CENTER_LEFT" onAction="#goDeparture" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Departures" />
