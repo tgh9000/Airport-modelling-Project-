@@ -66,6 +66,10 @@ public class ModelOutput implements IModelOutput {
     private String[][] tableTakeOffQueue;
     private String[][] tableRunways;
 
+    private ArrayList<Integer[]> graphTQ =  new ArrayList<>();
+    private ArrayList<Integer[]> graphHP =  new ArrayList<>();
+
+
     // private ArrayList<Double> x_arrivalWaitTime = new ArrayList<>();
     // private ArrayList<Double> y_arrivalWaitTime = new ArrayList<>();
 
@@ -178,6 +182,15 @@ public class ModelOutput implements IModelOutput {
     public ArrayList<Double[]> getGraphArrivalDifferences() {
         return this.graphArrivalDifferences;
     }
+
+    public ArrayList<Integer[]> getGraphHPNumber(){
+        return this.graphHP;
+    }
+
+    public ArrayList<Integer[]> getGraphTQNumber(){
+        return this.graphTQ;
+    }
+
     // tables
     /**
      * @return table of every plane that actually departed from the airport
@@ -283,7 +296,20 @@ public class ModelOutput implements IModelOutput {
         updateMaxHolding(holdingSz);
         updateMaxTQueue(takeOffSz);
 
-        
+        if (takeOffSz != graphTQ.getLast()[1]){
+            Integer[] graphV = new Integer[2];
+            graphV[0] = time;
+            graphV[1] = takeOffSz;
+            graphTQ.add(graphV);
+        } 
+
+        if (holdingSz != graphHP.getLast()[1]){
+            Integer[] graphVH = new Integer[2];
+            graphVH[0] = time;
+            graphVH[1] = holdingSz;
+            graphHP.add(graphVH);
+        }
+
         if (!exitedPlanes.isEmpty()){
             exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
             updateSumsAndMaxs(exitedPlanes);
