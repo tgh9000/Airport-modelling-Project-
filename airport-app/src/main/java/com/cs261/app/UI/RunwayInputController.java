@@ -63,6 +63,10 @@ public class RunwayInputController
         try 
         {
             length = Integer.parseInt(lengthText);
+            if(length < 0 || length > 4000)
+            {
+                return null;
+            }
         }
         catch (NumberFormatException e)
         {
@@ -77,6 +81,10 @@ public class RunwayInputController
         try 
         {
             bearing = Integer.parseInt(bearingText);
+            if(bearing >360 || bearing < 0)
+            {
+                return null;
+            }
         }
         catch (NumberFormatException e)
         {
