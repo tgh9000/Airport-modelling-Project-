@@ -28,6 +28,8 @@ public class Globals
     // lists used for the grapsh
     public static XYChart.Series<Number, Number> departSeries; 
     public static XYChart.Series<Number, Number> arriveSeries; 
+    public static XYChart.Series<Number, Number> tQSeries;
+    public static XYChart.Series<Number, Number> hPSeries; 
 
     // trees required for the tables.
     public static TreeMap<Integer,List<ArrivalRow>> arrivalsTree = new TreeMap<>();

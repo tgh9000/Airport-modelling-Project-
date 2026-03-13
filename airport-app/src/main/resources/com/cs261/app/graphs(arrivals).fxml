@@ -28,6 +28,10 @@
 
         <Button fx:id="btnArrivals" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Arrivals" />
 
+        <Button fx:id="btnHP" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Holding Pattern"  onAction="#goHP" />
+
+        <Button fx:id="btnTQ" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Takeoff Queue" onAction="#goTQ"/>
+
     </VBox>
 
     <!-- ═══════════════════════════════════════════════════ -->
@@ -58,7 +62,7 @@
                 </xAxis>
 
                 <yAxis>
-                    <NumberAxis fx:id="yAxis" label="Avg Holding Queue Wait Time/Minutes" side="LEFT" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" />
+                    <NumberAxis fx:id="yAxis" label="Avg Holding Pattern Wait Time/Minutes" side="LEFT" style="-fx-font-family: 'Segoe UI', sans-serif;-fx-font-size: 11px;-fx-text-fill: #5a7a9a;" />
                 </yAxis>
             </LineChart>
         </VBox>

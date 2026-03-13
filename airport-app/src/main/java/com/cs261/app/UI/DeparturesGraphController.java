@@ -16,7 +16,7 @@ import javafx.util.Duration;
 
 public class DeparturesGraphController 
 {
-     @FXML
+    @FXML
     private LineChart<Number, Number> arrivalsGraph;
 
     @FXML
@@ -105,7 +105,7 @@ public class DeparturesGraphController
         loadData();
     }
 
-
+    
     /**
      * Takes user to the Arrivals graph page when the button is clicked.
      * @param event the event that is triggered when the user clicks the button.
@@ -139,5 +139,57 @@ public class DeparturesGraphController
 
         stage.getScene().setRoot(root);   
     }
-    
+
+
+
+    /**
+     * Takes user to the Departures graph page when the button is clicked.
+     * @param event the event that is triggered when the user clicks the button.
+     * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
+     */
+    public void goDepartures(ActionEvent event) throws IOException 
+    {
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/graphs(departures).fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        stage.getScene().setRoot(root);   
+    }
+
+    /**
+     * Takes user to the Holding Pattern graph page when the button is clicked.
+     * @param event the event that is triggered when the user clicks the button.
+     * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
+     */
+    public void goHP(ActionEvent event) throws IOException 
+    {
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/graphs(HP).fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        stage.getScene().setRoot(root);   
+    }
+
+    /**
+     * Takes user to the Takeoff Queue graph page when the button is clicked.
+     * @param event the event that is triggered when the user clicks the button.
+     * @throws IOException exception is thrown if the fxml file cannot be loaded. This could be due to a missing file, incorrect path, or issues with the file's content.
+     */
+    public void goTQ(ActionEvent event) throws IOException 
+    {
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/com/cs261/app/graphs(TQ).fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene().getWindow();
+
+        stage.getScene().setRoot(root);   
+    }
 }

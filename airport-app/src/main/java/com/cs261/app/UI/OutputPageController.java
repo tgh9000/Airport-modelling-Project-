@@ -225,10 +225,16 @@ public class OutputPageController {
         ArrayList<Double[]>  depart = output.getGraphDepartDifferences();
         
         ArrayList<Double[]> arrive = output.getGraphArrivalDifferences();
+
+        ArrayList<Integer[]> takeOff = output.getGraphTQNumber();
+        ArrayList<Integer[]> holding = output.getGraphHPNumber();
         System.out.println("Depart size: " + depart.size());
         System.out.println("Arrive size: " + arrive.size());
         XYChart.Series<Number, Number> departSeries = new XYChart.Series<>();
         XYChart.Series<Number, Number> arriveSeries = new XYChart.Series<>();
+        XYChart.Series<Number, Number> tQSeries = new XYChart.Series<>();
+        XYChart.Series<Number, Number> hPSeries = new XYChart.Series<>();
+
 
         for (int i = 0; i < depart.size(); i++) 
         {
@@ -240,8 +246,20 @@ public class OutputPageController {
             arriveSeries.getData().add(new XYChart.Data<>(arrive.get(i)[0], arrive.get(i)[1]));
             
         }
+        for (int i = 0; i < takeOff.size(); i++) 
+        {
+            tQSeries.getData().add(new XYChart.Data<>(takeOff.get(i)[0], takeOff.get(i)[1]));
+            
+        }
+        for (int i = 0; i < holding.size(); i++) 
+        {
+            hPSeries.getData().add(new XYChart.Data<>(holding.get(i)[0], holding.get(i)[1]));
+            
+        }
         Globals.departSeries = departSeries;
         Globals.arriveSeries = arriveSeries;
+        Globals.tQSeries = tQSeries;
+        Globals.hPSeries = hPSeries;
         System.out.println("Coords initialized and the size of the depart series is: " + departSeries.getData().size());
         System.out.println("Coords initialized and the size of the arrive series is: " + arriveSeries.getData().size());
     }
