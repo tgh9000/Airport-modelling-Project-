@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -264,7 +263,10 @@ public class OutputPageController {
         Globals.hPSeries = hPSeries;
         System.out.println("Coords initialized and the size of the depart series is: " + departSeries.getData().size());
         System.out.println("Coords initialized and the size of the arrive series is: " + arriveSeries.getData().size());
+        System.out.println("Coords initialized and the size of the Holding series is: " + hPSeries.getData().size());
+        System.out.println("Coords initialized and the size of the takeoff series is: " + tQSeries.getData().size());
     }
+
 
 
     @FXML
@@ -275,19 +277,23 @@ public class OutputPageController {
     private void switchScene() throws Exception 
     {
 
-        FXMLLoader loader = new FXMLLoader(
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/keyData.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+        stage.setMaximized(true);
+        */
+
+        Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
+
+        Parent root = FXMLLoader.load(
             getClass().getResource("/com/cs261/app/keyData.fxml")
         );
 
-        Parent root = loader.load();
-
-
-        
-        Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
-        
-        stage.setScene(new Scene(root));
+        stage.getScene().setRoot(root);
         stage.setMaximized(true);
-
 
     }
 }
