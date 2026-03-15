@@ -63,7 +63,7 @@ public class RunWay {
 	}
 
 	/**
-	 * Calculate runway number, e.g. bearing = 124, runwayNumber =  "12"
+	 * Obtain runway number string based on bearing integer
 	 * @param bearing
 	 * @return runway number (which is the runway id) based on its bearing
 	 */
