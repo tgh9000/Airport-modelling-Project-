@@ -100,7 +100,7 @@ public class RunWayMap {
 	public int checkAvailable(OperatingMode mode){
 		int count = 0;
 		for (int r = 0; r < runways.length; r++){
-			if ((runways[r].getMode() == mode || runways[r].getMode() == OperatingMode.MIXED) && runways[r].getStatus() == OperationStatus.AVAILABLE){
+			if ((runways[r].getMode() == mode || runways[r].getMode() == OperatingMode.MIXED) && runways[r].getStatus() == OperationStatus.AVAILABLE && !runways[r].hasPlane()){
 				count++;
 			} 
 		}

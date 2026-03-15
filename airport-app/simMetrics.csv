@@ -1,2 +1,4 @@
 simName,totalArrivals,totalDepartures,totalLanded,totalTakenOff,maxHoldQ,maxTOQ,maxArrDelay,maxDepDelay,avgArrDelay,avgDepDelay,AvgHoldWait,avgTOWait
 2026-03-15 19:13:19,360,353,356,353,9,6,42,26,20.00,10.00,22.00,10.00
+2026-03-15 20:16:22,1800,1794,1800,1794,9,5,39,18,1.00,1.00,0.00,0.00
+2026-03-15 20:25:19,360,356,360,355,3,9,11,32,1.00,8.00,0.00,8.00
