@@ -12,10 +12,13 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/*  
+Does the integration testing by running the simulation with certain input expecting certain output or valid outputs. It also verifies the integrity of the data and structures 
+at certain ticks and cases.
+*/
 public class SimLoopScenarioTest {
 
-
+    //create simloop subclass for testing
     private static class TestableSimLoop extends SimLoop {
         public TestableSimLoop(RunWay[] userRunways, int userRuntime) {
             super(userRunways, userRuntime);
@@ -37,7 +40,7 @@ public class SimLoopScenarioTest {
     private static ModelOutput runSimOrSkip(RunWay[] runways, int runtimeTicks) {
         try {
             return runSim(runways, runtimeTicks);
-        } catch (RuntimeException ex) {
+        } catch (RuntimeException ex) {//skips test if failed so we can still check other tests
             Assumptions.assumeTrue(false,
                     "Scenario skipped because simulation crashed (model still under development). Cause: "
                             + (ex.getCause() != null ? ex.getCause() : ex));
@@ -73,7 +76,7 @@ public class SimLoopScenarioTest {
     }
 
 
-
+    //checks that simulation still gives a valid output for 0 ticks
     @Test
     void scenario_runtimeZero_mixedOnly_outputsExistAndMapsConsistent() {
         RunWay[] runways = { runway(RunWay.OperatingMode.MIXED, 90) };
@@ -88,6 +91,7 @@ public class SimLoopScenarioTest {
         assertEquals(out.getRunwayOccupancy().keySet(), out.getRunwayClosureStatus().keySet());
     }
 
+    //checks to make sure ID sets exist and are not null and empty when simulation starts (0 ticks)
     @Test
     void scenario_runtimeZero_landingTakeoffMixed_outputsExist() {
         RunWay[] runways = {
@@ -108,6 +112,7 @@ public class SimLoopScenarioTest {
         assertTrue(out.getExitedAircraftIds().isEmpty());
     }
 
+        //makes sure maps have no null kets or valyes
     @Test
     void scenario_runtimeZero_runwayMaps_valuesNotNull() {
         RunWay[] runways = {
@@ -131,6 +136,7 @@ public class SimLoopScenarioTest {
         }
     }
 
+        //makes sure when a closure is configured the simulation works
     @Test
     void scenario_runtimeZero_closureConfigured_doesNotCrashAndTablesAccessible() {
         RunWay[] runways = {
@@ -144,6 +150,7 @@ public class SimLoopScenarioTest {
         assertEquals(1, out.getRunwayClosureStatus().size());
     }
 
+    //duplicate bearing input rejected
     @Test
     void scenario_runtimeZero_multipleRunways_duplicateBearingsStillHaveKeys() {
         // If bearings collide, runwayNumber might collide too (depends on calcID).
@@ -155,7 +162,7 @@ public class SimLoopScenarioTest {
     assertThrows(IllegalArgumentException.class, () -> runSim(runways, 0));
     }
 
- 
+    //runs simulation for generic airport inout
     @Test
     void scenario_shortRun_basicAirport_shouldCompleteAndReturnOutput() {
         RunWay[] runways = {
@@ -173,6 +180,7 @@ public class SimLoopScenarioTest {
         assertNotNull(out.getRunwayClosureStatus());
     }
 
+    //checks if 1 runway with mixed works
     @Test
     void scenario_shortRun_mixedOnly_shouldComplete() {
         RunWay[] runways = { runway(RunWay.OperatingMode.MIXED, 90) };
@@ -183,6 +191,7 @@ public class SimLoopScenarioTest {
         assertEquals(1, out.getRunwayOccupancy().size());
     }
 
+    //generic large airport configuration
     @Test
     void scenario_shortRun_manyRunways_shouldComplete() {
         RunWay[] runways = {
@@ -200,6 +209,7 @@ public class SimLoopScenarioTest {
         assertEquals(out.getRunwayOccupancy().keySet(), out.getRunwayModes().keySet());
     }
 
+        //checks if closure status map exists
     @Test
     void scenario_shortRun_withClosure_shouldComplete() {
         RunWay[] runways = {
@@ -215,6 +225,7 @@ public class SimLoopScenarioTest {
         assertNotNull(out.getRunwayClosureStatus());
     }
 
+    //checs that the metrics are valud and sensible
     @Test
     void scenario_shortRun_metricsShouldBeNonNegative_whenAvailable() {
         RunWay[] runways = {
@@ -235,6 +246,7 @@ public class SimLoopScenarioTest {
         assertTrue(out.getMaxTakeOffQueueLength() >= 0);
     }
 
+    //checks conservation, cant land or takeoff more aircrafts then generated
     @Test
     void scenario_shortRun_countsShouldNotExceedGenerated() {
         RunWay[] runways = {
@@ -250,6 +262,7 @@ public class SimLoopScenarioTest {
         assertTrue(out.getTotalAircraftTakenOff() <= out.getTotalDeparturesGenerated());
     }
 
+    //checks if the IDs contain any null values after simulation is run
     @Test
     void scenario_shortRun_setsShouldNotContainNullIds() {
         RunWay[] runways = {
@@ -266,6 +279,7 @@ public class SimLoopScenarioTest {
         assertFalse(out.getExitedAircraftIds().contains(null));
     }
 
+    //makes sure closed runways do not get occupied
     @Test
     void scenario_shortRun_runwayClosedImpliesNotOccupied() {
         RunWay[] runways = {
