@@ -7,7 +7,7 @@ Adrian Barra Cornes, Rhys Beaman, Afra Hossain, Prisha Jaiswal, Yunas Kramer and
 
 ## Description
 
-We created this simulation software to allow airport managers to test configurations of airport runways, subject to modelling constructions. The codebase is in the folder **airport-app** . Please do not delete the pom.xml file.
+We created a prototype simulation software to allow airport managers to test configurations of airport runways, subject to modelling constructions. The codebase is in the folder **airport-app** . Please do not delete the pom.xml file.
 
 ## Running the program from commandline using Maven
 cd airport-app  
