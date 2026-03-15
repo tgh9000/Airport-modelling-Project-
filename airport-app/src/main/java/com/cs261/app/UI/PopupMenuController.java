@@ -43,6 +43,9 @@ public class PopupMenuController {
     public void setOnClose(Runnable onClose) {
         this.onClose = onClose;
     }
+    /**
+     * initialises the rows for all the tables and sets up the filtering for the pop up table.
+     */
     @FXML
     public void initialize() {
         if (planesCallsignColumn != null) {
@@ -127,6 +130,9 @@ public class PopupMenuController {
             runwaysSearchField.setOnAction(e -> openRunwayDetails(runwaysSearchField.getText()));
         }
     }
+    /**
+     * adds all values to runway table.
+     */
     public void refreshFromLastOutput() 
     {
         planesList.addAll(Globals.airCraftDetails);
@@ -167,10 +173,17 @@ public class PopupMenuController {
             }
         }*/
     }
+    /**
+     * closes the pop up menu.
+     */
     @FXML
     private void closePopup() {
         if (onClose != null) onClose.run();
     }
+    /**
+     * opens the details for the aircraft table
+     * @param rawCallsign
+     */
     private void openAircraftDetails(String rawCallsign) {
         String callsign = rawCallsign == null ? "" : rawCallsign.trim();
         if (callsign.isEmpty()) {
@@ -205,6 +218,9 @@ public class PopupMenuController {
         alert.setHeaderText("Aircraft " + plane.getCallSign() + " details");
         alert.showAndWait();
     }
+    /**
+     * opens the details for the runway table.
+     */
     private void openRunwayDetails(String rawId) {
         String id = rawId == null ? "" : rawId.trim();
         if (id.isEmpty()) {

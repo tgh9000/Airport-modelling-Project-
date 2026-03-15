@@ -88,9 +88,13 @@ public class TableNavController
         if (kpiMaxDelayTakeoff != null) {
             updateKpiFromLastOutput();
         }
-        setupDetailsPanel();
+        //setupDetailsPanel();
     }
 
+
+    /**
+     * 
+     */
     private void setupDetailsPanel() { 
         Tooltip detailsTip = new Tooltip("Show airplane scheudle and runway configurations");
         detailsTip.setShowDelay(Duration.millis(300));

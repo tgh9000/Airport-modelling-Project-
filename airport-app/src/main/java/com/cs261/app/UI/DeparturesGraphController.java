@@ -40,11 +40,6 @@ public class DeparturesGraphController
     private void loadData() {
 
         XYChart.Series<Number, Number> series = Globals.departSeries;
-        /**
-        series.getData().add(new XYChart.Data<>(2, 10));
-        series.getData().add(new XYChart.Data<>(4, 25));
-        series.getData().add(new XYChart.Data<>(5, 18));
-        series.getData().add(new XYChart.Data<>(6, 40));*/
 
         arrivalsGraph.setCreateSymbols(true);
         arrivalsGraph.getData().add(series);

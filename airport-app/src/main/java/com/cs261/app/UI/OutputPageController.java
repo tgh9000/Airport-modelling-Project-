@@ -277,14 +277,6 @@ public class OutputPageController {
     private void switchScene() throws Exception 
     {
 
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/cs261/app/keyData.fxml"));
-        Parent root = loader.load();
-
-        Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
-
-        stage.setScene(new Scene(root));
-        stage.setMaximized(true);
-        */
 
         Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
 
