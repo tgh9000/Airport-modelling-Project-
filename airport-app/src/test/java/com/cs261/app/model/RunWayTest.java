@@ -74,4 +74,5 @@ class RunWayTest {
         assertEquals(RunWay.OperatingMode.LANDING,
                 runway.getMixedModeTurn());
     }
+
 }
