@@ -42,9 +42,31 @@ class RunWayTest {
                 null);
 
         AirCraft plane = createArrival("A1");
+        boolean added = runway.addPlane(plane);
+        assertTrue(added);
+        assertEquals("A1", runway.getCurrentPlane());
+    }
+
+    @Test
+    void shouldNotAssignPlaneIfModeDoesNotMatch() {
+        RunWay runway = new RunWay(3000, 120,
+                RunWay.OperatingMode.TAKEOFF,
+                null,
+                null);
+
+        AirCraft plane = createArrival("A1");
         runway.addPlane(plane);
 
-        assertEquals("A1", runway.getCurrentPlane());
+        assertNull(runway.getCurrentPlane());
+    }
+
+    @Test
+    void addingNullPlaneReturnsFalse() {
+                RunWay runway = new RunWay(3000, 120,
+                RunWay.OperatingMode.LANDING,
+                null,
+                null);
+        assertFalse(runway.addPlane(null));
     }
 
     @Test
@@ -65,6 +87,16 @@ class RunWayTest {
     }
 
     @Test
+    void removePlaneShouldReturnNullIfNoPlaneOnRunway() {
+        RunWay runway = new RunWay(3000, 120,
+                RunWay.OperatingMode.LANDING,
+                null,
+                null);
+        assertNull(runway.removePlane());
+
+    }
+
+    @Test
     void mixedModeShouldAlternate() {
         RunWay runway = new RunWay(3000, 120,
                 RunWay.OperatingMode.MIXED,
@@ -73,6 +105,26 @@ class RunWayTest {
 
         assertEquals(RunWay.OperatingMode.LANDING,
                 runway.getMixedModeTurn());
+
+        AirCraft plane = createArrival("A1");
+        runway.addPlane(plane);
+        assertEquals(RunWay.OperatingMode.TAKEOFF,
+                runway.getMixedModeTurn());
+    }
+
+    @Test
+    void convertRunwayShouldConvertToMixed() {
+        RunWay runway = new RunWay(3000, 120,
+                RunWay.OperatingMode.LANDING,
+                null,
+                null);
+
+        assertEquals(RunWay.OperatingMode.LANDING,
+                runway.getMode());
+
+        runway.convertRunway();
+        assertEquals(RunWay.OperatingMode.MIXED,
+                runway.getMode());
     }
 
 }
