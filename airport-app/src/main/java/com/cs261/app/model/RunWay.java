@@ -199,7 +199,7 @@ public class RunWay {
 	 * @return start time at which status would change
 	 */
 	public LocalDateTime getStatusChangeStartTime(int i){
-		return Utils.convertTicksToDate(changeStatusTimes[i][0]); // is this correct? was showing error.
+		return Utils.convertTicksToDate(changeStatusTimes[i][0]);
 	}
 
 	/**
