@@ -87,10 +87,6 @@ public class ArrivalsGraphController
 
     }
 
-
-
-
-
     /**
      * Funcation that is called when the page is loaded.
      */
@@ -103,10 +99,7 @@ public class ArrivalsGraphController
         loadData();
     }
 
-
-
     // navigation methods
-
 
     /**
      * Takes user to the Arrivals graph page when the button is clicked.
@@ -141,8 +134,6 @@ public class ArrivalsGraphController
 
         stage.getScene().setRoot(root);   
     }
-
-
 
     /**
      * Takes user to the Departures graph page when the button is clicked.

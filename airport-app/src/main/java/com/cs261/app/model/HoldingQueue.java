@@ -123,15 +123,11 @@ public class HoldingQueue {
 			return null;
 		} 
 
-		//System.out.printf("size %d time 1 %s s1 %d\n", size(), 
-		//heap[0].getAircraft().getEntryTime(), heap[0].getSerial());
-
 		AirCraft result = heap[0].getAircraft();
 		heap[0] = heap[size - 1]; // move the lowest rightmost node on tree to here
 		heap[size - 1] = null; // no duplicate planes
 		size--;
 		downheap(0);
-		//System.out.println("dequeue");
 		return result;
 	}
 	/**
@@ -232,24 +228,6 @@ public class HoldingQueue {
 			return null;
 		} else {
 			return heap[0].getAircraft();
-		}
-	}
-	
-
-	/**
-	 * Return the sibling of node i in heap
-	 * @param i
-	 */
-	private HoldingEntry getSibling(int i){
-		int parent = (int) (i - 1) / 2;
-		int parentLChild = (2 * parent) + 1;
-
-		if (i == parentLChild){
-			// get right
-			return getRight(parent);
-		} else {
-			// get left
-			return getLeft(parent);
 		}
 	}
 

@@ -12,8 +12,10 @@ import com.cs261.app.model.AirCraft.FlightType;
 import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperationStatus;
 
-// collates data that must be outputted to view
-public class ModelOutput implements IModelOutput {
+/**
+ * collates data that must be outputted to view
+ */ 
+public class ModelOutput {
     private DepartureModel departureModel;
     private ArrivalModel arrivalModel;
     private RunWayMap runways;
@@ -288,6 +290,11 @@ public class ModelOutput implements IModelOutput {
                 graphV[1] = takeOffSz;
                 graphTQ.add(graphV);
             } 
+        } else {
+            Integer[] graphV = new Integer[2];
+            graphV[0] = time;
+            graphV[1] = takeOffSz;
+            graphTQ.add(graphV);   
         }
         if (!graphHP.isEmpty()){
             if (holdingSz != graphHP.getLast()[1]){
@@ -296,6 +303,11 @@ public class ModelOutput implements IModelOutput {
                 graphVH[1] = holdingSz;
                 graphHP.add(graphVH);
             }
+        } else {
+            Integer[] graphVH = new Integer[2];
+            graphVH[0] = time;
+            graphVH[1] = holdingSz;
+            graphHP.add(graphVH);
         }
 
         if (!exitedPlanes.isEmpty()){
@@ -467,20 +479,16 @@ public class ModelOutput implements IModelOutput {
                 table[i][1] = runwayList[i].getMode().toString();
                 table[i][2] = runwayList[i].getStatus().toString();
                 table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
-                //System.out.println("basic");
                 for (int j = 4; j < 13; j++){
                     table[i][j] = "N/A";
                 }
-                //System.out.println("extras");
                 OperationStatus[] changes = runwayList[i].getChangedStatus();
 
                 for (int j = 0; j < changes.length; j++){
-                   // System.out.println("sm");
-                    table[i][4 + (3 * j)] = changes[i].toString();
+                    table[i][4 + (3 * j)] = changes[j].toString();
                     table[i][5 + (3 * j)] = runwayList[i].getStatusChangeStartTime(j).toString();
                     table[i][6 + (3 * j)] = runwayList[i].getStatusChangeEndTime(j).toString();
                 }          
-                //System.out.printf("finsihed runway %d \n", i);
             }
             return table;
         } catch (Exception e){
@@ -569,7 +577,6 @@ public class ModelOutput implements IModelOutput {
      * @return a map of runway numbers to the call sign of the occupying aircraft,
      * or an empty string if the runway is free
      */
-    @Override
     public Map<String, String> getRunwayOccupancy() {
         Map<String, String> occupancies = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
@@ -587,7 +594,6 @@ public class ModelOutput implements IModelOutput {
      * Returns each runway and which mode it is in
      * @return a map of runway numbers to the mode of the runway
      */
-    @Override
     public Map<String, String> getRunwayModes() {
         Map<String, String> modes = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
@@ -600,7 +606,6 @@ public class ModelOutput implements IModelOutput {
      * Returns each runway and what its closure status is
      * @return a map of runway numbers to the closure status of the runway
      */
-    @Override
     public Map<String, Boolean> getRunwayClosureStatus() {
         Map<String, Boolean> statuses = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
@@ -615,7 +620,6 @@ public class ModelOutput implements IModelOutput {
      * 
      * @return a set of the aircraft ids of each aircraft in the holding pattern
      */
-    @Override
     public Set<String> getHoldingAircraftIds() {
         return arrivalModel.getHoldingPatternAircraftIds();
     }
@@ -625,12 +629,10 @@ public class ModelOutput implements IModelOutput {
      * 
      * @return a set of the aircraft ids of each aircraft in the takeoff queue
      */
-    @Override
     public Set<String> getTakeOffAircraftIds() {
         return departureModel.getTakeOffQueueAircraftIds();
     }
 
-    @Override
     public Set<String> getExitedAircraftIds() {
         return allExits;   
     }

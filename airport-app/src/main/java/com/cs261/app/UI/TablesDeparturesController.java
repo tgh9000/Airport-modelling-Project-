@@ -206,9 +206,6 @@ public class TablesDeparturesController
         DeparturesTable.setItems(data);
     }
 
-    
-
-
     @FXML
     public void resetTable()
     {

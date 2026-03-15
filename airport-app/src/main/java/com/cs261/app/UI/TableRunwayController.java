@@ -290,19 +290,6 @@ public class TableRunwayController
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Navigation functions.
     @FXML
     private Button btnHome;
@@ -326,8 +313,6 @@ public class TableRunwayController
 
         stage.getScene().setRoot(root);  
     }
-
-
 
     @FXML
     public void goDeparture(ActionEvent event) throws IOException {
@@ -390,7 +375,4 @@ public class TableRunwayController
 
         stage.getScene().setRoot(root);  
     }
-
-
-    
 }

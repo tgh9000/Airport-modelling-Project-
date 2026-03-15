@@ -4,6 +4,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Create titled panes for previous simulations iteratively
+ */
 public class ComparePane extends TitledPane{
     public ComparePane(String id, String[] metrics){
         super(id, null);
@@ -12,6 +15,11 @@ public class ComparePane extends TitledPane{
         this.setContent(makeContent(metrics));
     }
 
+    /**
+     * Factory method to create titled pane content
+     * @param metrics metrics of previous simulation
+     * @return pane to add to vbox
+     */
     public GridPane makeContent(String[] metrics){
         GridPane contentGrid = new GridPane();
         contentGrid.setMaxWidth(Double.MAX_VALUE);

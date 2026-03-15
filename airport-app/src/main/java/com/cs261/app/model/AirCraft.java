@@ -96,6 +96,9 @@ public class AirCraft {
 		return exitTime;
 	}
 
+	/**
+	 * Parse  aircraft information for table popup
+	 */
 	public AirCraftDetail toDetail()
 	{
 		FlightType tempType = getFlightType();
@@ -279,6 +282,9 @@ public class AirCraft {
 		return hrs;
     }
     
+	/**
+	 * Update aircraft altitude every tick
+	 */
     public void updateAltitude(AirCraft parent){
 		// get its parents altitude 
 		if (parent == null){

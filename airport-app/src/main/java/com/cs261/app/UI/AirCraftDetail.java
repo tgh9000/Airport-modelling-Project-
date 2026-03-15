@@ -2,6 +2,9 @@ package com.cs261.app.UI;
 
 public class AirCraftDetail 
 {
+    /*
+    the row in the pop up menu for the aircraft table
+    */
     private final String callsign;
     private final String operator;
     private final String origin;

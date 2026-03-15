@@ -15,25 +15,17 @@
         <maven.compiler.release>25</maven.compiler.release>
     </properties>
 
-    <!-- ACTUAL dependencies -->
     <dependencies>
-
-        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>25</version>
         </dependency>
-
-        <!-- FXML (if you plan to use it) -->
         <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-fxml</artifactId>
                 <version>25</version>
         </dependency>
-        
-
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -45,15 +37,11 @@
 
     <build>
         <plugins>
-
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
             </plugin>
-
-            <!-- JavaFX runtime -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>

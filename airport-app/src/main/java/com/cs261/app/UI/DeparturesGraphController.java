@@ -40,11 +40,6 @@ public class DeparturesGraphController
     private void loadData() {
 
         XYChart.Series<Number, Number> series = Globals.departSeries;
-        /**
-        series.getData().add(new XYChart.Data<>(2, 10));
-        series.getData().add(new XYChart.Data<>(4, 25));
-        series.getData().add(new XYChart.Data<>(5, 18));
-        series.getData().add(new XYChart.Data<>(6, 40));*/
 
         arrivalsGraph.setCreateSymbols(true);
         arrivalsGraph.getData().add(series);
@@ -82,30 +77,18 @@ public class DeparturesGraphController
                 }
             }
         });
-
-        
-        
-
     }
 
-
-
-
-
     /**
-     * Funcation that is called when the page is loaded.
+     * Function that is called when the page is loaded.
      */
     @FXML
     public void initialize() {
         // Force tooltips to behave like desktop hover tooltips
-        
-
         configureYAxis();
         //Platform.runLater(this::loadData);
         loadData();
     }
-
-    
     /**
      * Takes user to the Arrivals graph page when the button is clicked.
      * @param event the event that is triggered when the user clicks the button.

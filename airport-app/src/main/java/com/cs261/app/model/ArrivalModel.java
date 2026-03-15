@@ -24,7 +24,6 @@ public class ArrivalModel {
 	 * @param currentTime time elapsed since the start of the simulation.
 	 */
 	public void updateArrivals(List<AirCraft> newPlanes, int currentTime) {		
-		//System.out.printf("num planes %d \n", newPlanes.size());
 		try {
 			Iterator<AirCraft> i = newPlanes.listIterator();
 			while (i.hasNext()){ // add new planes 
@@ -33,9 +32,7 @@ public class ArrivalModel {
 				aircraftMap.put(a);	
 			}
 			i = null;
-			//System.out.printf("num planes added %d \n", totalArrivals);
 			holdingPattern.updateHolding(currentTime);
-			//System.out.println("updateArrivals");
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -46,7 +43,6 @@ public class ArrivalModel {
 	 */
 	public void updateLanded(){
 		landedPlanes++;
-		//System.out.println("updated landed planes #");
 	}
 
 	/**
