@@ -24,16 +24,16 @@ mvn clean validate compile test
 
 ## User Guide  
 **Getting started**  
-To the the simulation, press 'Load New Simulation' on the front page. On the input page, please enter the required fields as indicated by the * symbols. Once the fields have been entered, press 'Start Simulation' for the simulation to start processing. Once the simulation has finished processing, the output page will be loaded. The first page are the key statistics. The dark blue menu on the left can be used to navigate to further output pages.  
+To start the simulation, press 'Load New Simulation' on the front page. On the input page, please enter the required fields as indicated by the * symbols. Once the fields have been entered, press 'Start Simulation' for the simulation to start processing. Once the simulation has finished processing, the output page will be loaded. The first page are the key statistics. The dark blue menu on the left can be used to navigate to further output pages.  
 
 **Input Page**    
 *Runtime*: The runtime input is how long the function of the airport will be simulated for. This determines the airport flight schedule. The runtime of the simulation can be entered in days, hours and minutes.  
 *Arrival and departure flow rate*: The arrival flow rate is the number of incoming planes per hour in the simulation. The departure flow rate is the number of outgoing planes per hour in the simulation. The default flow rate for arrivals and departures is 15.  
 *Probability of failure*: the chance of a mechanical failure emergency or a passenger health emergency occuring in an arrival plane.   
 *Time that can pass before cancellation*: The number of minutes a departure flight can wait before being cancelled. The default value is 30 minutes.  
-*Interuptions*: A change in operational status which causes runway closure. For each interuption added, the start time and duration of the interuption can be inputed. Each runway can have up to three interuptions during runtime.  
-*Start time of interuption*: Time elapsed in simulation before the interuption occurs.  
-*Duration of interuption*: How long the interruption will last for. 
+*Interruptions*: A change in operational status which causes runway closure. For each interruption added, the start time and duration of the interruption can be inputted. Each runway can have up to three interruptions during runtime.  
+*Start time of interruption*: Time elapsed in simulation before the interruption occurs.  
+*Duration of interruption*: How long the interruption will last for.  
 *Runways*: 1 to 10 (inclusive) runways may be added for the simulated airport.  
 
 **Output Page**  
@@ -49,7 +49,7 @@ The graphs of queue lengths over time have been provided to show the changing st
 *Side menu*: By pressing the blue '<' arrow button on the right side, a searchable (by callsign) table of the airplane schedule can be accessed for further details. A searchable table of runways (by runway number) can be accessed as well.  
 
 **Compare Simulations Page**  
-The simulation may be exitted by clicking the 'Exit Simulation' button on the menu in the 'Key Statistics' page. This will show a 'Save Data' prompt, which will save the data for comparisons before exitting the current simulation run.  
+The simulation may be exited by clicking the 'Exit Simulation' button on the menu in the 'Key Statistics' page. This will show a 'Save Data' prompt, which will save the data for comparisons before exitting the current simulation run.  
 The 'Compare Previous Simulations button on the front page menu will provide a list of previous simulations which may be selected to view past statistics. 
 Multiple simulations can be selected from the list at a time. Use CTRL + LEFT-CLICK to select a simulation to view. The key statistics for the selected simulation will appear under the respective date in the right hand panel.  
 Simulations can be de-selected by using CTRL + LEFT-CLICK on a highlighted simulation name in the list.  
@@ -57,7 +57,7 @@ Please note the simulation will be named under the real-world date it was create
 The data for all simulations is saved locally as the csv **'SimMetrics.csv'**. Deleteing this csv will result in the loss of all previous data.  
 
 **Restrictions and Assumptions**  
-*Runway conversions*: An exclusive use (take off only/ landing only) runway will only be converted into a mixed use runway if all runways of an exclusive type have been closed due to user-inputted interuptions. This will contribute to the delay and wait time statistics. This is a special case modelling scenario and the runways will NOT be converted back for the rest of the simulation.  
+*Runway conversions*: An exclusive use (take off only/ landing only) runway will only be converted into a mixed use runway if all runways of an exclusive type have been closed due to user-inputted interruptions. This will contribute to the delay and wait time statistics. This is a special case modelling scenario and the runways will NOT be converted back for the rest of the simulation.  
 *Mixed runway use*: mixed runways will alternate between handling arrivals and departures, starting on arrivals.   
 *Runway time*: Once a plane has been allocated a runway for arrival/departure, it will spend '2 minutes' on the runway. Please note that this simulates extended queue wait times.  
 *Diversion reduction*: The simulation will attempt to reduce diversions by placing any planes in emergency on an available mixed runway immediately if no exclusive runways are available, regardless of mixed runway turn.   
