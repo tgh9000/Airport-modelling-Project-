@@ -111,7 +111,6 @@ public class RunwayInputController
             modeEnum = RunWay.OperatingMode.MIXED;
         }
 
-        //Interruption[] interruptions = new Interruption[interruptionList.size()];
         RunWay.OperationStatus[] changeStatusTo = new RunWay.OperationStatus[interruptionList.size()];
         int[][] changeStatusTimes = new int[interruptionList.size()][2];
         for(int i = 0 ; i < interruptionList.size(); i++)
@@ -152,11 +151,6 @@ public class RunwayInputController
         {
             overlapVar = overlap(changeStatusTimes[0][0],changeStatusTimes[0][1],changeStatusTimes[1][0],changeStatusTimes[1][1]);
         }
-        /*
-        boolean overlap12 = overlap(start1, end1, start2, end2);
-        boolean overlap13 = overlap(start1, end1, start3, end3);
-        boolean overlap23 = overlap(start2, end2, start3, end3);
-        */
 
         if(changeStatusTimes.length == 3)
         {

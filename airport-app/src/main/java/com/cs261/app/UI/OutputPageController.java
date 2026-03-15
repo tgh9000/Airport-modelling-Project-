@@ -86,7 +86,6 @@ public class OutputPageController {
             list.add(row);
 
             Globals.arrivalsTree.put(Integer.parseInt(timeStamp), list);
-            //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
 
             if (tableAllArrivals[i][0] != null )
             {
@@ -167,7 +166,6 @@ public class OutputPageController {
             list.add(row);
 
             Globals.queueTree.put(Integer.parseInt(timeStamp), list);
-            //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
             
             
         }
@@ -190,7 +188,6 @@ public class OutputPageController {
             list.add(row);
 
             Globals.holdingTree.put(Integer.parseInt(timeStamp), list);
-            //List<ArrivalRow> list = Globals.arrivalsTree.getOrDefault(row.getScheduled(), new ArrayList<>());
             
             
         }
