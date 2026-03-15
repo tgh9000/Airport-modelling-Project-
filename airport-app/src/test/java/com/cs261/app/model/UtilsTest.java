@@ -21,7 +21,7 @@ class UtilsTest {
         LocalDateTime date = LocalDateTime.of(2026, 1, 1, 0, 20);
         int ticks = Utils.convertDateToTicks(date);
 
-        assertEquals(20, ticks); // 20 minutes / 2 minute increments
+        assertEquals(20, ticks); // 20 minutes 
     }
 
     @Test
