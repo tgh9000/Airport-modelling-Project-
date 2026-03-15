@@ -88,7 +88,7 @@ public class TableNavController
         if (kpiMaxDelayTakeoff != null) {
             updateKpiFromLastOutput();
         }
-        //setupDetailsPanel();
+        setupDetailsPanel();
     }
 
 
