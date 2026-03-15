@@ -86,6 +86,10 @@ public class TableNavController
         setupDetailsPanel();
     }
 
+
+    /**
+     * 
+     */
     private void setupDetailsPanel() { 
         Tooltip detailsTip = new Tooltip("Show airplane scheudle and runway configurations");
         detailsTip.setShowDelay(Duration.millis(300));
