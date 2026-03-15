@@ -136,42 +136,7 @@ public class PopupMenuController {
     public void refreshFromLastOutput() 
     {
         planesList.addAll(Globals.airCraftDetails);
-        /*
-        ModelOutput out = Globals.output;
-        planesList.clear();
-        runwaysList.clear();
-        if (out == null) return;
-        String[][] deps = out.getTableAllDepartures();
-        if (deps != null) {
-            for (String[] row : deps) {
-                if (row != null && row.length >= 3) {
-                    String callsign = row[1];
-                    String details = row[0] + " • " + row[2];
-                    planesList.add(new IdDetail(callsign, details));
-                }
-            }
-        }
-        String[][] arrs = out.getTableAllArrivals();
-        if (arrs != null) {
-            for (String[] row : arrs) {
-                if (row != null && row.length >= 3) {
-                    String callsign = row[1];
-                    String details = row[0] + " • " + row[2];
-                    planesList.add(new IdDetail(callsign, details));
-                }
-            }
-        }*/
         runwaysList.addAll(Globals.runwayDetails) ;
-        /**String[][] rwy = out.getTableRunways();
-        if (rwy != null) {
-            for (String[] row : rwy) {
-                if (row != null && row.length >= 3) {
-                    String id = row[0];
-                    String details = row[1] + ", " + row[2];
-                    runwaysList.add(new IdDetail(id, details));
-                }
-            }
-        }*/
     }
     /**
      * closes the pop up menu.
