@@ -18,17 +18,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SimLoop extends Task<ModelOutput>{
-	protected AirCraftMap aircraftMap = new AirCraftMap();
-	protected HoldingQueue holdingPattern = new HoldingQueue(500);
-	protected TakeOffQueue takeOffQueue = new TakeOffQueue();
-	protected RunWayMap runways;
-	protected ArrivalModel arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
-	protected DepartureModel departureModel = new DepartureModel(aircraftMap, takeOffQueue);
-	protected TrafficController trafficModel;
-	protected int runtime;
-	protected int currentTime;
-	protected DataGen dataGen;
-	protected ModelOutput output;
+	private AirCraftMap aircraftMap = new AirCraftMap();
+	private HoldingQueue holdingPattern = new HoldingQueue(500);
+	private TakeOffQueue takeOffQueue = new TakeOffQueue();
+	private RunWayMap runways;
+	private ArrivalModel arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
+	private DepartureModel departureModel = new DepartureModel(aircraftMap, takeOffQueue);
+	private TrafficController trafficModel;
+	private int runtime;
+	private int currentTime;
+	private DataGen dataGen;
+	private ModelOutput output;
 
 	/**
 	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 

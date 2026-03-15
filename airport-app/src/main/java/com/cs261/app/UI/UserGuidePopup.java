@@ -15,7 +15,7 @@ public class UserGuidePopup {
     private VBox layoutGuide = new VBox(50);
 
     private Label stepsSectionTitle = new Label("Getting started");
-
+    // text that goes inside popup
     private String stepsT = "To the the simulation, press 'Load New Simulation' on the front page. On the input page, please enter the required fields as indicated by the * symbols. Once the fields have been entered, press 'Start Simulation' for the simulation to start processing. \n"
                             + "Once the simulation has finished processing, the output page will be loaded. The first page are the key statistics. The dark blue menu on the left can be used to navigate to further output pages."; 
     private String inputT = "Runtime: The runtime input is how long the function of the airport will be simulated for. This determines the airport flight schedule. The runtime of the simulation can be entered in days, hours and minutes. \n"
@@ -65,18 +65,17 @@ public class UserGuidePopup {
     private Text compareSectionText = new Text(compareT);
     private VBox compareSection = new VBox(10);
 
-    private Label restrictionsGuide = new Label("Model Constraints and Logic Features");
+    private Label restrictionsGuide = new Label("Model Constraints and Assumptions");
     private Text restrictionText = new Text(restrictT);
     private VBox restrictionSection = new VBox(10);
 
     public UserGuidePopup(){
-        //popupWindow.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_LEFT);        
-
+        /**
+         * Set up layout for popup 
+         */
         layoutScroll.setContent(layoutGuide);
         layoutScroll.setMaxHeight(400);
         layoutGuide.setMinHeight(700);
-
-        //layoutScroll.getScene().getStylesheets().add("");
 
         stepsSectionText.setWrappingWidth(450);
         stepsSection.getChildren().addAll(stepsSectionTitle, stepsSectionText);
@@ -118,10 +117,17 @@ public class UserGuidePopup {
         restrictionText.setStyle("-fx-font-size: 14px;");
     }
 
+    /**
+     * Show popup
+     * @param w owner window of popup
+     */
     public void show(Window w){
         this.popupWindow.show(w);
     }
 
+    /**
+     * Hide popup
+     */
     public void hide(){
         this.popupWindow.hide();
     }

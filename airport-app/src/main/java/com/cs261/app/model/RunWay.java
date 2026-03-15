@@ -68,14 +68,6 @@ public class RunWay {
 	 * @return runway number (which is the runway id) based on its bearing
 	 */
 	private static String calcID(int bearing){
-		// int number = Math.round(bearing / 10.0f); // divide by 10 and round to round to nearest 10 degrees, and as math.round returns integer truncates last digit
-		// String id;
-		// if (number < 10 && number >= 0) { // convert to string, but add 0 if the rounded and truncated bearing is a single digit
-		// 	id = "0" + Integer.toString(number);
-		// } else {
-		// 	id = Integer.toString(number);
-		// }
-		// return id;
 		String id = Integer.toString(bearing);
 		return id;
 	}
@@ -107,7 +99,6 @@ public class RunWay {
 				}
 			}
 		}
-		//System.out.println("added plane");
 		return true;
 	}
 

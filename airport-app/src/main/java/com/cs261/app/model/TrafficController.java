@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperatingMode;
 
+/**
+ * Control runways & assign flights
+ */
 public class TrafficController {
 	private AirCraftMap aircraftMap;
 	private RunWayMap runways;
@@ -29,10 +32,6 @@ public class TrafficController {
 	 * @return callsigns of flights that have landed or taken off (NOT including diversions and cancellations)
 	 */
 	public ArrayList<String> updateTraffic(int currentTime) {
-		/**
-		 * FIX: need to think carefully about the times noted when there is no holding queue and available runways and airplane enters sim
-		 */
-
 		// first check if any runways need a status change
 		runways.addRunwaysStatusChange(currentTime);
 		runways.removeRunWaysStatusChange(currentTime);
@@ -51,16 +50,13 @@ public class TrafficController {
 
 		if (!holdingPattern.isEmpty()){
 			handleArrivals(exitedPlanes, currentTime);
-			//System.out.println("handled arrivals");
 			handleDiversions(exitedPlanes, currentTime); 	
 		}
-		//System.out.println("arrivals");
 
 		if (!takeoffQueue.isEmpty()){
 			handleDepartures(exitedPlanes, currentTime);
 			handleCancellations(exitedPlanes, currentTime); 	
 		}
-		//System.out.println("departures");
 
 		/**
 		 * Check if the planes currently occupying each unavailable runway has finished its time on the runway 
@@ -70,7 +66,6 @@ public class TrafficController {
 		checkBusyRunways(currentTime, OperatingMode.TAKEOFF);
 
 		// check if any runways need to be converted because other runways have closed within the intreval [currenttime, currenttime + timeinc]
-	//	System.out.println("updateTraffic");
 		return exitedPlanes;
 	}
 
@@ -104,14 +99,7 @@ public class TrafficController {
 					RunWay landing = freeArrivals.remove(0); // always pick from front of the list
 					AirCraft front = holdingPattern.dequeue(); 
 					landing.addPlane(front); // assign the front plane to the available runway
-					//System.out.println(front.getEntryTime());
-					//System.out.println(LocalDateTime.of(2026, 1, 1, 0, 0).plusMinutes((currentTime+Utils.timeInc) * Utils.timeInc));
-					//System.out.println(Utils.convertTicksToDate(currentTime));
-					//System.out.println(Utils.convertTicksToDate(currentTime + Utils.timeInc));
-					//System.out.println(Utils.convertTicksToDate(currentTime).plusMinutes(Utils.timeInc));
 					front.setExitTime(Utils.convertTicksToDate(currentTime)); // set exit time as the time it exits the queue
-					//System.out.println(front.getExitTime());
-					//System.out.println(front.getCallSign() + " " + front.getEntryTime() + "\n");
 					arrivalModel.updateLanded();
 					exitedPlanes.add(front.getCallSign());
 				}
@@ -137,10 +125,8 @@ public class TrafficController {
 				return;
 			}
 
-			//System.out.println("departures got runways");
 			// if there are free mixed runways, put any planes in danger of cancellation on those
 			for (AirCraft front : dangerPlanes) {
-				//System.out.println("departure loop");
 				RunWay mixed = runways.getMixedRunWay();
 				if (mixed != null) {
 					takeoffQueue.remove(front); 
@@ -155,7 +141,6 @@ public class TrafficController {
 			 * Planes do not have to wait more if there are runways immediately available. 
 			 */
 			while (!freeDepartures.isEmpty() && !takeoffQueue.isEmpty()){
-				//System.out.println("departure loop");
 				RunWay takeoff = freeDepartures.remove(0); // always pick from front of the list
 				AirCraft front = takeoffQueue.dequeue(); 
 				takeoff.addPlane(front); // assign the front plane to the available runway
@@ -173,7 +158,6 @@ public class TrafficController {
 	 */
 	private void handleDiversions(ArrayList<String> exitedPlanes, int currentTime){
 		holdingPattern.removeDiversions(exitedPlanes, currentTime);
-		//System.out.println("diversions");
 	}
 
 	/** Check if the planes in the takeoff queue have been there longer than the maximum
@@ -203,11 +187,7 @@ public class TrafficController {
 		AirCraft curr = null;
 		for (RunWay r : busy) {
 			curr = aircraftMap.get(r.getCurrentPlane());
-			//System.out.println(curr.getFlightType().toString() + "\n");
-			// either we could do t - exit time or check t - exit time >= runway time || t + timeinc >= runwaytime idk, for now we keep it like this
-			//System.out.printf("%d callsign: %s type: %s runway: %s scheduled: %s entry: %s exit: %s \n",t, curr.getCallSign(), curr.getFlightType().toString(), curr.getRunway(), curr.getScheduled().toString(), curr.getEntryTime().toString(), curr.getExitTime().toString());
 			if (((t + Utils.timeInc) - Utils.convertDateToTicks(curr.getExitTime())) >= Utils.runwayTime){ // its finished
-			//	System.out.printf("%s leaves\n", curr.getCallSign());
 				r.removePlane();
 				curr.setZoneStatus(ZoneStatus.EXIT);
 			}

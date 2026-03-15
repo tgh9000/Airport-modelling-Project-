@@ -1,12 +1,8 @@
 package com.cs261.app.UI;
 
-import java.util.Optional;
-
 //import com.cs261.app.controller.ResultsContext;
-import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.HandleOutput;
 import com.cs261.app.model.ModelOutput;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +21,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -135,7 +130,6 @@ public class TableNavController
     }
 
     private void updateKpiFromLastOutput() {
-        //ModelOutput out = ResultsContext.getLastOutput();
         ModelOutput out = Globals.output;
 
         if (Globals.output == null) {
@@ -234,77 +228,4 @@ public class TableNavController
         }
         );
     }
-
-
-    /*
-    @FXML
-    private void toggleDetailsPane(ActionEvent event) {
-        if (detailsPane == null || btnDetailsToggle == null) {
-            return;
-        }
-        boolean show = !detailsPane.isVisible();
-        detailsPane.setVisible(show);
-        detailsPane.setManaged(show);
-        btnDetailsToggle.setText(show ? "▶" : "◀");
-        /*if (show) {
-            refreshDetailsTables();
-        }
-    } */
-
-    /** Close the slide-out details panel (same as toggling it closed). */
-    
-    /* 
-    @FXML
-    private void closeDetailsPane(ActionEvent event) {
-        if (detailsPane == null || btnDetailsToggle == null) {
-            return;
-        }
-        detailsPane.setVisible(false);
-        detailsPane.setManaged(false);
-        btnDetailsToggle.setText("◀");
-    }
-    */
-
-    /** Populate Planes and Runways tables from last simulation output. */
-    /* 
-    private void refreshDetailsTables() {
-        ModelOutput out = Globals.output;
-        planesList.clear();
-        runwaysList.clear();
-        if (out == null) {
-            return;
-        }
-        String[][] deps = out.getTableAllDepartures();
-        if (deps != null) {
-            for (String[] row : deps) {
-                if (row != null && row.length >= 3) {
-                    String callsign = row[1];
-                    String details = row[0] + " • " + row[2];
-                    planesList.add(new IdDetail(callsign, details));
-                }
-            }
-        }
-        String[][] arrs = out.getTableAllArrivals();
-        if (arrs != null) {
-            for (String[] row : arrs) {
-                if (row != null && row.length >= 3) {
-                    String callsign = row[1];
-                    String details = row[0] + " • " + row[2];
-                    planesList.add(new IdDetail(callsign, details));
-                }
-            }
-        }
-        String[][] rwy = out.getTableRunways();
-        if (rwy != null) {
-            for (String[] row : rwy) {
-                if (row != null && row.length >= 3) {
-                    String id = row[0];
-                    String details = row[1] + ", " + row[2];
-                    runwaysList.add(new IdDetail(id, details));
-                }
-            }
-        }
-    }*/
-
-    
 }

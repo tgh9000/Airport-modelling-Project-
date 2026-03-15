@@ -49,8 +49,8 @@ public class CompareSimController {
         runsListView.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<String>() {
             @Override
             public void onChanged(Change<? extends String> event) {
-                while (event.next()){
-                    if (event.wasRemoved()){
+                while (event.next()){ // as many events can be detected at once
+                    if (event.wasRemoved()){ // if something was deselected remove the titled pane
                         List<String> removed = new ArrayList<>(event.getRemoved());
                         Iterator<Node> children = comparableView.getChildren().iterator();
                         while (children.hasNext()){
@@ -60,9 +60,9 @@ public class CompareSimController {
                             }
                         }
                     }   
-                    if (event.wasAdded()){
+                    if (event.wasAdded()){ // if something was added add the titled pane
                         // focus on it
-                        List<String> added = new ArrayList<>(event.getAddedSubList());
+                        List<String> added = new ArrayList<>(event.getAddedSubList()); // get sublist of what was selected from the list view
                         List<String> ids = comparableView.getChildren().stream().map(Node::getId).toList();
                         Iterator<String> items = added.iterator();
 
@@ -81,13 +81,18 @@ public class CompareSimController {
         loadSimRunsList();
     }
 
+    /**
+     * Get metrics from csv and all to listview
+     */
     public void loadSimRunsList(){
         List<String> runsList = HandleOutput.listStoredRuns();
-        //System.out.println(runsList.toString());
         runsListProp.get().addAll(runsList);
         runsListView.setItems(runsListProp);
     }
 
+    /**
+     * Load input page when menu button clicked
+     */
     @FXML
     public void goToInput(ActionEvent event) throws IOException {
         FXMLLoader loader =
@@ -100,6 +105,10 @@ public class CompareSimController {
         stage.getScene().setRoot(root);  
     }
 
+
+    /**
+     * Load start page when menu button clicked 
+     */
     @FXML
     public void goToLanding(ActionEvent event) throws IOException {
         FXMLLoader loader =

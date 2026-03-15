@@ -90,18 +90,12 @@ public class GraphsHPController
 
     }
 
-
-
-
-
     /**
-     * Funcation that is called when the page is loaded.
+     * Function that is called when the page is loaded.
      */
     @FXML
     public void initialize() {
         // Force tooltips to behave like desktop hover tooltips
-        
-
         configureYAxis();
         //Platform.runLater(this::loadData);
         loadData();

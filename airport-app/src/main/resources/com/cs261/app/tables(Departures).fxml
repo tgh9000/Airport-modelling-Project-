@@ -15,16 +15,9 @@
 <AnchorPane prefHeight="480.0" prefWidth="720.0" stylesheets="@../teststyle.css" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.TablesDeparturesController">
    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-      
-         <!-- ═══════════════════════════════════════════════════ -->
-         <!-- SIDEBAR                                             -->
-         <!-- ═══════════════════════════════════════════════════ -->
          <VBox prefHeight="480.0" prefWidth="140.0" spacing="0" style="-fx-background-color: #1a3a5c;">
-   
-                  <!-- Logo / Home area -->
             <Button fx:id="btnHome" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#goHome" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" HBox.hgrow="ALWAYS" text="Statistics"/>
    
-            <!-- Nav Buttons -->
             <Button fx:id="btnDepartures" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Departures" />
       
             <Button fx:id="btnArrivals" onAction = "#goArrival" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Arrivals" />
@@ -34,14 +27,8 @@
             <Button fx:id="btnHolding" onAction = "#goHolding" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Holding Pattern" />
    
             <Button fx:id="btnRunways" onAction = "#goRunway" alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="140.0" styleClass="menuBtn" text="Runways" />
-   
-         
-   
          </VBox>
-      
-               <!-- ═══════════════════════════════════════════════════ -->
-         <!-- MAIN CONTENT AREA                                   -->
-         <!-- ═══════════════════════════════════════════════════ -->
+
          <VBox spacing="14.0" style="-fx-background-color: #f0f4f8;" HBox.hgrow="ALWAYS">
    
                   <padding>
@@ -49,19 +36,11 @@
               </padding>
             <VBox>
                <children>
-            
-                          <!-- TOP BAR: Search + Back button -->
-                    <HBox alignment="CENTER_LEFT" spacing="10.0">
-            
-                              <!-- Search Field -->
-                              
+                       <HBox alignment="CENTER_LEFT" spacing="10.0">                              
                         <TextField fx:id="timestampField" prefHeight="36.0" prefWidth="340.0" promptText="Enter start Timestamp (Number of minutes)" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" HBox.hgrow="ALWAYS" />
                         <TextField fx:id="timestampField1" prefHeight="36.0" prefWidth="340.0" promptText="Enter end Timestamp (Number of minutes)" style="-fx-background-color: white;-fx-border-color: #c8d8e8;-fx-border-radius: 6;-fx-background-radius: 6;-fx-font-size: 13px;-fx-font-family: 'Segoe UI', sans-serif;-fx-text-fill: #333;-fx-padding: 0 10 0 10;" HBox.hgrow="ALWAYS" />
-                              <!-- Search Button -->
                         <Button fx:id="btnSearch" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#searchByTimestamp" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="🔍" />
                         <Button fx:id="reset" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#resetTable" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #2a7ae2;-fx-text-fill: white;-fx-font-size: 14px;-fx-border-radius: 6;-fx-background-radius: 6;-fx-cursor: hand;" text="reset" />
-            
-                              <!-- Spacer -->
                         <HBox prefHeight="30.0" prefWidth="154.0" HBox.hgrow="NEVER" />
                     </HBox>
                   <HBox alignment="CENTER">
@@ -75,14 +54,9 @@
                   </HBox>
                </children>
             </VBox>
-      
-               <!-- ═════════════════════════════════════════ -->
-               <!-- CHART CARD                                -->
-               <!-- ═════════════════════════════════════════ -->
                <VBox style="-fx-background-color: white;-fx-background-radius: 10;-fx-border-color: #dce8f4;-fx-border-radius: 10;-fx-effect: dropshadow(gaussian, rgba(0,50,120,0.08), 12, 0, 0, 3);" VBox.vgrow="ALWAYS">
-      
                   <padding>
-                      <Insets bottom="20" left="30" right="30" top="20" />
+                     <Insets bottom="20" left="30" right="30" top="20" />
                   </padding>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="478.0" VBox.vgrow="ALWAYS">
                      <children>
@@ -102,8 +76,6 @@
                               </columns>
          
                            </TableView>
-            
-                           <!-- Pagination Controls -->
                            <HBox alignment="CENTER_RIGHT" spacing="10">
                               <Button onAction="#prev" text="◀" />
                               <Button onAction="#next" text="▶" />

@@ -171,14 +171,10 @@ public class TablesArrivalsController
         btnDetailsToggle.setText("◀");
     }
 
-
-
-
     @FXML
     private Button btnPrev;
     @FXML
     private Button btnNext;
-
 
     /**
      * Given the current value of the timestamp values will cycle through the next 30 ticks and searches the tree for the corresponding values.
@@ -216,8 +212,6 @@ public class TablesArrivalsController
         ObservableList<ArrivalRow> data = Globals.getArrivalsTableDataRange(currentTimeStamp, currentEndStamp );
         arrivalsTable.setItems(data);
     }
-
-    
 
     /**
      * Prints all the data the table can hold

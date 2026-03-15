@@ -14,7 +14,6 @@ import javafx.scene.chart.XYChart;
 
 public class Globals 
 {   
-     
     public static ModelOutput output;
 
     public static String duration;
@@ -23,8 +22,6 @@ public class Globals
 
     public static int[] runwayModes;
     
-
-
     // lists used for the grapsh
     public static XYChart.Series<Number, Number> departSeries; 
     public static XYChart.Series<Number, Number> arriveSeries; 
@@ -55,8 +52,6 @@ public class Globals
         for (List<ArrivalRow> rows : result.values()) {
             data.addAll(rows);
         }
-
-
         return data;
     }
 
@@ -76,10 +71,6 @@ public class Globals
         return data;
     }
 
-
-
-
-
     /**
      * returns a subset of the departures tree whose departure time is within the given range.
      * @param TimeStamp the start of the time range.
@@ -93,7 +84,6 @@ public class Globals
         for (List<ArrivalRow> rows : result.values()) {
             data.addAll(rows);
         }
-
 
         return data;
     }
@@ -143,8 +133,6 @@ public class Globals
             data.addAll(entry.getValue());
         }
         
-
-        
         return data;
     }
 
@@ -167,7 +155,6 @@ public class Globals
         return data;
     }
 
-
     /**
      * returns the entire holding tree as an observable list of QueueRow objects.
      * @return an observable list of all QueueRow objects in the holdingTree.
@@ -184,8 +171,6 @@ public class Globals
         return data;
     }
 
-
-
     /**
      * returns a subset of the runway tree whose time is within the given range.
      * @param TimeStamp the start of the time range.
@@ -201,7 +186,6 @@ public class Globals
         for (List<RunwayRow> rows : result.values()) {
             data.addAll(rows);
         }
-
 
         return data;
     }
@@ -225,7 +209,6 @@ public class Globals
         return data;
     }
 
-
     /**
      * returns the entire runway tree as an observable list of RunwayRow objects.
      * @return an observable list of all RunwayRow objects in the runwayTree.
@@ -245,11 +228,6 @@ public class Globals
         return data;
     }
 
-
-
-
-
-
     /**
      * returns the AirCraft object associated with the given callsign. 
      * @param callsign the callsign of the airplane for which the AirCraft object is to be retrieved.
@@ -259,10 +237,4 @@ public class Globals
     {
         return output.getPlaneByCallsign(callsign);
     }
-    
-   
-
-
-    
-    
 }
