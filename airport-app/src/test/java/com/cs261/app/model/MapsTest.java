@@ -47,10 +47,10 @@ class MapsTest {
 
     @Test
     void getRunwayShouldReturnCorrectRunwayByCalculatedId() {
-        RunWay result = map.getRunway("09");
+        RunWay result = map.getRunway("90");
 
         assertNotNull(result);
-        assertEquals("09", result.getRunwayNumber());
+        assertEquals("90", result.getRunwayNumber());
     }
 
     @Test
@@ -94,7 +94,7 @@ class MapsTest {
 
     @Test
     void getRunwayShouldReturnNullIfIdDoesNotExist() {
-        assertNull(map.getRunway("99"));
+        assertNull(map.getRunway("170"));
     }
 
     @Test
@@ -117,16 +117,16 @@ class MapsTest {
         ArrayList<RunWay> busy =
                 map.getBusyRunways(RunWay.OperatingMode.LANDING);
 
-        assertEquals("09", busy.get(0).getRunwayNumber());
+        assertEquals("90", busy.get(0).getRunwayNumber());
     }
 
     @Test
     void getRunwaysShouldReturnAllRunways() {
 
         RunWay[] runwayList = map.getRunways();
-        assertEquals("09", runwayList[0].getRunwayNumber());
-        assertEquals("18", runwayList[1].getRunwayNumber());
-        assertEquals("27", runwayList[2].getRunwayNumber());
+        assertEquals("90", runwayList[0].getRunwayNumber());
+        assertEquals("180", runwayList[1].getRunwayNumber());
+        assertEquals("270", runwayList[2].getRunwayNumber());
     }
 
 }

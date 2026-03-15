@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -73,7 +75,7 @@ public class NewSim
     private void  checkSim(ActionEvent event) throws IOException
     {
 
-        errorMessage("loading...");
+        //errorMessage("loading...");
         String days = simDaysField.getText();
         String hours = simHoursField.getText();
         String minutes = simMinutesField.getText();
@@ -84,10 +86,22 @@ public class NewSim
         {
             dayNum = Integer.parseInt(days);
             //System.out.println("Parsed value: " + days);
+            if (dayNum < 0 || dayNum >= 20) 
+            {
+                Alert alert = new Alert(AlertType.WARNING, "Days must be between 0 and 20");
+                alert.setHeaderText("Invalid Input detected");
+                alert.showAndWait();
+                return;
+            }
+
         } 
         catch (NumberFormatException e) 
         {
-            errorMessage("Invalid number of days for simulation length");
+            Alert alert = new Alert(AlertType.WARNING, "Invalid number of days for simulation length");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
+                
+            //errorMessage("Invalid number of days for simulation length");
             return;
         }
         try 
@@ -96,13 +110,17 @@ public class NewSim
             //System.out.println("Parsed value: " + hours);
             if (hourNum < 0 || hourNum >= 24) 
             {
-                errorMessage("Hours must be between 0 and 23");
+                Alert alert = new Alert(AlertType.WARNING, "Hours must be between 0 and 23");
+                alert.setHeaderText("Invalid Input detected");
+                alert.showAndWait();
                 return;
             }
         } 
         catch (NumberFormatException e) 
         {
-            errorMessage("Invalid number of hours for simulation length");
+            Alert alert = new Alert(AlertType.WARNING, "Invalid number of hours for simulation length");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
             return;
         }
         try 
@@ -112,13 +130,18 @@ public class NewSim
 
             if (minuteNum < 0 || minuteNum >= 60) 
             {
-                errorMessage("Minutes must be between 0 and 59");
+                Alert alert = new Alert(AlertType.WARNING, "Minutes must be between 0 and 59");
+                alert.setHeaderText("Invalid Input detected");
+                alert.showAndWait();
+                
                 return;
             }
         } 
         catch (NumberFormatException e) 
         {
-            errorMessage("Invalid number of minutes for simulation length");
+            Alert alert = new Alert(AlertType.WARNING, "Invalid number of minutes for simulation length");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
             return;
         }
 
@@ -128,30 +151,47 @@ public class NewSim
                 arrivalFlow = 15;
             } else {
                 arrivalFlow = Integer.parseInt(arrivalFlowInput.getText());
-                if (arrivalFlow > 45 || arrivalFlow < 10){
-                    errorMessage("Arrival flow rate must be between 10 and 45");
+                if (arrivalFlow > 45 || arrivalFlow < 10)
+                {
+                    Alert alert = new Alert(AlertType.WARNING, "Arrival flow rate must be between 10 and 45");
+                    alert.setHeaderText("Invalid Input detected");
+                    alert.showAndWait();
                     return;
                 } 
             }
-        } catch (NumberFormatException e){
-            errorMessage("Invalid arrival flow rate");
+        } catch (NumberFormatException e)
+        {
+            Alert alert = new Alert(AlertType.WARNING, "Invalid arrival flow rate");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
             return;
         }
 
 
         // departure flow rate
-        try {
-            if (departureFlowInput.getText() == null || departureFlowInput.getText().trim().isEmpty()){
+        try 
+        {
+            if (departureFlowInput.getText() == null || departureFlowInput.getText().trim().isEmpty())
+            {
                 departureFlow = 15;
-            } else {
+            } 
+            else 
+            {
                 departureFlow = Integer.parseInt(departureFlowInput.getText());
-                if (departureFlow > 45 || departureFlow < 10){
-                    errorMessage("Arrival flow rate must be between 10 and 45");
+                if (departureFlow > 45 || departureFlow < 10)
+                {
+                    Alert alert = new Alert(AlertType.WARNING, "Departure flow rate must be between 10 and 45");
+                    alert.setHeaderText("Invalid Input detected");
+                    alert.showAndWait();
                     return;
                 } 
             }
-        } catch (NumberFormatException e){
-            errorMessage("Invalid departure flow rate");
+        } 
+        catch (NumberFormatException e)
+        {
+            Alert alert = new Alert(AlertType.WARNING, "Invalid departure flow rate");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
             return;
         }
 
@@ -161,13 +201,17 @@ public class NewSim
             failureProb = Float.parseFloat(failureProbField.getText());
             if (failureProb < 0.0 || failureProb > 1.0) 
             {
-                errorMessage("Failure probability must be between 0.0 and 1.0");
+                Alert alert = new Alert(AlertType.WARNING, "Failure probability must be between 0.0 and 1.0");
+                alert.setHeaderText("Invalid Input detected");
+                alert.showAndWait();
                 return;
             }
         } 
         catch (NumberFormatException e) 
         {
-            errorMessage("Invalid failure probability");
+            Alert alert = new Alert(AlertType.WARNING, "Invalid failure probability");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
             return;
         }
         
@@ -184,7 +228,9 @@ public class NewSim
             
                 if (cancellationTime < 20) 
                 {
-                    errorMessage("Cancellation time must be at least 20 minutes");
+                    Alert alert = new Alert(AlertType.WARNING, "Cancellation time must be at least 20 minutes");
+                    alert.setHeaderText("Invalid Input detected");
+                    alert.showAndWait();
                     return;
                 }
             }
@@ -192,7 +238,9 @@ public class NewSim
         } 
         catch (NumberFormatException e) 
         {
-            errorMessage("Invalid cancellation time");
+            Alert alert = new Alert(AlertType.WARNING, "Invalid cancellation time");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
             return;
         }
         int[] modeCounts = new int[3]; // 0 = landing, 1 = takeoff, 2 = mixed
@@ -204,7 +252,9 @@ public class NewSim
             RunWay r = temp.parse(new int[]{dayNum, hourNum, minuteNum} );
             if (r == null)
             {
-                errorMessage("Invalid input for runway " + (i + 1));
+                Alert alert = new Alert(AlertType.WARNING, "Invalid input for runway " + (i + 1));
+                alert.setHeaderText("Invalid Input detected");
+                alert.showAndWait();
                 return;
             }
             switch (r.getMode()) {
@@ -225,8 +275,40 @@ public class NewSim
             runwayArray[i] = r;
 
         }
+        boolean hasLanding = false;
+        boolean hasArriving = false;
+        boolean hasBoth =false;
+        for(int i = 0; i <runwayArray.length; i ++ )
+        {
+            RunWay temp = runwayArray[i];
+            if (temp.getMode().getCode() == 3) // mixed
+            {
+                hasBoth = true;
+            }
+            if (temp.getMode().getCode() == 2) // takeoff
+            {
+                hasLanding = true;
+            }
+            if (temp.getMode().getCode() == 1) // landing
+            {
+                hasArriving = true;
+            }
+            if(hasLanding && hasArriving)
+            {
+                hasBoth = true;
+            }
+
+                
+        }
+        if(!hasBoth)
+        {
+            Alert alert = new Alert(AlertType.WARNING, "Must have at least one mixed runway or a landing and takeoff runway.");
+            alert.setHeaderText("Invalid Input detected");
+            alert.showAndWait();
+            return;
+        }
         Globals.runwayModes = modeCounts;
-        errorMessage("All inputs valid! Ready to run simulation.");
+        //errorMessage("All inputs valid! Ready to run simulation.");
         Globals.duration = dayNum + " days, " + hourNum + " hours, " + minuteNum + " minutes";
         Globals.totalTicks = String.valueOf((dayNum * 24 * 60 + hourNum * 60 + minuteNum));
 

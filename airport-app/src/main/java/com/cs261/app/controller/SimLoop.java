@@ -12,26 +12,23 @@ import com.cs261.app.model.TrafficController;
 import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.DataGen;
 import com.cs261.app.model.DepartureModel;
-
-import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SimLoop extends Task<ModelOutput>{
-	protected AirCraftMap aircraftMap = new AirCraftMap();
-	protected HoldingQueue holdingPattern = new HoldingQueue(500);
-	protected TakeOffQueue takeOffQueue = new TakeOffQueue();
-	protected RunWayMap runways;
-	protected ArrivalModel arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
-	protected DepartureModel departureModel = new DepartureModel(aircraftMap, takeOffQueue);
-	protected TrafficController trafficModel;
-	protected int runtime;
-	protected int currentTime;
-	protected DataGen dataGen;
-	protected ModelOutput output;
+	private AirCraftMap aircraftMap = new AirCraftMap();
+	private HoldingQueue holdingPattern = new HoldingQueue(500);
+	private TakeOffQueue takeOffQueue = new TakeOffQueue();
+	private RunWayMap runways;
+	private ArrivalModel arrivalModel = new ArrivalModel(aircraftMap, holdingPattern);
+	private DepartureModel departureModel = new DepartureModel(aircraftMap, takeOffQueue);
+	private TrafficController trafficModel;
+	private int runtime;
+	private int currentTime;
+	private DataGen dataGen;
+	private ModelOutput output;
 
 	/**
 	 * Model inputs - runways, max cancellation time, probability of mechanical failure emergency and probability of passenger health emegerency, runtime 
@@ -49,11 +46,6 @@ public class SimLoop extends Task<ModelOutput>{
 	protected ModelOutput call() throws Exception {
 		while (currentTime != runtime) {
 			try {
-				//System.out.printf("current %d \n", currentTime);
-				// get flights for this tick
-				System.out.println(currentTime);
-				
-
 				List<AirCraft> newArrivals = dataGen.getArrivalsForTick(currentTime, currentTime+Utils.timeInc);
 				List<AirCraft> newDepartures = dataGen.getDeparturesForTick(currentTime, currentTime+Utils.timeInc);
 
@@ -63,12 +55,9 @@ public class SimLoop extends Task<ModelOutput>{
 				departureModel.updateDepartures(newDepartures, currentTime);
 				// traffic controller update, check runways and stuff
 				ArrayList<String> exits = trafficModel.updateTraffic(currentTime); 
-				//System.out.println("returned traffic");
+
 				currentTime += Utils.timeInc;
 				output.updateOutput(exits, holdingPattern.size(), takeOffQueue.size(), currentTime);
-				//System.out.println("returned output");
-
-				printPlane(exits);
 
 				updateProgress((double) currentTime, (double) runtime);	
 			} catch (Exception e){

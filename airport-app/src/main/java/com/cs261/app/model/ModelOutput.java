@@ -1,6 +1,7 @@
 package com.cs261.app.model;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,12 +12,19 @@ import com.cs261.app.model.AirCraft.FlightType;
 import com.cs261.app.model.AirCraft.ZoneStatus;
 import com.cs261.app.model.RunWay.OperationStatus;
 
-// collates data that must be outputted to view
-public class ModelOutput implements IModelOutput {
+/**
+ * collates data that must be outputted to view
+ */ 
+public class ModelOutput {
     private DepartureModel departureModel;
     private ArrivalModel arrivalModel;
     private RunWayMap runways;
     private AirCraftMap aircrafts;
+
+    public Collection<AirCraft> getAllAircrafts()
+    {
+        return aircrafts.values();
+    }
 
     // list of planes that have exitted in order of exit time
     ArrayList<AirCraft> exitedArrivals = new ArrayList<>();
@@ -25,15 +33,6 @@ public class ModelOutput implements IModelOutput {
     HashSet<String> allExits = new HashSet<>();
     ArrayList<AirCraft> planesInTQueue = new ArrayList<>();
     ArrayList<AirCraft> planesInHQueue = new ArrayList<>();
-
-    /**
-     * Returns the aircraft object associated with a given callsign.
-     * @param callsign the callsign of the plane you want to get
-     * @return the plane object associated with the callsign, or null if no such plane exists
-     */
-    public AirCraft getPlaneByCallsign(String callsign){
-        return aircrafts.get(callsign);
-    }
 
     // KEY STATISTICS 
     private int maxHoldingPlanes = 0;
@@ -60,13 +59,10 @@ public class ModelOutput implements IModelOutput {
     private String[][] tableTakeOffQueue;
     private String[][] tableRunways;
 
-    // private ArrayList<Double> x_arrivalWaitTime = new ArrayList<>();
-    // private ArrayList<Double> y_arrivalWaitTime = new ArrayList<>();
+    private ArrayList<Integer[]> graphTQ =  new ArrayList<>();
+    private ArrayList<Integer[]> graphHP =  new ArrayList<>();
 
-    // private ArrayList<Double> x_departWaitTime = new ArrayList<>();
-    // private ArrayList<Double> y_departWaitTime = new ArrayList<>();
-
-    // cancellatns and diversions
+    // cancellations and diversions
     private int numDiversions = 0; // number of planes diverted
     private int numCancels = 0; // number of planes cancelled
     private int maxDiversionWait = 0; //  the maximum wait time of a plane that was diverted
@@ -77,6 +73,15 @@ public class ModelOutput implements IModelOutput {
         this.arrivalModel = arrivalModel;
         this.runways = runways;
         this.aircrafts = aircraftmap;
+    }
+
+    /**
+     * Returns the aircraft object associated with a given callsign.
+     * @param callsign the callsign of the plane you want to get
+     * @return the plane object associated with the callsign, or null if no such plane exists
+     */
+    public AirCraft getPlaneByCallsign(String callsign){
+        return aircrafts.get(callsign);
     }
 
     // == GETTERS AND SETTERS FOR KEY STATS, TABLES AND GRAPHS ==       
@@ -172,6 +177,15 @@ public class ModelOutput implements IModelOutput {
     public ArrayList<Double[]> getGraphArrivalDifferences() {
         return this.graphArrivalDifferences;
     }
+
+    public ArrayList<Integer[]> getGraphHPNumber(){
+        return this.graphHP;
+    }
+
+    public ArrayList<Integer[]> getGraphTQNumber(){
+        return this.graphTQ;
+    }
+
     // tables
     /**
      * @return table of every plane that actually departed from the airport
@@ -248,25 +262,16 @@ public class ModelOutput implements IModelOutput {
     public void finishCalculations(){
         // averages
         avgArriveDelay = calcAvgArriveDelay();
-        //System.out.println("calcAvgArriveDelay");
         avgDepartDelay = calcAvgDepartDelay();
-        //System.out.println("calcAvgDepartDelay");
         avgArriveWait = calcAverageHoldingWaitTime();
-        //System.out.println("calcAverageHoldingWaitTime");
         avgDepartWait = calcAverageTakeOffWaitTime();
-        //System.out.println("calcAverageTakeOffWaitTime");
 
         // tables and graphs
         tableAllDepartures = departuresTable();
-        //System.out.println("departuresTable");
         tableAllArrivals = arrivalsTable();
-        //System.out.println("arrivalsTable");
         tableHoldingQueue = holdingQueueTable();
-        //System.out.println("holdingQueueTable");
         tableTakeOffQueue = takeOffQueueTable();
-        //System.out.println("takeOffQueueTable");
         tableRunways = runwayTable();
-        //System.out.println("runwayTable");
     }
 
     /**
@@ -277,7 +282,34 @@ public class ModelOutput implements IModelOutput {
         updateMaxHolding(holdingSz);
         updateMaxTQueue(takeOffSz);
 
-        
+
+        if (!graphTQ.isEmpty()){
+            if (takeOffSz != graphTQ.getLast()[1]){
+                Integer[] graphV = new Integer[2];
+                graphV[0] = time;
+                graphV[1] = takeOffSz;
+                graphTQ.add(graphV);
+            } 
+        } else {
+            Integer[] graphV = new Integer[2];
+            graphV[0] = time;
+            graphV[1] = takeOffSz;
+            graphTQ.add(graphV);   
+        }
+        if (!graphHP.isEmpty()){
+            if (holdingSz != graphHP.getLast()[1]){
+                Integer[] graphVH = new Integer[2];
+                graphVH[0] = time;
+                graphVH[1] = holdingSz;
+                graphHP.add(graphVH);
+            }
+        } else {
+            Integer[] graphVH = new Integer[2];
+            graphVH[0] = time;
+            graphVH[1] = holdingSz;
+            graphHP.add(graphVH);
+        }
+
         if (!exitedPlanes.isEmpty()){
             exitedPlanes.sort((String a, String b) -> aircrafts.get(a).getExitTime().compareTo(aircrafts.get(b).getExitTime()));
             updateSumsAndMaxs(exitedPlanes);
@@ -286,26 +318,10 @@ public class ModelOutput implements IModelOutput {
     }
 
     /**
-     * Do average wait time 
+     * Update graphs for avg wait time against time iteratively 
+     * @param time
      */
-    // private void updateGraph(int time){
-    //     this.y_arrivalWaitTime.add(calcAverageHoldingWaitTime()); // avg wait time thus far
-    //     this.x_arrivalWaitTime.add((double) time);
-
-    //     this.y_departWaitTime.add(calcAverageTakeOffWaitTime());
-    //     this.x_departWaitTime.add((double) time);
-    // }
-
-    // private ArrayList<Double[]> calcArrivalWaitTimeGraph(){
-        
-    // }
-
-
     private void updateGraph(int time){
-        if (time % 10 != 0){
-            return;
-        }
-
         Double[] valueA = new Double[2];
         Double[] valueD = new Double[2];
         valueA[1] = calcAverageHoldingWaitTime();
@@ -355,12 +371,14 @@ public class ModelOutput implements IModelOutput {
                 if (plane.getZoneStatus() == ZoneStatus.DIVERT){
                     numDiversions++;
                     maxDiversionWait = ((waitTime > maxDiversionWait) ? waitTime : maxDiversionWait);
+                    iterator.remove();
                     continue; // skip over
                 }
 
                 if (plane.getZoneStatus() == ZoneStatus.CANCEL){
                     numCancels++;
                     maxCancelWait = ((waitTime > maxCancelWait) ? waitTime : maxCancelWait);
+                    iterator.remove();
                     continue; 
                 }
 
@@ -461,20 +479,16 @@ public class ModelOutput implements IModelOutput {
                 table[i][1] = runwayList[i].getMode().toString();
                 table[i][2] = runwayList[i].getStatus().toString();
                 table[i][3] = Boolean.toString(runwayList[i].hasStatusChange());
-                //System.out.println("basic");
                 for (int j = 4; j < 13; j++){
                     table[i][j] = "N/A";
                 }
-                //System.out.println("extras");
                 OperationStatus[] changes = runwayList[i].getChangedStatus();
 
                 for (int j = 0; j < changes.length; j++){
-                   // System.out.println("sm");
-                    table[i][4 + (3 * j)] = changes[i].toString();
+                    table[i][4 + (3 * j)] = changes[j].toString();
                     table[i][5 + (3 * j)] = runwayList[i].getStatusChangeStartTime(j).toString();
                     table[i][6 + (3 * j)] = runwayList[i].getStatusChangeEndTime(j).toString();
                 }          
-                //System.out.printf("finsihed runway %d \n", i);
             }
             return table;
         } catch (Exception e){
@@ -563,7 +577,6 @@ public class ModelOutput implements IModelOutput {
      * @return a map of runway numbers to the call sign of the occupying aircraft,
      * or an empty string if the runway is free
      */
-    @Override
     public Map<String, String> getRunwayOccupancy() {
         Map<String, String> occupancies = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
@@ -581,7 +594,6 @@ public class ModelOutput implements IModelOutput {
      * Returns each runway and which mode it is in
      * @return a map of runway numbers to the mode of the runway
      */
-    @Override
     public Map<String, String> getRunwayModes() {
         Map<String, String> modes = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
@@ -594,7 +606,6 @@ public class ModelOutput implements IModelOutput {
      * Returns each runway and what its closure status is
      * @return a map of runway numbers to the closure status of the runway
      */
-    @Override
     public Map<String, Boolean> getRunwayClosureStatus() {
         Map<String, Boolean> statuses = new HashMap<>();
         for (RunWay r : runways.getRunways()) {
@@ -609,7 +620,6 @@ public class ModelOutput implements IModelOutput {
      * 
      * @return a set of the aircraft ids of each aircraft in the holding pattern
      */
-    @Override
     public Set<String> getHoldingAircraftIds() {
         return arrivalModel.getHoldingPatternAircraftIds();
     }
@@ -619,12 +629,10 @@ public class ModelOutput implements IModelOutput {
      * 
      * @return a set of the aircraft ids of each aircraft in the takeoff queue
      */
-    @Override
     public Set<String> getTakeOffAircraftIds() {
         return departureModel.getTakeOffQueueAircraftIds();
     }
 
-    @Override
     public Set<String> getExitedAircraftIds() {
         return allExits;   
     }

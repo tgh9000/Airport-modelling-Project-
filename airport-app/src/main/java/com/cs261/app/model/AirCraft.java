@@ -3,6 +3,8 @@ package com.cs261.app.model;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 
+import com.cs261.app.UI.AirCraftDetail;
+
 /**
  * Represents each flight in the simulation. 
  */
@@ -39,13 +41,15 @@ public class AirCraft {
 	/**
 	 * Represents the emergency status of the aircraft.
 	 */
-    public static enum EmergencyStatus {
+    public static enum EmergencyStatus 
+	{
         NONE,
         HEALTH,
         FUEL,
         MECH,
         ;
     }
+
 
 
     private String callSign; // id
@@ -93,6 +97,49 @@ public class AirCraft {
 	}
 
 	/**
+	 * Parse  aircraft information for table popup
+	 */
+	public AirCraftDetail toDetail()
+	{
+		FlightType tempType = getFlightType();
+		String typeString = "";
+		switch(tempType){
+			case ARRIVAL :
+				typeString = "Arrival";
+				break;
+			default:
+				typeString = "Departure";
+				break;
+		}
+		EmergencyStatus tempStatus = getEmergencyStatus();
+		String statusString = "";
+		switch(tempStatus)
+		{
+			case NONE :
+				statusString = "N/A";
+				break;
+			case HEALTH:
+				statusString = "Health";
+				break;
+			case FUEL :
+				statusString = "Low Fuel";
+				break;
+			default:
+				statusString = "Mechanical Failure";
+				break;
+		}
+		String startStatus = "N/A";
+		if(statusString != "N/A")
+		{
+			startStatus =String.valueOf( Utils.convertTicksToDate( getEmergencyTime()));
+
+		}
+		return new AirCraftDetail(getCallSign(), getOperator(), getOrigin(), getDestination(), typeString, statusString, startStatus);
+
+
+	}
+
+	/**
 	 * @param exitTime the exitTime to set
 	 * @param boolean true if it was set, false otherwise
 	 */
@@ -101,6 +148,11 @@ public class AirCraft {
 			return false; 
 		}
 		this.exitTime = exitTime;
+
+		if (this.exitTime.isBefore(this.entryTime)){
+			this.exitTime = this.entryTime;
+		}
+
 		return true;
 	}
 
@@ -230,9 +282,9 @@ public class AirCraft {
 		return hrs;
     }
     
-    /**
-     * TODO: FIX UPDATE METHOD FOR ALTITUDE
-     */
+	/**
+	 * Update aircraft altitude every tick
+	 */
     public void updateAltitude(AirCraft parent){
 		// get its parents altitude 
 		if (parent == null){

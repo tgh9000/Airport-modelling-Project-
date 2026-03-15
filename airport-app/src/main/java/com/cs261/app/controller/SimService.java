@@ -12,9 +12,6 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 public class SimService extends Service<ModelOutput>{
-
-    // properties go here
-    // inputs
     private RunWay[] runwayInput;
     private int runtimeInput; // in ticks
     private DoubleProperty taskProgress = new SimpleDoubleProperty(0);

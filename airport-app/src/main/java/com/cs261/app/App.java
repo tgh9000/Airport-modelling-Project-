@@ -5,7 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class App extends Application {
+public class App extends Application 
+{
+    /**
+     * Initialises the app with the correct scene
+     */
     public void start(Stage stage) throws Exception 
     {
         //System.out.println(App.class.getResource("/com/cs261/app/start.fxml"));

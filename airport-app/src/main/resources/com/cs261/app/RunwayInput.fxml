@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="100.0" prefWidth="100.0" stylesheets="@../teststyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.RunwayInputController" styleClass = "runwayVbox">
+<VBox prefHeight="100.0" prefWidth="100.0" styleClass="runwayVbox" stylesheets="@../teststyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cs261.app.UI.RunwayInputController">
    <children>
       <Label fx:id="runwayLabel" text="Runway 1">
          <font>
@@ -19,12 +19,12 @@
       </Label>
       <HBox prefHeight="20.0" prefWidth="200.0">
          <children>
-            <Label text="Runway Length (Metres)">
+            <Label text="Runway Length (Metres) *">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField HBox.hgrow="ALWAYS" fx:id="lengthField">
+            <TextField fx:id="lengthField" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font>
@@ -36,12 +36,12 @@
       </HBox>
       <HBox prefHeight="20.0" prefWidth="200.0">
          <children>
-            <Label text="Bearing (Degrees)">
+            <Label text="Bearing (Degrees) *">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField HBox.hgrow="ALWAYS" fx:id="bearingField">
+            <TextField fx:id="bearingField" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font>
@@ -53,7 +53,7 @@
       </HBox>
       <HBox prefHeight="20.0" prefWidth="200.0">
          <children>
-            <Label text="Operating mode: ">
+            <Label text="Operating mode: *">
                <font>
                   <Font size="18.0" />
                </font>
@@ -68,9 +68,9 @@
       </VBox>
       <HBox prefHeight="30.0" prefWidth="560.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#addInterruption" prefHeight="25.0" prefWidth="114.0" text="Add Interuption" styleClass="normalBtn" />
+            <Button mnemonicParsing="false" onAction="#addInterruption" prefHeight="25.0" prefWidth="114.0" styleClass="normalBtn" text="Add Interuption" />
             <Region prefHeight="25.0" prefWidth="120.0" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#removeSection" text="Remove This Interruption" styleClass="normalBtn" />
+            <Button mnemonicParsing="false" onAction="#removeSection" styleClass="normalBtn" text="Remove This Interruption" />
          </children>
          <padding>
             <Insets bottom="10.0" />

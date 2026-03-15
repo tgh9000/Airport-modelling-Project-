@@ -122,12 +122,12 @@ public class HoldingQueue {
 		if (isEmpty()){
 			return null;
 		} 
+
 		AirCraft result = heap[0].getAircraft();
 		heap[0] = heap[size - 1]; // move the lowest rightmost node on tree to here
 		heap[size - 1] = null; // no duplicate planes
 		size--;
 		downheap(0);
-		//System.out.println("dequeue");
 		return result;
 	}
 	/**
@@ -230,24 +230,6 @@ public class HoldingQueue {
 			return heap[0].getAircraft();
 		}
 	}
-	
-
-	/**
-	 * Return the sibling of node i in heap
-	 * @param i
-	 */
-	private HoldingEntry getSibling(int i){
-		int parent = (int) (i - 1) / 2;
-		int parentLChild = (2 * parent) + 1;
-
-		if (i == parentLChild){
-			// get right
-			return getRight(parent);
-		} else {
-			// get left
-			return getLeft(parent);
-		}
-	}
 
 	/**
 	 * Detect and remove all diversions, given the plane has passed the emergency wait time. O(nlogn) in worst if all planes in HP are in 
@@ -271,7 +253,7 @@ public class HoldingQueue {
 				} else {
 					if ((t - this.top().getEmergencyTime()) >= Utils.emergencyTime){
 						AirCraft front = this.dequeue();
-						front.setExitTime(Utils.convertTicksToDate(t + Utils.timeInc));
+						front.setExitTime(Utils.convertTicksToDate(t));
 						front.setZoneStatus(AirCraft.ZoneStatus.DIVERT);
 						exitedPlanes.add(front.getCallSign());
 						keepGoing = true; // just in case next planes are also in emergency

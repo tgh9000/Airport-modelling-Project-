@@ -1,15 +1,18 @@
 package com.cs261.app.UI;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
+import com.cs261.app.model.AirCraft;
 import com.cs261.app.model.ModelOutput;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -49,8 +52,18 @@ public class OutputPageController {
     @FXML
     private void loadTables()
     {
+
+        Globals.arrivalsTree = new TreeMap<>();
+        Globals.departuresTree = new TreeMap<>();
+        Globals.queueTree = new TreeMap<>();
+        Globals.holdingTree = new TreeMap<>();
+
+        Globals.RunwayTree = new HashMap<>();
+
+        Globals.runwayDetails = FXCollections.observableArrayList();
+        Globals.airCraftDetails = FXCollections.observableArrayList();
+
         int runwayNum =  Globals.runwayModes.length;
-        //idk if i need this 
         TreeMap<Integer, List<RunwayRow>> [] runwayTree = new TreeMap[runwayNum];
         for(int i = 0; i < runwayNum; i++)
         {
@@ -62,7 +75,6 @@ public class OutputPageController {
 
         for(int i = 0; i < tableAllArrivals.length; i++)
         {   //Runway,callsign,actual
- 
 
             ArrivalRow row = new ArrivalRow(tableAllArrivals[i][1], tableAllArrivals[i][0], tableAllArrivals[i][2], tableAllArrivals[i][3],tableAllArrivals[i][4]);
             String timeStamp = tableAllArrivals[i][5];
@@ -96,18 +108,12 @@ public class OutputPageController {
                 }
                 runwayList.add(runwayRow);
                 runwayData.put(Integer.parseInt(timeStamp), runwayList);
-             
             }
-            
-            
-            
         }
-       // System.out.println("Arrivals tree size: " + Globals.arrivalsTree.size());
         //departures table.
         String[][] tableAllDepartures = output.getTableAllDepartures();
         for(int i = 0; i < tableAllDepartures.length; i++)
         {   //Runway,callsign,actual
- 
 
             ArrivalRow row = new ArrivalRow(tableAllDepartures[i][1], tableAllDepartures[i][0], tableAllDepartures[i][3], tableAllDepartures[i][2],tableAllDepartures[i][4]);
             String timeStamp = tableAllDepartures[i][5];
@@ -145,14 +151,11 @@ public class OutputPageController {
             
             
         }
-        //System.out.println("test2");
-
 
         //queue table
         String[][] tableAllqueue = output.getTableTakeOffQueue();
         for(int i = 0; i < tableAllqueue.length; i++)
         {   //Runway,callsign,actual
- 
 
             QueueRow row = new QueueRow(tableAllqueue[i][0],tableAllqueue[i][1],  tableAllqueue[i][2], tableAllqueue[i][3],tableAllqueue[i][4]);
             String timeStamp = tableAllqueue[i][5];
@@ -176,7 +179,6 @@ public class OutputPageController {
         String[][] tableAllHolding = output.holdingQueueTable();
         for(int i = 0; i < tableAllHolding.length; i++)
         {   //Runway,callsign,actual
- 
 
             QueueRow row = new QueueRow(tableAllHolding[i][0],tableAllHolding[i][1],  tableAllHolding[i][2], tableAllHolding[i][3],tableAllHolding[i][4]);
             String timeStamp = tableAllHolding[i][5];
@@ -193,6 +195,21 @@ public class OutputPageController {
             
         }
 
+        // Gets The data needed for the runway mini table.
+        String[][] runwayDetails = output.getTableRunways();
+        for(int i = 0 ; i < runwayDetails.length; i ++)
+        {
+            RunwayDetail row = new RunwayDetail(runwayDetails[i][0], runwayDetails[i][1], runwayDetails[i][2], runwayDetails[i][3], runwayDetails[i][4], runwayDetails[i][5],runwayDetails[i][6]);
+            Globals.runwayDetails.add(row);
+        }
+
+        // Gets the data needed for the aircraft mini table
+        Collection<AirCraft> allAirCrafts = output.getAllAircrafts();
+        for (AirCraft item :allAirCrafts ) 
+        {
+            Globals.airCraftDetails.add(item.toDetail());
+        }
+
         
 
 
@@ -207,10 +224,18 @@ public class OutputPageController {
         ArrayList<Double[]>  depart = output.getGraphDepartDifferences();
         
         ArrayList<Double[]> arrive = output.getGraphArrivalDifferences();
+
+        ArrayList<Integer[]> takeOff = output.getGraphTQNumber();
+        ArrayList<Integer[]> holding = output.getGraphHPNumber();
         System.out.println("Depart size: " + depart.size());
         System.out.println("Arrive size: " + arrive.size());
+        System.out.println("TQ size: " + takeOff.size());
+        System.out.println("HP size: " + holding.size());
         XYChart.Series<Number, Number> departSeries = new XYChart.Series<>();
         XYChart.Series<Number, Number> arriveSeries = new XYChart.Series<>();
+        XYChart.Series<Number, Number> tQSeries = new XYChart.Series<>();
+        XYChart.Series<Number, Number> hPSeries = new XYChart.Series<>();
+
 
         for (int i = 0; i < depart.size(); i++) 
         {
@@ -222,11 +247,26 @@ public class OutputPageController {
             arriveSeries.getData().add(new XYChart.Data<>(arrive.get(i)[0], arrive.get(i)[1]));
             
         }
+        for (int i = 0; i < takeOff.size(); i++) 
+        {
+            tQSeries.getData().add(new XYChart.Data<>(takeOff.get(i)[0], takeOff.get(i)[1]));
+            
+        }
+        for (int i = 0; i < holding.size(); i++) 
+        {
+            hPSeries.getData().add(new XYChart.Data<>(holding.get(i)[0], holding.get(i)[1]));
+            
+        }
         Globals.departSeries = departSeries;
         Globals.arriveSeries = arriveSeries;
+        Globals.tQSeries = tQSeries;
+        Globals.hPSeries = hPSeries;
         System.out.println("Coords initialized and the size of the depart series is: " + departSeries.getData().size());
         System.out.println("Coords initialized and the size of the arrive series is: " + arriveSeries.getData().size());
+        System.out.println("Coords initialized and the size of the Holding series is: " + hPSeries.getData().size());
+        System.out.println("Coords initialized and the size of the takeoff series is: " + tQSeries.getData().size());
     }
+
 
 
     @FXML
@@ -237,19 +277,15 @@ public class OutputPageController {
     private void switchScene() throws Exception 
     {
 
-        FXMLLoader loader = new FXMLLoader(
+
+        Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
+
+        Parent root = FXMLLoader.load(
             getClass().getResource("/com/cs261/app/keyData.fxml")
         );
 
-        Parent root = loader.load();
-
-
-        
-        Stage stage = (Stage) outputPageStackPane.getScene().getWindow();
-        
-        stage.setScene(new Scene(root));
+        stage.getScene().setRoot(root);
         stage.setMaximized(true);
-
 
     }
 }
