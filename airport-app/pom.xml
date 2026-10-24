@@ -13,7 +13,24 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
+        <surefire.excludedGroups>benchmark</surefire.excludedGroups>
+        <surefire.groups></surefire.groups>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>benchmarks</id>
+            <activation>
+                <property>
+                    <name>benchmarks</name>
+                </property>
+            </activation>
+            <properties>
+                <surefire.excludedGroups></surefire.excludedGroups>
+                <surefire.groups>benchmark</surefire.groups>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -49,6 +66,40 @@
                 <configuration>
                     <mainClass>com.cs261.app.App</mainClass>
                 </configuration>
+            </plugin>
+            <!-- benchmarks are tagged "benchmark" and skipped by default; run with -Dbenchmarks -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <excludedGroups>${surefire.excludedGroups}</excludedGroups>
+                    <groups>${surefire.groups}</groups>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*Benchmark.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <!-- coverage report: target/site/jacoco/index.html after mvn test -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.14</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

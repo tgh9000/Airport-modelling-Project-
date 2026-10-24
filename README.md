@@ -101,6 +101,8 @@ The test suite spans `src/test/java/com/cs261/app/`:
 - **`integration/`** — `SimLoopScenarioTest`, driving the full tick loop end-to-end against scripted scenarios
 - **`invariants/`** — `InvariantTest`, asserting properties that must hold across every tick (no duplicated aircraft, queue sizes never negative, runway occupancy consistency, etc.)
 
+Benchmarks, JaCoCo coverage figures and delivery metrics are in the [Performance & Delivery Report](docs/PERFORMANCE_REPORT.md) ([PDF](docs/PERFORMANCE_REPORT.pdf)).
+
 ## User Guide
 
 **Getting started**
